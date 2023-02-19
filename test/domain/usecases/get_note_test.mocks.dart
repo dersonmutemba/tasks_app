@@ -37,10 +37,6 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNoteContract extends _i1.Mock implements _i3.NoteContract {
-  MockNoteContract() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Note>> getNote(_i7.Uuid? id) =>
       (super.noSuchMethod(
@@ -50,6 +46,15 @@ class MockNoteContract extends _i1.Mock implements _i3.NoteContract {
         ),
         returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Note>>.value(
             _FakeEither_0<_i5.Failure, _i6.Note>(
+          this,
+          Invocation.method(
+            #getNote,
+            [id],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Note>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Note>(
           this,
           Invocation.method(
             #getNote,
@@ -66,6 +71,15 @@ class MockNoteContract extends _i1.Mock implements _i3.NoteContract {
         ),
         returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i6.Note>>>.value(
             _FakeEither_0<_i5.Failure, List<_i6.Note>>(
+          this,
+          Invocation.method(
+            #getNotes,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Note>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i6.Note>>(
           this,
           Invocation.method(
             #getNotes,

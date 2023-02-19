@@ -9,10 +9,10 @@ import 'package:uuid/uuid.dart';
 
 import 'get_note_test.mocks.dart';
 
-@GenerateMocks([NoteContract])
+@GenerateNiceMocks([MockSpec<NoteContract>()])
 void main() {
-  MockNoteContract mockNoteContract = MockNoteContract();
-  GetNote usecase = GetNote(mockNoteContract);
+  late MockNoteContract mockNoteContract;
+  late GetNote usecase;
 
   setUp(() {
     mockNoteContract = MockNoteContract();
@@ -23,7 +23,7 @@ void main() {
   final testNote = Note(id: testId, title: "title", content: "content", createdAt: DateTime.now(), lastEdited: DateTime.now());
 
   test('Should get Note from the repository', () async {
-    when(mockNoteContract.getNote(any).then((value) async => Right(testNote)));
+    when(mockNoteContract.getNote(any)).thenAnswer((value) async => Right(testNote));
 
     final matcher = await usecase.execute(id: testId);
 
