@@ -9,5 +9,5 @@ class GetNote{
   final NoteContract contract;
   GetNote(this.contract);
 
-  Future<Either<Failure, Note>> execute({required Uuid id}) => contract.getNote(id);
+  Future<Either<Failure, Note>> call({required Uuid id}) => contract.getNote(id);
 }
