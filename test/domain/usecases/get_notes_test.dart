@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tasks_app/core/usecases/usecase.dart';
 import 'package:tasks_app/domain/contracts/note_contract.dart';
 import 'package:tasks_app/domain/entities/note.dart';
+import 'package:tasks_app/domain/usecases/get_notes.dart';
 import 'package:uuid/uuid.dart';
 
 import 'get_note_test.mocks.dart';
