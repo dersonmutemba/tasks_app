@@ -1,6 +1,6 @@
 abstract class Failure {
-  final List<dynamic> properties;
-  Failure(this.properties);
+  final List<dynamic>? properties;
+  Failure([this.properties]);
 
   @override
   bool operator ==(Object other) =>
@@ -11,3 +11,7 @@ abstract class Failure {
   @override
   int get hashCode => properties.hashCode;
 }
+
+class ServerFailure extends Failure {}
+
+class CacheFailure extends Failure {}
