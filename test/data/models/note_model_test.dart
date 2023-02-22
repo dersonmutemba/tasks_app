@@ -1,17 +1,30 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tasks_app/data/models/note_model.dart';
 import 'package:tasks_app/domain/entities/note.dart';
-import 'package:uuid/uuid.dart';
+
+import '../../fixtures/fixture_reader.dart';
 
 void main() {
   final testNoteModel = NoteModel(
-      id: const Uuid(),
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
       title: "title",
       content: "content",
-      createdAt: DateTime.now(),
-      lastEdited: DateTime.now());
+      createdAt: DateTime(2023, 2, 22, 19, 29, 39, 242),
+      lastEdited: DateTime(2023, 2, 22, 19, 29, 39, 242));
 
   test('Should be a subclass of Note entity', () async {
     expect(testNoteModel, isA<Note>());
+  });
+
+  group('from JSON', () {
+    test('returns a valid model from JSON', () async {
+      final Map<String, dynamic> jsonMap = jsonDecode(fixture('note.json'));
+
+      final actual = NoteModel.fromJson(jsonMap);
+
+      expect(actual, testNoteModel);
+    });
   });
 }
