@@ -25,7 +25,7 @@ void main() {
   test('Should get Note from the repository', () async {
     when(mockNoteContract.getNote(any)).thenAnswer((value) async => Right(testNote));
 
-    final matcher = await usecase(id: testId);
+    final matcher = await usecase(Params(id: testId));
 
     expect(Right(testNote), matcher);
     verify(mockNoteContract.getNote(testId));
