@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/usecases/usecase.dart';
