@@ -10,4 +10,8 @@ class NoParams {
   @override
   bool operator ==(Object other) =>
       other is NoParams && other.runtimeType == runtimeType;
+      
+  @override
+  int get hashCode => runtimeType.hashCode;
+      
 }
