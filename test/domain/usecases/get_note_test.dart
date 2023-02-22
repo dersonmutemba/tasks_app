@@ -5,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:tasks_app/domain/contracts/note_contract.dart';
 import 'package:tasks_app/domain/entities/note.dart';
 import 'package:tasks_app/domain/usecases/get_note.dart';
-import 'package:uuid/uuid.dart';
 
 import 'get_note_test.mocks.dart';
 
@@ -19,7 +18,7 @@ void main() {
     usecase = GetNote(mockNoteContract);
   });
 
-  const testId = Uuid();
+  const testId = "id";
   final testNote = Note(id: testId, title: "title", content: "content", createdAt: DateTime.now(), lastEdited: DateTime.now());
 
   test('Should get Note from the repository', () async {

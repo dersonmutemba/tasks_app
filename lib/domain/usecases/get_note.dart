@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/usecases/usecase.dart';
@@ -16,7 +15,7 @@ class GetNote extends UseCase<Note, Params> {
 }
 
 class Params {
-  final Uuid id;
+  final String id;
   Params({required this.id});
 
   @override

@@ -6,7 +6,6 @@ import 'package:tasks_app/core/usecases/usecase.dart';
 import 'package:tasks_app/domain/contracts/note_contract.dart';
 import 'package:tasks_app/domain/entities/note.dart';
 import 'package:tasks_app/domain/usecases/get_notes.dart';
-import 'package:uuid/uuid.dart';
 
 import 'get_note_test.mocks.dart';
 
@@ -20,7 +19,7 @@ void main() {
     usecase = GetNotes(mockNoteContract);
   });
 
-  final testNotes = [Note(id: const Uuid(), title: "title", content: "content", createdAt: DateTime.now(), lastEdited: DateTime.now())];
+  final testNotes = [Note(id: "id", title: "title", content: "content", createdAt: DateTime.now(), lastEdited: DateTime.now())];
 
   test('Should get Notes from the repository', () async {
     when(mockNoteContract.getNotes()).thenAnswer((value) async => Right(testNotes));

@@ -1,7 +1,5 @@
-import 'package:uuid/uuid.dart';
-
 class Note {
-  final Uuid id;
+  final String id;
   final String title;
   final String content;
   final DateTime createdAt;
