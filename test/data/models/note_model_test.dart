@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tasks_app/data/models/note_model.dart';
 import 'package:tasks_app/domain/entities/note.dart';
 import 'package:uuid/uuid.dart';
 
