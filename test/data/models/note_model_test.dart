@@ -11,8 +11,8 @@ void main() {
       id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
       title: "title",
       content: "content",
-      createdAt: DateTime(2023, 2, 22, 19, 29, 39, 242),
-      lastEdited: DateTime(2023, 2, 22, 19, 29, 39, 242));
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
 
   test('Should be a subclass of Note entity', () async {
     expect(testNoteModel, isA<Note>());
