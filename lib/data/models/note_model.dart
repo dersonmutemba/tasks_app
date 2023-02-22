@@ -20,4 +20,12 @@ class NoteModel extends Note {
       content: json["content"],
       createdAt: DateTime.parse(json["createdAt"]),
       lastEdited: DateTime.parse(json["lastEdited"]));
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "content": content,
+        "createdAt": createdAt.toIso8601String(),
+        "lastEdited": lastEdited.toIso8601String()
+      };
 }
