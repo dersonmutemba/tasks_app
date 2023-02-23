@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tasks_app/core/error/exception.dart';
+import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/platform/network_info.dart';
 import 'package:tasks_app/data/datasources/note_local_data_source.dart';
 import 'package:tasks_app/data/datasources/note_remote_data_source.dart';
@@ -60,6 +62,25 @@ void main() {
 
       verify(mockNoteRemoteDataSource.getNotes());
       expect(actual, equals(Right(testNoteModelList)));
+    });
+
+    test('Should save data offline if successfully get data from remote source', () async {
+      when(mockNoteRemoteDataSource.getNotes()).thenAnswer((realInvocation) async => testNoteModelList);
+
+      await repository.getNotes();
+      
+      verify(mockNoteRemoteDataSource.getNotes());
+      verify(mockNoteLocalDataSource.cacheNotes());
+    });
+
+    test('Should return failure when remote source unavailable', () async {
+      when(mockNoteRemoteDataSource.getNotes()).thenThrow(ServerException());
+
+      final actual = await repository.getNotes();
+
+      verify(mockNoteRemoteDataSource.getNotes());
+      verifyZeroInteractions(mockNoteLocalDataSource);
+      expect(actual, equals(Left(ServerFailure())));
     });
   });
 }
