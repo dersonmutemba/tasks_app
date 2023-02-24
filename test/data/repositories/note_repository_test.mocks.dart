@@ -6,7 +6,7 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tasks_app/core/platform/network_info.dart' as _i3;
+import 'package:tasks_app/core/network/network_info.dart' as _i3;
 import 'package:tasks_app/data/datasources/note_local_data_source.dart' as _i5;
 import 'package:tasks_app/data/datasources/note_remote_data_source.dart' as _i6;
 import 'package:tasks_app/domain/entities/note.dart' as _i2;
