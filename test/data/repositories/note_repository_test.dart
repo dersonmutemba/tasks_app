@@ -56,7 +56,8 @@ void main() {
         .thenAnswer((realInvocation) async => true));
 
     test('Should return remote data', () async {
-      when(mockNoteRemoteDataSource.getNotes()).thenAnswer((realInvocation) async => testNoteModelList);
+      when(mockNoteRemoteDataSource.getNotes())
+          .thenAnswer((realInvocation) async => testNoteModelList);
 
       final actual = await repository.getNotes();
 
@@ -64,13 +65,15 @@ void main() {
       expect(actual, equals(Right(testNoteModelList)));
     });
 
-    test('Should save data offline if successfully get data from remote source', () async {
-      when(mockNoteRemoteDataSource.getNotes()).thenAnswer((realInvocation) async => testNoteModelList);
+    test('Should save data offline if successfully get data from remote source',
+        () async {
+      when(mockNoteRemoteDataSource.getNotes())
+          .thenAnswer((realInvocation) async => testNoteModelList);
 
       await repository.getNotes();
-      
+
       verify(mockNoteRemoteDataSource.getNotes());
-      verify(mockNoteLocalDataSource.cacheNotes());
+      verify(mockNoteLocalDataSource.cacheNotes(testNoteModelList));
     });
 
     test('Should return failure when remote source unavailable', () async {
@@ -81,6 +84,31 @@ void main() {
       verify(mockNoteRemoteDataSource.getNotes());
       verifyZeroInteractions(mockNoteLocalDataSource);
       expect(actual, equals(Left(ServerFailure())));
+    });
+  });
+
+  group('If device is offline', () {
+    setUp(() => when(mockNetworkInfo.isConnected)
+        .thenAnswer((realInvocation) async => false));
+    
+    test('Should get notes saved in device', () async {
+      when(mockNoteLocalDataSource.getNotes()).thenAnswer((realInvocation) async => testNoteModelList);
+
+      final actual = await repository.getNotes();
+
+      verifyZeroInteractions(mockNoteRemoteDataSource);
+      verify(mockNoteLocalDataSource.getNotes());
+      expect(actual, equals(Right(testNoteModelList)));
+    });
+
+    test('Should return CacheFailure on no local storage data', () async {
+      when(mockNoteLocalDataSource.getNotes()).thenThrow(CacheException());
+
+      final actual = await repository.getNotes();
+
+      verifyZeroInteractions(mockNoteRemoteDataSource);
+      verify(mockNoteLocalDataSource.getNotes());
+      expect(actual, Left(CacheFailure()));
     });
   });
 }
