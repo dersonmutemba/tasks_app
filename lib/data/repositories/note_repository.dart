@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:tasks_app/core/error/exception.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/platform/network_info.dart';
@@ -24,8 +25,22 @@ class NoteRepository implements NoteContract {
   }
 
   @override
-  Future<Either<Failure, List<Note>>> getNotes() {
-    // TODO: implement getNotes
-    throw UnimplementedError();
+  Future<Either<Failure, List<Note>>> getNotes() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteNotes = await remoteDataSource.getNotes();
+        localDataSource.cacheNotes(remoteNotes);
+        return Right(remoteNotes);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      try{
+        final localNotes = await localDataSource.getNotes();
+        return Right(localNotes);
+      } on CacheException {
+        return Left(CacheFailure());
+      }
+    }
   }
 }
