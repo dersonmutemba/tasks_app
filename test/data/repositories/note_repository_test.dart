@@ -46,7 +46,7 @@ void main() {
     when(mockNetworkInfo.isConnected)
         .thenAnswer((realInvocation) async => true);
 
-    repository.getNote(testId);
+    repository.getNotes();
 
     verify(mockNetworkInfo.isConnected);
   });
