@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:tasks_app/core/error/exception.dart';
 
 import '../../core/error/failure.dart';
-import '../../core/platform/network_info.dart';
+import '../../core/network/network_info.dart';
 import '../../domain/contracts/note_contract.dart';
 import '../../domain/entities/note.dart';
 import '../datasources/note_local_data_source.dart';
