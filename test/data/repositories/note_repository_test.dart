@@ -116,7 +116,7 @@ void main() {
     test('Should return Note from local source', () async {
       when(mockNoteLocalDataSource.getNote(testId)).thenAnswer((realInvocation) async => testNote);
 
-      final actual = repository.getNote(testId);
+      final actual = await repository.getNote(testId);
 
       verify(mockNoteLocalDataSource.getNote(testId));
       expect(actual, Right(testNote));
@@ -125,7 +125,7 @@ void main() {
     test('Should return CacheFailure if Note not found', () async {
       when(mockNoteLocalDataSource.getNote(testId)).thenThrow(CacheException());
 
-      final actual = repository.getNote(testId);
+      final actual = await repository.getNote(testId);
 
       verify(mockNoteLocalDataSource.getNote(testId));
       expect(actual, Left(CacheFailure()));
