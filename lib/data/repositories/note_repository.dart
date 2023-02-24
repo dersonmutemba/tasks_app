@@ -19,9 +19,13 @@ class NoteRepository implements NoteContract {
       required this.networkInfo});
 
   @override
-  Future<Either<Failure, Note>> getNote(String id) {
-    // TODO: implement getNote
-    throw UnimplementedError();
+  Future<Either<Failure, Note>> getNote(String id) async {
+    try{
+      final note = await localDataSource.getNote(id);
+      return Right(note);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 
   @override
