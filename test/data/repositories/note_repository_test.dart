@@ -111,4 +111,24 @@ void main() {
       expect(actual, Left(CacheFailure()));
     });
   });
+  
+  group('Independent of network connection status', () {
+    test('Should return Note from local source', () async {
+      when(mockNoteLocalDataSource.getNote(testId)).thenAnswer((realInvocation) async => testNote);
+
+      final actual = repository.getNote(testId);
+
+      verify(mockNoteLocalDataSource.getNote(testId));
+      expect(actual, Right(testNote));
+    });
+
+    test('Should return CacheFailure if Note not found', () async {
+      when(mockNoteLocalDataSource.getNote(testId)).thenThrow(CacheException());
+
+      final actual = repository.getNote(testId);
+
+      verify(mockNoteLocalDataSource.getNote(testId));
+      expect(actual, Left(CacheFailure()));
+    });
+  });
 }
