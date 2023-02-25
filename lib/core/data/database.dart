@@ -13,9 +13,12 @@ class LocalDatabase {
     db.execute(query);
   }
 
-  Future insert(String table, Map<String, dynamic> values) async {
-    await db.insert(table, values,
-        conflictAlgorithm: ConflictAlgorithm.replace);
+  Future insert(String table, List<Map<String, dynamic>> valuesList) async {
+    Batch batch = db.batch();
+    for(var values in valuesList){
+      batch.insert(table, values, conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+    await batch.commit();
   }
 
   Future<List<Map>?> getObjects(String table, List<String> selectionColumns,
