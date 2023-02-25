@@ -45,7 +45,7 @@ void main() {
       expect(await database.getVersion(), dbVersion);
     });
 
-    test('Add Note do database', () async {
+    test('Add Note to database', () async {
       await database.insert(noteTable, testNote.toJson());
       var actual = (await database.query(noteTable)).length;
       expect(actual, 1);
