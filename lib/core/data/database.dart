@@ -15,20 +15,40 @@ class LocalDatabase {
 
   Future insert(String table, List<Map<String, dynamic>> valuesList) async {
     Batch batch = db.batch();
-    for(var values in valuesList){
+    for (var values in valuesList) {
       batch.insert(table, values, conflictAlgorithm: ConflictAlgorithm.replace);
     }
     await batch.commit();
   }
 
-  Future<List<Map>?> getObjects(String table, List<String> selectionColumns,
-      List<dynamic> selectionValues, List<String> otherColumns) async {
+  Future<List<Map<String, dynamic>>?> getObjects(
+      String table,
+      List<String> selectionColumns,
+      List<dynamic> selectionValues,
+      List<String> otherColumns) async {
     List<Map> maps = await db.query(table,
         columns: selectionColumns + otherColumns,
         where: _generateWhere(selectionColumns),
         whereArgs: selectionColumns);
     if (maps.isNotEmpty) {
-      return maps;
+      List<Map<String, dynamic>> result = maps
+          .map(
+              (map) => map.map((key, value) => MapEntry(key.toString(), value)))
+          .toList();
+      return result;
+    }
+    return null;
+  }
+
+  Future<List<Map<String, dynamic>>?> getAllObjects(
+      String table) async {
+    List<Map> maps = await db.query(table);
+    if (maps.isNotEmpty) {
+      List<Map<String, dynamic>> result = maps
+          .map(
+              (map) => map.map((key, value) => MapEntry(key.toString(), value)))
+          .toList();
+      return result;
     }
     return null;
   }

@@ -1,4 +1,5 @@
 import 'package:tasks_app/core/data/database.dart';
+import 'package:tasks_app/core/error/exception.dart';
 
 import '../models/note_model.dart';
 
@@ -13,7 +14,8 @@ abstract class NoteLocalDataSource {
 class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
   LocalDatabase localDatabase;
   final String table;
-  NoteLocalDataSourceImplementation(this.localDatabase, {required this.table});
+  final List<String> columns;
+  NoteLocalDataSourceImplementation(this.localDatabase, {required this.table, required this.columns});
 
   @override
   Future<void> cacheNotes(List<NoteModel> notes) async {
@@ -25,14 +27,24 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
   }
   
   @override
-  Future<NoteModel> getNote(String id) {
-    // TODO: implement getNote
-    throw UnimplementedError();
+  Future<NoteModel> getNote(String id) async {
+    var result = await localDatabase.getObjects(table, [columns.first], [id], columns.sublist(1));
+    if(result != null) {
+      return NoteModel.fromJson(result.first);
+    }
+    throw CacheException();
   }
   
   @override
-  Future<List<NoteModel>> getNotes() {
-    // TODO: implement getNotes
-    throw UnimplementedError();
+  Future<List<NoteModel>> getNotes() async {
+    var results = await localDatabase.getAllObjects(table);
+    if(results != null) {
+      List<NoteModel> notes = [];
+      for(var result in results) {
+        notes.add(NoteModel.fromJson(result));
+      }
+      return notes;
+    }
+    throw CacheException();
   }
 }
