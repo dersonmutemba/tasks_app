@@ -1,5 +1,5 @@
-import '../../domain/entities/note.dart';
+import '../models/note_model.dart';
 
 abstract class NoteRemoteDataSource {
-  Future<List<Note>> getNotes();
+  Future<List<NoteModel>> getNotes();
 }
