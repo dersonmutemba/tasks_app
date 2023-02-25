@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:tasks_app/core/network/network_info.dart' as _i3;
 import 'package:tasks_app/data/datasources/note_local_data_source.dart' as _i5;
 import 'package:tasks_app/data/datasources/note_remote_data_source.dart' as _i6;
-import 'package:tasks_app/domain/entities/note.dart' as _i2;
+import 'package:tasks_app/data/models/note_model.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -22,8 +22,8 @@ import 'package:tasks_app/domain/entities/note.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeNote_0 extends _i1.SmartFake implements _i2.Note {
-  _FakeNote_0(
+class _FakeNoteModel_0 extends _i1.SmartFake implements _i2.NoteModel {
+  _FakeNoteModel_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -50,38 +50,40 @@ class MockNetworkInfo extends _i1.Mock implements _i3.NetworkInfo {
 class MockNoteLocalDataSource extends _i1.Mock
     implements _i5.NoteLocalDataSource {
   @override
-  _i4.Future<_i2.Note> getNote(String? id) => (super.noSuchMethod(
+  _i4.Future<_i2.NoteModel> getNote(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getNote,
           [id],
         ),
-        returnValue: _i4.Future<_i2.Note>.value(_FakeNote_0(
+        returnValue: _i4.Future<_i2.NoteModel>.value(_FakeNoteModel_0(
           this,
           Invocation.method(
             #getNote,
             [id],
           ),
         )),
-        returnValueForMissingStub: _i4.Future<_i2.Note>.value(_FakeNote_0(
+        returnValueForMissingStub:
+            _i4.Future<_i2.NoteModel>.value(_FakeNoteModel_0(
           this,
           Invocation.method(
             #getNote,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Note>);
+      ) as _i4.Future<_i2.NoteModel>);
   @override
-  _i4.Future<List<_i2.Note>> getNotes() => (super.noSuchMethod(
+  _i4.Future<List<_i2.NoteModel>> getNotes() => (super.noSuchMethod(
         Invocation.method(
           #getNotes,
           [],
         ),
-        returnValue: _i4.Future<List<_i2.Note>>.value(<_i2.Note>[]),
+        returnValue: _i4.Future<List<_i2.NoteModel>>.value(<_i2.NoteModel>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i2.Note>>.value(<_i2.Note>[]),
-      ) as _i4.Future<List<_i2.Note>>);
+            _i4.Future<List<_i2.NoteModel>>.value(<_i2.NoteModel>[]),
+      ) as _i4.Future<List<_i2.NoteModel>>);
   @override
-  _i4.Future<void> cacheNotes(List<_i2.Note>? notes) => (super.noSuchMethod(
+  _i4.Future<void> cacheNotes(List<_i2.NoteModel>? notes) =>
+      (super.noSuchMethod(
         Invocation.method(
           #cacheNotes,
           [notes],
@@ -97,13 +99,13 @@ class MockNoteLocalDataSource extends _i1.Mock
 class MockNoteRemoteDataSource extends _i1.Mock
     implements _i6.NoteRemoteDataSource {
   @override
-  _i4.Future<List<_i2.Note>> getNotes() => (super.noSuchMethod(
+  _i4.Future<List<_i2.NoteModel>> getNotes() => (super.noSuchMethod(
         Invocation.method(
           #getNotes,
           [],
         ),
-        returnValue: _i4.Future<List<_i2.Note>>.value(<_i2.Note>[]),
+        returnValue: _i4.Future<List<_i2.NoteModel>>.value(<_i2.NoteModel>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i2.Note>>.value(<_i2.Note>[]),
-      ) as _i4.Future<List<_i2.Note>>);
+            _i4.Future<List<_i2.NoteModel>>.value(<_i2.NoteModel>[]),
+      ) as _i4.Future<List<_i2.NoteModel>>);
 }

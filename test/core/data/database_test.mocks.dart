@@ -70,20 +70,20 @@ class MockLocalDatabase extends _i1.Mock implements _i3.LocalDatabase {
   @override
   _i4.Future<dynamic> insert(
     String? table,
-    Map<String, dynamic>? values,
+    List<Map<String, dynamic>>? valuesList,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #insert,
           [
             table,
-            values,
+            valuesList,
           ],
         ),
         returnValue: _i4.Future<dynamic>.value(),
       ) as _i4.Future<dynamic>);
   @override
-  _i4.Future<List<Map<dynamic, dynamic>>?> getObjects(
+  _i4.Future<List<Map<String, dynamic>>?> getObjects(
     String? table,
     List<String>? selectionColumns,
     List<dynamic>? selectionValues,
@@ -99,8 +99,17 @@ class MockLocalDatabase extends _i1.Mock implements _i3.LocalDatabase {
             otherColumns,
           ],
         ),
-        returnValue: _i4.Future<List<Map<dynamic, dynamic>>?>.value(),
-      ) as _i4.Future<List<Map<dynamic, dynamic>>?>);
+        returnValue: _i4.Future<List<Map<String, dynamic>>?>.value(),
+      ) as _i4.Future<List<Map<String, dynamic>>?>);
+  @override
+  _i4.Future<List<Map<String, dynamic>>?> getAllObjects(String? table) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllObjects,
+          [table],
+        ),
+        returnValue: _i4.Future<List<Map<String, dynamic>>?>.value(),
+      ) as _i4.Future<List<Map<String, dynamic>>?>);
   @override
   _i4.Future<int> delete(
     String? table,
