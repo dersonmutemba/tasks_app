@@ -33,7 +33,7 @@ class LocalDatabase {
     List<Map> maps = await db.query(table,
         columns: selectionColumns + otherColumns,
         where: _generateWhere(selectionColumns),
-        whereArgs: selectionColumns);
+        whereArgs: selectionValues);
     if (maps.isNotEmpty) {
       List<Map<String, dynamic>> result = maps
           .map(
