@@ -68,5 +68,21 @@ void main() {
       expect(actual, isNotNull);
       expect(NoteModel.fromJson(actual!.first), testNote);
     });
+
+    test('Insert various Notes in the database', () async {
+      await localDatabase.insert(noteTable, testNoteList);
+      const List<String> selectionColumns = ['id'];
+      const List<String> otherColumns = [
+        'title',
+        'content',
+        'createdAt',
+        'lastEdited'
+      ];
+      var actual = await localDatabase.getObjects(
+          noteTable, selectionColumns, [testNoteList.last['id']], otherColumns);
+      var matcher = NoteModel.fromJson(testNoteList.last);
+      expect(actual, isNotNull);
+      expect(NoteModel.fromJson(actual!.first), matcher);
+    });
   });
 }
