@@ -5,7 +5,11 @@ import 'package:tasks_app/core/data/constants.dart';
 class LocalDatabase {
   late Database db;
   final String query;
-  LocalDatabase(this.query);
+  LocalDatabase(this.query, {Database? database}) {
+    if(database != null) {
+      db = database;
+    }
+  }
 
   Future initialize() async {
     final String path = (await getLibraryDirectory()).path + dbName;
