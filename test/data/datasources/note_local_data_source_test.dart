@@ -84,5 +84,45 @@ void main() {
       expect(actual, isNotNull);
       expect(NoteModel.fromJson(actual!.first), matcher);
     });
+
+    test('Read Notes from database', () async {
+      var actual = await localDatabase.getAllObjects(noteTable);
+      expect(actual, isA<List<Map<String, dynamic>>>());
+    });
+
+    test('Update Note in database', () async {
+      const List<String> selectionColumns = ['id'];
+      const List<String> otherColumns = [
+        'title',
+        'content',
+        'createdAt',
+        'lastEdited'
+      ];
+      final NoteModel note = NoteModel(
+          id: '110ec58a-a0f2-4ac4-8393-c866d813b8d1',
+          title: 'another title',
+          content: 'content',
+          createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
+          lastEdited: DateTime.parse('2023-02-22T19:29:39.242'));
+      await localDatabase
+          .update(noteTable, note.toJson(), selectionColumns, [testNote.id]);
+      var actual = await localDatabase.getObjects(
+          noteTable, selectionColumns, [testNote.id], otherColumns);
+      expect(NoteModel.fromJson(actual!.first), note);
+    });
+
+    test('Delete Note in database', () async {
+      const List<String> selectionColumns = ['id'];
+      const List<String> otherColumns = [
+        'title',
+        'content',
+        'createdAt',
+        'lastEdited'
+      ];
+      await localDatabase.delete(noteTable, selectionColumns, [testNote.id]);
+      var actual = await localDatabase.getObjects(
+          noteTable, selectionColumns, [testNote.id], otherColumns);
+      expect(actual, isNull);
+    });
   });
 }
