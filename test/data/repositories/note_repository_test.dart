@@ -114,7 +114,7 @@ void main() {
   
   group('Independent of network connection status', () {
     test('Should return Note from local source', () async {
-      when(mockNoteLocalDataSource.getNote(testId)).thenAnswer((realInvocation) async => testNote);
+      when(mockNoteLocalDataSource.getNote(testId)).thenAnswer((realInvocation) async => testNoteModel);
 
       final actual = await repository.getNote(testId);
 
