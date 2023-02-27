@@ -6,7 +6,7 @@ class LocalDatabase {
   late Database db;
   final String query;
   LocalDatabase(this.query, {Database? database}) {
-    if(database != null) {
+    if (database != null) {
       db = database;
     }
   }
@@ -44,8 +44,7 @@ class LocalDatabase {
     return null;
   }
 
-  Future<List<Map<String, dynamic>>?> getAllObjects(
-      String table) async {
+  Future<List<Map<String, dynamic>>?> getAllObjects(String table) async {
     List<Map> maps = await db.query(table);
     if (maps.isNotEmpty) {
       List<Map<String, dynamic>> result = maps
