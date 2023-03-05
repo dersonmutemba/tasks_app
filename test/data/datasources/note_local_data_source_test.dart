@@ -51,8 +51,7 @@ void main() {
         ${keys.elementAt(4)} DATETIME NOT NULL
       );''');
     localDatabase = LocalDatabase(noteTable, database: database);
-    noteLocalDataSource = NoteLocalDataSourceImplementation(localDatabase,
-        table: noteTable, columns: keys.toList());
+    noteLocalDataSource = NoteLocalDataSourceImplementation(localDatabase);
   });
 
   group('Test Local DataSource Implementation', () {
