@@ -43,8 +43,6 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<NoteLocalDataSource>(
     () => NoteLocalDataSourceImplementation(
       serviceLocator(),
-      table: serviceLocator(),
-      columns: serviceLocator(),
     ),
   );
 
