@@ -14,3 +14,4 @@ abstract class NoteEvent {
   @override
   int get hashCode => props.hashCode;
 }
+

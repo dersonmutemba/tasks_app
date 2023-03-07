@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:get_it/get_it.dart';
@@ -16,6 +17,8 @@ import 'presentation/bloc/note_bloc.dart';
 final serviceLocator = GetIt.instance;
 
 Future<void> init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   serviceLocator.registerFactory(
     () => NoteBloc(
       getNote: serviceLocator(),
