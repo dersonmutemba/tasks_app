@@ -54,7 +54,7 @@ class NoteRepository implements NoteContract {
   Future<Either<Failure, Success>> insertNote(Note note) async {
     if (await networkInfo.isConnected) {
       try {
-        await localDataSource.insertNote(note as NoteModel);
+        await localDataSource.insertNote(NoteModel.fromNote(note));
         await remoteDataSource.insertNote(note);
         return Right(RemoteInsertionSuccess());
       } on ServerException {

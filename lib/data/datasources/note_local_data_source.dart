@@ -53,7 +53,6 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
   
   @override
   Future<void> insertNote(NoteModel note) async {
-    // TODO: implement insertNote
-    throw UnimplementedError();
+    await localDatabase.insert(table, [note.toJson()]);
   }
 }
