@@ -29,7 +29,8 @@ void main() {
   final testSuccess = RemoteInsertionSuccess();
 
   test('Should insert note', () async {
-    when(mockNoteContract.insertNote(any)).thenAnswer((realInvocation) async => Right(testSuccess));
+    when(mockNoteContract.insertNote(any))
+        .thenAnswer((realInvocation) async => Right(testSuccess));
 
     final matcher = await usecase(Params(note: testNote));
 
