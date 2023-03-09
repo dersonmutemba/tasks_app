@@ -15,11 +15,22 @@ class NoteModel extends Note {
             lastEdited: lastEdited);
 
   factory NoteModel.fromJson(Map<String, dynamic> json) => NoteModel(
-      id: json["id"],
-      title: json["title"],
-      content: json["content"],
-      createdAt: DateTime.parse(json["createdAt"]),
-      lastEdited: DateTime.parse(json["lastEdited"]));
+        id: json["id"],
+        title: json["title"],
+        content: json["content"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        lastEdited: DateTime.parse(
+          json["lastEdited"],
+        ),
+      );
+
+  factory NoteModel.fromNote(Note note) => NoteModel(
+        id: note.id,
+        title: note.title,
+        content: note.content,
+        createdAt: note.createdAt,
+        lastEdited: note.lastEdited,
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,

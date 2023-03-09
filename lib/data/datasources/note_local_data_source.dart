@@ -1,6 +1,5 @@
 import 'package:tasks_app/core/data/database.dart';
 import 'package:tasks_app/core/error/exception.dart';
-import 'package:tasks_app/domain/entities/note.dart';
 
 import '../models/note_model.dart';
 import 'datasources_constants.dart';
@@ -12,7 +11,7 @@ abstract class NoteLocalDataSource {
 
   Future<void> cacheNotes(List<NoteModel> notes);
 
-  Future<void> insertNote(Note note);
+  Future<void> insertNote(NoteModel note);
 }
 
 class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
@@ -53,7 +52,7 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
   }
   
   @override
-  Future<void> insertNote(Note note) async {
+  Future<void> insertNote(NoteModel note) async {
     // TODO: implement insertNote
     throw UnimplementedError();
   }

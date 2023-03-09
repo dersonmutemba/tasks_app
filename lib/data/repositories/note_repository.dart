@@ -8,6 +8,7 @@ import '../../domain/contracts/note_contract.dart';
 import '../../domain/entities/note.dart';
 import '../datasources/note_local_data_source.dart';
 import '../datasources/note_remote_data_source.dart';
+import '../models/note_model.dart';
 
 class NoteRepository implements NoteContract {
   final NoteRemoteDataSource remoteDataSource;
@@ -53,14 +54,14 @@ class NoteRepository implements NoteContract {
   Future<Either<Failure, Success>> insertNote(Note note) async {
     if (await networkInfo.isConnected) {
       try {
-        await localDataSource.insertNote(note);
+        await localDataSource.insertNote(note as NoteModel);
         await remoteDataSource.insertNote(note);
         return Right(RemoteInsertionSuccess());
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
-      await localDataSource.insertNote(note);
+      await localDataSource.insertNote(NoteModel.fromNote(note));
       return Right(InsertionSuccess());
     }
   }
