@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tasks_app/core/error/exception.dart';
 import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/network/network_info.dart';
+import 'package:tasks_app/core/success/success.dart';
 import 'package:tasks_app/data/datasources/note_local_data_source.dart';
 import 'package:tasks_app/data/datasources/note_remote_data_source.dart';
 import 'package:tasks_app/data/models/note_model.dart';
@@ -85,14 +86,46 @@ void main() {
       verifyZeroInteractions(mockNoteLocalDataSource);
       expect(actual, equals(Left(ServerFailure())));
     });
+
+    test(
+        'Should attempt to insert in local database before attempting to insert remotely',
+        () async {
+      when(mockNoteRemoteDataSource.insertNote(testNote)).thenAnswer(
+          (realInvocation) async => Right(RemoteInsertionSuccess()));
+
+      await repository.insertNote(testNote);
+
+      verify(mockNoteLocalDataSource.insertNote(testNote));
+
+      when(mockNoteRemoteDataSource.insertNote(testNote))
+          .thenAnswer((realInvocation) async => Left(ServerFailure()));
+
+      await repository.insertNote(testNote);
+
+      verify(mockNoteLocalDataSource.insertNote(testNote));
+    });
+
+    test('Should insert notes successfully', () async {
+      when(mockNoteRemoteDataSource.insertNote(testNote)).thenAnswer(
+          (realInvocation) async => Right(RemoteInsertionSuccess()));
+
+      final actual = await repository.insertNote(testNote);
+
+      expect(actual, Right(RemoteInsertionSuccess()));
+      verify(mockNoteLocalDataSource.insertNote(testNote));
+      verify(mockNoteRemoteDataSource.insertNote(testNote));
+      verifyNoMoreInteractions(mockNoteLocalDataSource);
+      verifyNoMoreInteractions(mockNoteRemoteDataSource);
+    });
   });
 
   group('If device is offline', () {
     setUp(() => when(mockNetworkInfo.isConnected)
         .thenAnswer((realInvocation) async => false));
-    
+
     test('Should get notes saved in device', () async {
-      when(mockNoteLocalDataSource.getNotes()).thenAnswer((realInvocation) async => testNoteModelList);
+      when(mockNoteLocalDataSource.getNotes())
+          .thenAnswer((realInvocation) async => testNoteModelList);
 
       final actual = await repository.getNotes();
 
@@ -111,10 +144,11 @@ void main() {
       expect(actual, Left(CacheFailure()));
     });
   });
-  
+
   group('Independent of network connection status', () {
     test('Should return Note from local source', () async {
-      when(mockNoteLocalDataSource.getNote(testId)).thenAnswer((realInvocation) async => testNoteModel);
+      when(mockNoteLocalDataSource.getNote(testId))
+          .thenAnswer((realInvocation) async => testNoteModel);
 
       final actual = await repository.getNote(testId);
 
@@ -129,6 +163,16 @@ void main() {
 
       verify(mockNoteLocalDataSource.getNote(testId));
       expect(actual, Left(CacheFailure()));
+    });
+
+    test('Should save note to device', () async {
+      when(mockNoteLocalDataSource.insertNote(testNote)).thenAnswer((realInvocation) async => InsertionSuccess());
+
+      final actual = await repository.insertNote(testNote);
+
+      verifyZeroInteractions(mockNoteRemoteDataSource);
+      verify(mockNoteLocalDataSource.insertNote(testNote));
+      expect(actual, Right(InsertionSuccess()));
     });
   });
 }

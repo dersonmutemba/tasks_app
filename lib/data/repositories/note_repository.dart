@@ -21,7 +21,7 @@ class NoteRepository implements NoteContract {
 
   @override
   Future<Either<Failure, Note>> getNote(String id) async {
-    try{
+    try {
       final note = await localDataSource.getNote(id);
       return Right(note);
     } on CacheException {
@@ -40,7 +40,7 @@ class NoteRepository implements NoteContract {
         return Left(ServerFailure());
       }
     } else {
-      try{
+      try {
         final localNotes = await localDataSource.getNotes();
         return Right(localNotes);
       } on CacheException {
@@ -50,8 +50,18 @@ class NoteRepository implements NoteContract {
   }
 
   @override
-  Future<Either<Failure, Success>> insertNote(Note note) {
-    // TODO: implement insertNote
-    throw UnimplementedError();
+  Future<Either<Failure, Success>> insertNote(Note note) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await localDataSource.insertNote(note);
+        await remoteDataSource.insertNote(note);
+        return Right(RemoteInsertionSuccess());
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      await localDataSource.insertNote(note);
+      return Right(InsertionSuccess());
+    }
   }
 }
