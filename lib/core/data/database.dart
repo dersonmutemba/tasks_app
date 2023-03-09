@@ -8,6 +8,8 @@ class LocalDatabase {
   LocalDatabase(this.query, {Database? database}) {
     if (database != null) {
       db = database;
+    } else {
+      initialize();
     }
   }
 
