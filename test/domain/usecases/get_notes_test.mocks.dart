@@ -8,8 +8,9 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tasks_app/core/error/failure.dart' as _i5;
+import 'package:tasks_app/core/success/success.dart' as _i6;
 import 'package:tasks_app/domain/contracts/note_contract.dart' as _i3;
-import 'package:tasks_app/domain/entities/note.dart' as _i6;
+import 'package:tasks_app/domain/entities/note.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -37,14 +38,39 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 /// See the documentation for Mockito's code generation for more information.
 class MockNoteContract extends _i1.Mock implements _i3.NoteContract {
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Note>> getNote(String? id) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> insertNote(_i7.Note? note) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertNote,
+          [note],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #insertNote,
+            [note],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #insertNote,
+            [note],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i7.Note>> getNote(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getNote,
           [id],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Note>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Note>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i7.Note>>.value(
+            _FakeEither_0<_i5.Failure, _i7.Note>(
           this,
           Invocation.method(
             #getNote,
@@ -52,24 +78,24 @@ class MockNoteContract extends _i1.Mock implements _i3.NoteContract {
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.Note>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Note>(
+            _i4.Future<_i2.Either<_i5.Failure, _i7.Note>>.value(
+                _FakeEither_0<_i5.Failure, _i7.Note>(
           this,
           Invocation.method(
             #getNote,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Note>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i7.Note>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Note>>> getNotes() =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Note>>> getNotes() =>
       (super.noSuchMethod(
         Invocation.method(
           #getNotes,
           [],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i6.Note>>>.value(
-            _FakeEither_0<_i5.Failure, List<_i6.Note>>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i7.Note>>>.value(
+            _FakeEither_0<_i5.Failure, List<_i7.Note>>(
           this,
           Invocation.method(
             #getNotes,
@@ -77,13 +103,13 @@ class MockNoteContract extends _i1.Mock implements _i3.NoteContract {
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Note>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i6.Note>>(
+            _i4.Future<_i2.Either<_i5.Failure, List<_i7.Note>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i7.Note>>(
           this,
           Invocation.method(
             #getNotes,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Note>>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Note>>>);
 }

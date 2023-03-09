@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:tasks_app/core/error/exception.dart';
+import 'package:tasks_app/core/success/success.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/network/network_info.dart';
@@ -46,5 +47,11 @@ class NoteRepository implements NoteContract {
         return Left(CacheFailure());
       }
     }
+  }
+
+  @override
+  Future<Either<Failure, Success>> insertNote(Note note) {
+    // TODO: implement insertNote
+    throw UnimplementedError();
   }
 }
