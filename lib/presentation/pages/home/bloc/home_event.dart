@@ -1,21 +1,14 @@
 class HomeEvent {
-  final String title;
-  const HomeEvent({required this.title});
+  const HomeEvent();
 
   @override
   bool operator ==(Object other) =>
-      other is HomeEvent &&
-      other.runtimeType == runtimeType &&
-      other.title == title;
+      other is HomeEvent && other.runtimeType == runtimeType;
 
   @override
-  int get hashCode => title.hashCode;
+  int get hashCode => runtimeType.hashCode;
 }
 
-class TasksHomeSelected extends HomeEvent {
-  const TasksHomeSelected() : super(title: 'Tasks');
-}
+class TasksHomeSelected extends HomeEvent {}
 
-class NotesHomeSelected extends HomeEvent {
-  const NotesHomeSelected() : super(title: 'Notes');
-}
+class NotesHomeSelected extends HomeEvent {}
