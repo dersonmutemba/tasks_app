@@ -22,7 +22,17 @@ class Home extends StatelessWidget {
                     context.read<HomeBloc>().add(TasksHomeSelected());
                   }
                 },
-                child: Text(state.title),
+                child: Row(
+                  children: [
+                    Text(state.title),
+                    Column(
+                      children: const[
+                        Icon(Icons.keyboard_arrow_up_rounded),
+                        Icon(Icons.keyboard_arrow_down_rounded)
+                      ],
+                    ),
+                  ],
+                ),
               );
             }),
           ),
