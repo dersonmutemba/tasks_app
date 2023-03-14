@@ -55,7 +55,8 @@ class Home extends StatelessWidget {
         floatingActionButton: ElevatedButton(
           onPressed: () {},
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))),
+            shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)))),
           ),
           child: Container(
             height: 40,
