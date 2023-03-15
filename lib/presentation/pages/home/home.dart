@@ -10,11 +10,11 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => HomeBloc(),
-      child: Scaffold(
-        body: SafeArea(
-          child: BlocBuilder<HomeBloc, HomeState>(
+      child: BlocBuilder<HomeBloc, HomeState>(
             builder: ((context, state) {
-              return TextButton(
+              return Scaffold(
+        body: SafeArea(
+          child: TextButton(
                 onPressed: () {
                   if (state is SelectedTasksHome) {
                     context.read<HomeBloc>().add(NotesHomeSelected());
@@ -48,10 +48,10 @@ class Home extends StatelessWidget {
                     ],
                   ),
                 ),
-              );
-            }),
-          ),
-        ),
+              )
+            ),
+          );,
+        );};,
         floatingActionButton: ElevatedButton(
           onPressed: () {},
           style: ButtonStyle(
