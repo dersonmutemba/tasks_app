@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../note/note_page.dart';
 import 'bloc/bloc.dart';
 
 class Home extends StatelessWidget {
@@ -39,8 +40,8 @@ class Home extends StatelessWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    Column(
-                      children: const [
+                    const Column(
+                      children: [
                         Icon(Icons.keyboard_arrow_up_rounded),
                         Icon(Icons.keyboard_arrow_down_rounded)
                       ],
@@ -50,7 +51,17 @@ class Home extends StatelessWidget {
               ),
             )),
             floatingActionButton: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (state is SelectedTasksHome) {
+                } else if (state is SelectedNotesHome) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const NotePage(),
+                    ),
+                  );
+                }
+              },
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15)))),
