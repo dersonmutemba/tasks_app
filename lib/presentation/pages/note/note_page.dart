@@ -35,7 +35,31 @@ class NotePage extends StatelessWidget {
                 ),
               ],
             ),
-            const Expanded(child: TextField())
+            const SizedBox(
+              height: 50,
+              child: TextField(
+                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                    border: InputBorder.none, hintText: 'Title...'),
+              ),
+            ),
+            const Expanded(
+              child: TextField(
+                expands: true,
+                minLines: null,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Write anything...',
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
