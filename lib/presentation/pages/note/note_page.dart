@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../widgets/my_icon_button.dart';
 
@@ -35,14 +34,17 @@ class NotePage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 50,
-              child: TextField(
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.sentences,
-                decoration: InputDecoration(
-                    border: InputBorder.none, hintText: 'Title...'),
+            TextField(
+              maxLines: 1,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.sentences,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Title...',
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const Expanded(
               child: TextField(
@@ -54,11 +56,10 @@ class NotePage extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Write anything...',
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
             ),
           ],
         ),
