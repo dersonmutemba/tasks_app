@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../domain/entities/note.dart';
+
 abstract class NotePageState extends Equatable {
   @override
   List<Object> get props => [];
@@ -16,11 +18,11 @@ class Loading extends NotePageState {
 class Creating extends NotePageState {}
 
 class Editing extends NotePageState {
-  final String id;
-  Editing({required this.id});
+  final Note note;
+  Editing({required this.note});
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [note];
 }
 
 class Saving extends NotePageState {}
