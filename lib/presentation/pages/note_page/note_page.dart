@@ -6,7 +6,8 @@ import '../../widgets/my_icon_button.dart';
 import 'bloc/bloc.dart';
 
 class NotePage extends StatelessWidget {
-  const NotePage({Key? key}) : super(key: key);
+  final String? id;
+  const NotePage({Key? key, this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,9 @@ class NotePage extends StatelessWidget {
                   serviceLocator.get(instanceName: 'NoteRepository')),
           child: BlocBuilder<NotePageBloc, NotePageState>(
             builder: (context, state) {
+              if (id != null) {
+                context.read<NotePageBloc>().add(Load());
+              }
               if (state is Creating || state is Editing) {
                 return Column(
                   children: [
