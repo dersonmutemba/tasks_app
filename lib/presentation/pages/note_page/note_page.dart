@@ -85,6 +85,15 @@ class NotePage extends StatelessWidget {
                     )
                   ],
                 );
+              } else if (state is Loading) {
+                return const Center(
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('Loading'),
+                    ],
+                  ),
+                );
               }
             },
           ),
