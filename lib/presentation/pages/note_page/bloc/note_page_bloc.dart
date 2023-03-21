@@ -11,7 +11,19 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
   final String? id;
   NotePageBloc({required this.noteRepository, this.id})
       : super(id != null ? Loading(id: id) : Creating()) {
+    on<Load>(_loadNote);
     on<Save>(_saveNote);
+  }
+
+  void _loadNote(Load event, emit) async {
+    if (id != null) {
+      var result = await noteRepository.getNote(id!);
+      result.fold((l) {
+        emit(Error(message: 'Could not find specified Note'));
+      }, (r) {
+        emit(Editing(note: r));
+      });
+    }
   }
 
   void _saveNote(Save event, emit) async {
