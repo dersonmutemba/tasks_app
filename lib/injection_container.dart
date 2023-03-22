@@ -3,11 +3,11 @@ import 'package:http/http.dart' as http;
 
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasks_app/data/datasources/datasources_constants.dart';
 
 import 'core/data/database.dart';
 import 'core/network/data_connection_checker.dart';
 import 'core/network/network_info.dart';
+import 'data/datasources/datasources_constants.dart';
 import 'data/datasources/note_local_data_source.dart';
 import 'data/datasources/note_remote_data_source.dart';
 import 'data/repositories/note_repository.dart';
