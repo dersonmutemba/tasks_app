@@ -1,2 +1,2 @@
 const String dbName = "tasks_app.db";
-const int dbVersion = 0;
+const int dbVersion = 1;
