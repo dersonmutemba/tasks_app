@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasks_app/core/error/failure.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../data/repositories/note_repository.dart';
+import '../../../../core/error/failure.dart';
+import '../../../../domain/contracts/note_contract.dart';
 import '../../../../domain/entities/note.dart';
 import 'bloc.dart';
 
 class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
-  final NoteRepository noteRepository;
+  final NoteContract noteRepository;
   final String? id;
   NotePageBloc({required this.noteRepository, this.id})
       : super(id != null ? Loading(id: id) : Creating()) {
