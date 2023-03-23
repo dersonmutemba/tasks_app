@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../domain/contracts/note_contract.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
 import 'bloc/bloc.dart';
@@ -11,12 +12,14 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _noteTitleController = TextEditingController();
+    final TextEditingController _noteContentController =
+        TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: BlocProvider(
-          create: (context) => NotePageBloc(
-              noteRepository:
-                  serviceLocator.get(instanceName: 'NoteRepository')),
+          create: (context) =>
+              NotePageBloc(noteRepository: serviceLocator.get<NoteContract>()),
           child: BlocBuilder<NotePageBloc, NotePageState>(
             builder: (context, state) {
               if (id != null) {
@@ -55,6 +58,7 @@ class NotePage extends StatelessWidget {
                       maxLines: 1,
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.sentences,
+                      controller: _noteTitleController,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Title...',
@@ -63,14 +67,15 @@ class NotePage extends StatelessWidget {
                       ),
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: TextField(
                         expands: true,
                         minLines: null,
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
                         textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
+                        controller: _noteContentController,
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Write anything...',
                           contentPadding: EdgeInsets.symmetric(
@@ -81,7 +86,17 @@ class NotePage extends StatelessWidget {
                     SizedBox(
                       height: 40,
                       child: OutlinedButton(
-                          onPressed: () {}, child: const Text('Save')),
+                        onPressed: () {
+                          context.read<NotePageBloc>().add(Save(noteProps: {
+                                'title': _noteTitleController.text,
+                                'content': _noteContentController.text,
+                                'date': state is Editing
+                                    ? state.note.createdAt.toIso8601String()
+                                    : DateTime.now().toIso8601String(),
+                              }));
+                        },
+                        child: const Text('Save'),
+                      ),
                     )
                   ],
                 );
@@ -94,7 +109,28 @@ class NotePage extends StatelessWidget {
                     ],
                   ),
                 );
+              } else if (state is Saving) {
+                // TODO: Add a popup window
+                return const Center(
+                  child: Text('Widget to be added'),
+                );
+              } else if (state is Error) {
+                // TODO: Add a popup window
+                return Container(
+                  color: Colors.red,
+                  child: Center(
+                    child: Text('Error: ${state.message}'),
+                  ),
+                );
+              } else if (state is Saved) {
+                // TODO: Add a popup window
+                return const Center(
+                  child: Text('Note saved'),
+                );
               }
+              return const Center(
+                child: Text('Erro desconhecido'),
+              );
             },
           ),
         ),
