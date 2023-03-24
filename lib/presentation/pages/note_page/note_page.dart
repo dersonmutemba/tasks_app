@@ -91,8 +91,8 @@ class NotePage extends StatelessWidget {
                                 'title': _noteTitleController.text,
                                 'content': _noteContentController.text,
                                 'date': state is Editing
-                                    ? state.note.createdAt.toIso8601String()
-                                    : DateTime.now().toIso8601String(),
+                                    ? state.note.createdAt
+                                    : DateTime.now(),
                               }));
                         },
                         child: const Text('Save'),
