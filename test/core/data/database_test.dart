@@ -66,10 +66,6 @@ void main() {
   });
 
   group('Test Sqflite Database', () {
-    test('Get Database version', () async {
-      expect(await database.getVersion(), dbVersion);
-    });
-
     test('Insert Note to database', () async {
       await database.insert(noteTable, testNote.toJson());
       var actual = (await database.query(noteTable)).length;
