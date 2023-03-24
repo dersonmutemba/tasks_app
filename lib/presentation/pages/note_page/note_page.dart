@@ -124,8 +124,8 @@ class NotePage extends StatelessWidget {
                 );
               } else if (state is Saved) {
                 // TODO: Add a popup window
-                return const Center(
-                  child: Text('Note saved'),
+                return Center(
+                  child: Text(state.message),
                 );
               }
               return const Center(

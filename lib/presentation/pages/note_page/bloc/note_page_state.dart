@@ -27,7 +27,13 @@ class Editing extends NotePageState {
 
 class Saving extends NotePageState {}
 
-class Saved extends NotePageState {}
+class Saved extends NotePageState {
+  final String message;
+  Saved({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 
 class Error extends NotePageState {
   final String message;

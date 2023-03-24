@@ -46,7 +46,7 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
             emit(Error(message: 'Database error'));
           }
         },
-        (r) => emit(Saved()),
+        (r) => emit(Saved(message: 'Note saved successfully')),
       );
     }
   }
