@@ -10,6 +10,8 @@ abstract class NoteLocalDataSource {
   Future<List<NoteModel>> getNotes();
 
   Future<void> cacheNotes(List<NoteModel> notes);
+
+  Future<void> insertNote(NoteModel note);
 }
 
 class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
@@ -47,5 +49,10 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
       return notes;
     }
     throw CacheException();
+  }
+  
+  @override
+  Future<void> insertNote(NoteModel note) async {
+    await localDatabase.insert(table, [note.toJson()]);
   }
 }

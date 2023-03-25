@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tasks_app/core/data/constants.dart';
+
+import 'constants.dart';
 
 class LocalDatabase {
   late Database db;
@@ -8,11 +11,16 @@ class LocalDatabase {
   LocalDatabase(this.query, {Database? database}) {
     if (database != null) {
       db = database;
+    } else {
+      initialize();
     }
   }
 
   Future initialize() async {
-    final String path = (await getLibraryDirectory()).path + dbName;
+    String directory = Platform.isIOS
+        ? (await getLibraryDirectory()).path
+        : await getDatabasesPath();
+    final String path = '$directory/$dbName';
     db = await openDatabase(path, version: dbVersion);
     db.execute(query);
   }
