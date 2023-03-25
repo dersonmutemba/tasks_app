@@ -40,8 +40,8 @@ class Home extends StatelessWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    const Column(
-                      children: [
+                    Column(
+                      children: const [
                         Icon(Icons.keyboard_arrow_up_rounded),
                         Icon(Icons.keyboard_arrow_down_rounded)
                       ],

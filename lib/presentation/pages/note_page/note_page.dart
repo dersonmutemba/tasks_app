@@ -13,8 +13,7 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController noteTitleController = TextEditingController();
-    final TextEditingController noteContentController =
-        TextEditingController();
+    final TextEditingController noteContentController = TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: BlocProvider(
@@ -101,9 +100,9 @@ class NotePage extends StatelessWidget {
                   ],
                 );
               } else if (state is Loading) {
-                return const Center(
+                return Center(
                   child: Column(
-                    children: [
+                    children: const [
                       CircularProgressIndicator(),
                       Text('Loading'),
                     ],
