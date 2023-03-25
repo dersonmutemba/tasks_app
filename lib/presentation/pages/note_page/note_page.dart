@@ -12,8 +12,8 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _noteTitleController = TextEditingController();
-    final TextEditingController _noteContentController =
+    final TextEditingController noteTitleController = TextEditingController();
+    final TextEditingController noteContentController =
         TextEditingController();
     return Scaffold(
       body: SafeArea(
@@ -58,7 +58,7 @@ class NotePage extends StatelessWidget {
                       maxLines: 1,
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.sentences,
-                      controller: _noteTitleController,
+                      controller: noteTitleController,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Title...',
@@ -74,7 +74,7 @@ class NotePage extends StatelessWidget {
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
                         textCapitalization: TextCapitalization.sentences,
-                        controller: _noteContentController,
+                        controller: noteContentController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Write anything...',
@@ -88,8 +88,8 @@ class NotePage extends StatelessWidget {
                       child: OutlinedButton(
                         onPressed: () {
                           context.read<NotePageBloc>().add(Save(noteProps: {
-                                'title': _noteTitleController.text,
-                                'content': _noteContentController.text,
+                                'title': noteTitleController.text,
+                                'content': noteContentController.text,
                                 'date': state is Editing
                                     ? state.note.createdAt
                                     : DateTime.now(),
