@@ -3,7 +3,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:tasks_app/core/data/constants.dart';
 import 'package:tasks_app/core/data/database.dart';
 import 'package:tasks_app/data/models/note_model.dart';
 
