@@ -9,6 +9,8 @@ abstract class Success extends Equatable {
 }
 
 class InsertionSuccess extends Success {
+  final String id;
+  InsertionSuccess({required this.id}) : super([id]);
 }
 
 class RemoteInsertionSuccess extends Success {}
