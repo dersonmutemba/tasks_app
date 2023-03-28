@@ -26,7 +26,7 @@ void main() {
     createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
     lastEdited: DateTime.parse("2023-02-22T19:29:39.242"),
   );
-  final testSuccess = RemoteInsertionSuccess();
+  final testSuccess = RemoteInsertionSuccess(id: testNote.id);
 
   test('Should insert note', () async {
     when(mockNoteContract.insertNote(any))

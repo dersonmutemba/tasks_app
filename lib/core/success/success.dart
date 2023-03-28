@@ -13,7 +13,10 @@ class InsertionSuccess extends Success {
   InsertionSuccess({required this.id}) : super([id]);
 }
 
-class RemoteInsertionSuccess extends Success {}
+class RemoteInsertionSuccess extends Success {
+  final String id;
+  RemoteInsertionSuccess({required this.id}) : super([id]);
+}
 
 class UpdateSuccess extends Success {}
 

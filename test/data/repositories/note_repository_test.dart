@@ -91,7 +91,7 @@ void main() {
         'Should attempt to insert in local database before attempting to insert remotely',
         () async {
       when(mockNoteRemoteDataSource.insertNote(testNoteModel)).thenAnswer(
-          (realInvocation) async => Right(RemoteInsertionSuccess()));
+          (realInvocation) async => Right(RemoteInsertionSuccess(id: testNote.id)));
 
       await repository.insertNote(testNote);
 
@@ -107,11 +107,11 @@ void main() {
 
     test('Should insert notes successfully', () async {
       when(mockNoteRemoteDataSource.insertNote(testNote)).thenAnswer(
-          (realInvocation) async => Right(RemoteInsertionSuccess()));
+          (realInvocation) async => Right(RemoteInsertionSuccess(id: testNote.id)));
 
       final actual = await repository.insertNote(testNote);
 
-      expect(actual, Right(RemoteInsertionSuccess()));
+      expect(actual, Right(RemoteInsertionSuccess(id: testNote.id)));
       verify(mockNoteLocalDataSource.insertNote(testNoteModel));
       verify(mockNoteRemoteDataSource.insertNote(testNote));
       verifyNoMoreInteractions(mockNoteLocalDataSource);
