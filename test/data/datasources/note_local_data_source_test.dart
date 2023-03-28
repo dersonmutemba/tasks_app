@@ -67,12 +67,6 @@ void main() {
       expect(actual, testNoteList.first);
     });
 
-    test('Single Note insertion should return id', () async {
-      var actual = await noteLocalDataSource.insertNote(testNoteModel);
-      var matcher = testNoteModel.id;
-      expect(actual, matcher);
-    });
-
     test('Get Existing Note', () async {
       var actual = await noteLocalDataSource.getNote(testNoteList.first.id);
       expect(actual, testNoteList.first);
@@ -86,6 +80,12 @@ void main() {
     test('Get all Notes', () async {
       var actual = await noteLocalDataSource.getNotes();
       expect(actual, testNoteList);
+    });
+
+    test('Single Note insertion should return id', () async {
+      var actual = await noteLocalDataSource.insertNote(testNoteModel);
+      var matcher = testNoteModel.id;
+      expect(actual, matcher);
     });
   });
 }
