@@ -90,19 +90,19 @@ void main() {
     test(
         'Should attempt to insert in local database before attempting to insert remotely',
         () async {
-      when(mockNoteRemoteDataSource.insertNote(testNote)).thenAnswer(
+      when(mockNoteRemoteDataSource.insertNote(testNoteModel)).thenAnswer(
           (realInvocation) async => Right(RemoteInsertionSuccess()));
 
       await repository.insertNote(testNote);
 
-      verify(mockNoteLocalDataSource.insertNote(testNote));
+      verify(mockNoteLocalDataSource.insertNote(testNoteModel));
 
       when(mockNoteRemoteDataSource.insertNote(testNote))
           .thenAnswer((realInvocation) async => Left(ServerFailure()));
 
       await repository.insertNote(testNote);
 
-      verify(mockNoteLocalDataSource.insertNote(testNote));
+      verify(mockNoteLocalDataSource.insertNote(testNoteModel));
     });
 
     test('Should insert notes successfully', () async {
@@ -112,7 +112,7 @@ void main() {
       final actual = await repository.insertNote(testNote);
 
       expect(actual, Right(RemoteInsertionSuccess()));
-      verify(mockNoteLocalDataSource.insertNote(testNote));
+      verify(mockNoteLocalDataSource.insertNote(testNoteModel));
       verify(mockNoteRemoteDataSource.insertNote(testNote));
       verifyNoMoreInteractions(mockNoteLocalDataSource);
       verifyNoMoreInteractions(mockNoteRemoteDataSource);
@@ -166,13 +166,14 @@ void main() {
     });
 
     test('Should save note to device', () async {
-      when(mockNoteLocalDataSource.insertNote(testNote)).thenAnswer((realInvocation) async => InsertionSuccess(id: testId));
+      when(mockNoteLocalDataSource.insertNote(testNoteModel))
+          .thenAnswer((realInvocation) async => Future(() => testNoteModel.id));
 
       final actual = await repository.insertNote(testNote);
 
       verifyZeroInteractions(mockNoteRemoteDataSource);
-      verify(mockNoteLocalDataSource.insertNote(testNote));
-      expect(actual, Right(InsertionSuccess(id: testNote.id)));
+      verify(mockNoteLocalDataSource.insertNote(testNoteModel));
+      expect(actual, Right(InsertionSuccess(id: testNoteModel.id)));
     });
   });
 }
