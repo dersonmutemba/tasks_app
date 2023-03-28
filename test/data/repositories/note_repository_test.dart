@@ -166,13 +166,13 @@ void main() {
     });
 
     test('Should save note to device', () async {
-      when(mockNoteLocalDataSource.insertNote(testNote)).thenAnswer((realInvocation) async => InsertionSuccess());
+      when(mockNoteLocalDataSource.insertNote(testNote)).thenAnswer((realInvocation) async => InsertionSuccess(id: testId));
 
       final actual = await repository.insertNote(testNote);
 
       verifyZeroInteractions(mockNoteRemoteDataSource);
       verify(mockNoteLocalDataSource.insertNote(testNote));
-      expect(actual, Right(InsertionSuccess()));
+      expect(actual, Right(InsertionSuccess(id: testNote.id)));
     });
   });
 }
