@@ -65,6 +65,7 @@ class NotePage extends StatelessWidget {
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       ),
                       style: Theme.of(context).textTheme.headlineMedium,
+                      // TODO: onChanged. It won't be exactly autosave, it will be creation of streams for saving the notel
                     ),
                     Expanded(
                       child: TextField(
