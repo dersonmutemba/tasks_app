@@ -2,13 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/success/success.dart';
 import '../../../../domain/contracts/note_contract.dart';
 import '../../../../domain/entities/note.dart';
 import 'bloc.dart';
 
 class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
   final NoteContract noteRepository;
-  final String? id;
+  late final String? id;
   NotePageBloc({required this.noteRepository, this.id})
       : super(id != null ? Loading(id: id) : Creating()) {
     on<Load>(_loadNote);
@@ -46,7 +47,12 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
             emit(Error(message: 'Database error'));
           }
         },
-        (r) => emit(Saved(message: 'Note saved successfully')),
+        (r) {
+          if(r is InsertionSuccess) {
+            id = r.id;
+          }
+          emit(Saved(message: 'Note saved successfully'));
+        }
       );
     }
   }
