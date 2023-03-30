@@ -37,6 +37,12 @@ void main() {
         createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
         lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
   ];
+  final testNoteModel = NoteModel(
+      id: "910ec58a-a0f2-4ac4-8393-c866d813b8d1",
+      title: "title",
+      content: "content",
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
 
   setUpAll(() async {
     sqfliteFfiInit();
@@ -74,6 +80,12 @@ void main() {
     test('Get all Notes', () async {
       var actual = await noteLocalDataSource.getNotes();
       expect(actual, testNoteList);
+    });
+
+    test('Single Note insertion should return id', () async {
+      var actual = await noteLocalDataSource.insertNote(testNoteModel);
+      var matcher = testNoteModel.id;
+      expect(actual, matcher);
     });
   });
 }

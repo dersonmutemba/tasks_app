@@ -20,7 +20,7 @@ class NoteRemoteDataSourceImplementation implements NoteRemoteDataSource {
   }
   
   @override
-  Future<void> insertNote(Note note) async {
+  Future<String> insertNote(Note note) async {
     // TODO: implement insertNote
     throw UnimplementedError();
   }

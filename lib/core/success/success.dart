@@ -1,19 +1,22 @@
-abstract class Success {
+import 'package:equatable/equatable.dart';
+
+abstract class Success extends Equatable {
   final List<dynamic>? properties;
-  Success([this.properties]);
+  const Success([this.properties]);
 
   @override
-  bool operator ==(Object other) =>
-      other is Success && other.runtimeType == runtimeType;
-
-  @override
-  int get hashCode => properties.hashCode;
-      
+  List<Object?> get props => [properties];
 }
 
-class InsertionSuccess extends Success {}
+class InsertionSuccess extends Success {
+  final String id;
+  InsertionSuccess({required this.id}) : super([id]);
+}
 
-class RemoteInsertionSuccess extends Success {}
+class RemoteInsertionSuccess extends Success {
+  final String id;
+  RemoteInsertionSuccess({required this.id}) : super([id]);
+}
 
 class UpdateSuccess extends Success {}
 

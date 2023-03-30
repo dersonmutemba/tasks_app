@@ -2,16 +2,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/success/success.dart';
 import '../../../../domain/contracts/note_contract.dart';
 import '../../../../domain/entities/note.dart';
 import 'bloc.dart';
 
 class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
   final NoteContract noteRepository;
-  final String? id;
+  late final String? id;
   NotePageBloc({required this.noteRepository, this.id})
       : super(id != null ? Loading(id: id) : Creating()) {
     on<Load>(_loadNote);
+    on<Create>(_createNote);
     on<Save>(_saveNote);
   }
 
@@ -24,10 +26,11 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
         emit(Editing(note: r));
       });
     }
+    emit(Loading());
   }
 
-  void _saveNote(Save event, emit) async {
-    emit(Saving());
+  void _createNote(Create event, emit) async {
+    emit(Creating());
     if (event.noteProps['title'] == null ||
         event.noteProps['content'] == null) {
       emit(Error(message: 'One of the fields is empty'));
@@ -46,8 +49,19 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
             emit(Error(message: 'Database error'));
           }
         },
-        (r) => emit(Saved(message: 'Note saved successfully')),
+        (r) {
+          if(r is InsertionSuccess) {
+            id = r.id;
+          }
+          emit(Saved(message: 'Note saved successfully'));
+        }
       );
     }
+  }
+
+  void _saveNote(Save event, emit) async {
+    emit(Saving());
+    // TODO: Add logic for saving notes
+    emit(Error(message: 'Logic not created yet'));
   }
 }

@@ -56,13 +56,12 @@ class NoteRepository implements NoteContract {
       try {
         await localDataSource.insertNote(NoteModel.fromNote(note));
         await remoteDataSource.insertNote(note);
-        return Right(RemoteInsertionSuccess());
+        return Right(RemoteInsertionSuccess(id: note.id));
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
-      await localDataSource.insertNote(NoteModel.fromNote(note));
-      return Right(InsertionSuccess());
+      return Right(InsertionSuccess(id: await localDataSource.insertNote(NoteModel.fromNote(note))));
     }
   }
 }
