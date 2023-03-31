@@ -15,41 +15,48 @@ class Home extends StatelessWidget {
         builder: ((context, state) {
           return Scaffold(
             body: SafeArea(
-                child: TextButton(
-              onPressed: () {
-                if (state is SelectedTasksHome) {
-                  context.read<HomeBloc>().add(NotesHomeSelected());
-                } else if (state is SelectedNotesHome) {
-                  context.read<HomeBloc>().add(TasksHomeSelected());
-                }
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).textTheme.bodyLarge!.color,
-              ),
-              child: SizedBox(
-                height: 50,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      state.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+              child: Column(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      if (state is SelectedTasksHome) {
+                        context.read<HomeBloc>().add(NotesHomeSelected());
+                      } else if (state is SelectedNotesHome) {
+                        context.read<HomeBloc>().add(TasksHomeSelected());
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor:
+                          Theme.of(context).textTheme.bodyLarge!.color,
+                    ),
+                    child: SizedBox(
+                      height: 50,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            state.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Column(
+                            children: const [
+                              Icon(Icons.keyboard_arrow_up_rounded),
+                              Icon(Icons.keyboard_arrow_down_rounded)
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      children: const [
-                        Icon(Icons.keyboard_arrow_up_rounded),
-                        Icon(Icons.keyboard_arrow_down_rounded)
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                  Expanded(child: ListView()),
+                ],
               ),
-            )),
+            ),
             floatingActionButton: ElevatedButton(
               onPressed: () {
                 if (state is SelectedTasksHome) {
