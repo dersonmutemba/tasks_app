@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widgets/note_list/note_list.dart';
 import '../note_page/note_page.dart';
 import 'bloc/bloc.dart';
 
@@ -53,7 +54,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(child: ListView()),
+                  const Expanded(child: NoteList()),
                 ],
               ),
             ),
