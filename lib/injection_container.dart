@@ -15,7 +15,7 @@ import 'domain/contracts/note_contract.dart';
 import 'domain/usecases/get_note.dart';
 import 'domain/usecases/get_notes.dart';
 import 'presentation/pages/note_page/bloc/note_page_bloc.dart';
-import 'presentation/widgets/note_list/bloc/note_list_bloc.dart';
+import 'presentation/widgets/notes_container/note_list/bloc/note_list_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
