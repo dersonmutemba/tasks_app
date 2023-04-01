@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../injection_container.dart';
-import '../../bloc/bloc.dart';
+import 'bloc/bloc.dart';
 
 class NoteList extends StatelessWidget {
   const NoteList({Key? key}) : super(key: key);
@@ -10,15 +10,17 @@ class NoteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (arg) => serviceLocator<NoteBloc>(),
-      child: BlocBuilder<NoteBloc, NoteState>(
+      create: (arg) => serviceLocator<NoteListBloc>()..add(Load()),
+      child: BlocBuilder<NoteListBloc, NoteListState>(
         builder: ((context, state) {
           if (state is Empty) {
             return const Text('Empty');
           } else if (state is Error) {
             return const Text('Error');
           } else if (state is Loading) {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (state is Loaded) {
             return const Text('Loaded Notes');
           }
