@@ -17,7 +17,9 @@ class Home extends StatelessWidget {
           return Scaffold(
             body: SafeArea(
               child: Column(
-                children: [
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
                   TextButton(
                     onPressed: () {
                       if (state is SelectedTasksHome) {
@@ -54,8 +56,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Expanded(child: NoteList()),
-                ],
+                ] + _getWidgetsByState(state),
               ),
             ),
             floatingActionButton: ElevatedButton(
@@ -89,5 +90,12 @@ class Home extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  List<Widget> _getWidgetsByState(HomeState state) {
+    if(state is SelectedNotesHome) {
+      return const[Expanded(child: NoteList())];
+    }
+    return [];
   }
 }
