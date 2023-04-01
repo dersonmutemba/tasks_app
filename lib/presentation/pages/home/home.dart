@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../widgets/notes_container/note_list/note_list.dart';
+import '../../widgets/notes_container/notes_container.dart';
 import '../note_page/note_page.dart';
 import 'bloc/bloc.dart';
 
@@ -94,7 +94,7 @@ class Home extends StatelessWidget {
 
   List<Widget> _getWidgetsByState(HomeState state) {
     if(state is SelectedNotesHome) {
-      return const[Expanded(child: NoteList())];
+      return const[NotesContainer()];
     }
     return [];
   }
