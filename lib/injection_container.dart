@@ -14,7 +14,6 @@ import 'data/repositories/note_repository.dart';
 import 'domain/contracts/note_contract.dart';
 import 'domain/usecases/get_note.dart';
 import 'domain/usecases/get_notes.dart';
-import 'presentation/bloc/note_bloc.dart';
 import 'presentation/pages/note_page/bloc/note_page_bloc.dart';
 import 'presentation/widgets/note_list/bloc/note_list_bloc.dart';
 
@@ -22,13 +21,6 @@ final serviceLocator = GetIt.instance;
 
 Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  serviceLocator.registerFactory(
-    () => NoteBloc(
-      getNote: serviceLocator(),
-      getNotes: serviceLocator(),
-    ),
-  );
 
   serviceLocator.registerFactory(
     () => NotePageBloc(
