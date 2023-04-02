@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../injection_container.dart';
+import '../note_view.dart';
 import 'bloc/bloc.dart';
 
 class NoteList extends StatelessWidget {
@@ -22,7 +23,12 @@ class NoteList extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state is Loaded) {
-            return const Text('Loaded Notes');
+            return ListView.builder(
+              itemCount: state.notes.length,
+              itemBuilder: (context, index) {
+                return NoteView(note: state.notes[index]);
+              },
+            );
           }
           return Container();
         }),
