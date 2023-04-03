@@ -38,4 +38,22 @@ void main() {
     verify(mockNoteContract.insertNote(testNote));
     verifyNoMoreInteractions(mockNoteContract);
   });
+
+  test('Should note insert empty note', () async {
+    final emptyNote = Note(
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d6",
+      title: "",
+      content: "",
+      createdAt: DateTime.now(),
+      lastEdited: DateTime.now(),
+    );
+
+    when(mockNoteContract.insertNote(emptyNote)).thenAnswer((realInvocation) => Left(EmptyNoteFailure()));
+
+    final matcher = await usecase(Params(note: emptyNote));
+
+    expect(Left(EmptyNoteFailure()), matcher);
+    verify(mockNoteContract.insertNote(emptyNote));
+    verifyNoMoreInteractions(mockNoteContract);
+  });
 }
