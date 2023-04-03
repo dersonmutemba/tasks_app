@@ -39,7 +39,7 @@ void main() {
     verifyNoMoreInteractions(mockNoteContract);
   });
 
-  test('Should note insert empty note', () async {
+  test('Should not insert empty note', () async {
     final emptyNote = Note(
       id: "110ec58a-a0f2-4ac4-8393-c866d813b8d6",
       title: "",
