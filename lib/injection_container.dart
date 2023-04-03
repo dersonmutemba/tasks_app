@@ -49,9 +49,12 @@ Future<void> init() async {
     ),
   );
 
+  serviceLocator.registerSingleton<LocalDatabase>(
+      LocalDatabase(datasourcesConstants['noteTableQuery']));
+
   serviceLocator.registerLazySingleton<NoteLocalDataSource>(
     () => NoteLocalDataSourceImplementation(
-      LocalDatabase(datasourcesConstants['noteTableQuery']),
+      serviceLocator(),
     ),
   );
 
