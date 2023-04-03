@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/success/success.dart';
 import 'package:tasks_app/domain/contracts/note_contract.dart';
 import 'package:tasks_app/domain/entities/note.dart';
@@ -49,6 +50,7 @@ void main() {
     );
 
     when(mockNoteContract.insertNote(emptyNote))
+        .thenAnswer((realInvocation) async => Left(EmptyNoteFailure()));
 
     final matcher = await usecase(Params(note: emptyNote));
 
