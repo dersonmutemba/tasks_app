@@ -48,7 +48,7 @@ void main() {
       lastEdited: DateTime.now(),
     );
 
-    when(mockNoteContract.insertNote(emptyNote)).thenAnswer((realInvocation) => Left(EmptyNoteFailure()));
+    when(mockNoteContract.insertNote(emptyNote))
 
     final matcher = await usecase(Params(note: emptyNote));
 
