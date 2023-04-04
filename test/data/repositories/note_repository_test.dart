@@ -191,22 +191,12 @@ void main() {
     });
 
     test('Should return EmptyNoteFailure if Note is empty', () async {
-      when(mockNoteLocalDataSource.insertNote(emptyNoteModel))
-          .thenThrow(EmptyNoteFailure());
-
       final actual = await repository.insertNote(emptyNoteModel);
-
-      verify(mockNoteLocalDataSource.insertNote(emptyNoteModel));
       expect(actual, Left(EmptyNoteFailure()));
     });
 
     test('Should return EmptyNoteFailure if Note has only spaces', () async {
-      when(mockNoteLocalDataSource.insertNote(emptyNoteModel2))
-          .thenThrow(EmptyNoteFailure());
-
       final actual = await repository.insertNote(emptyNoteModel2);
-
-      verify(mockNoteLocalDataSource.insertNote(emptyNoteModel2));
       expect(actual, Left(EmptyNoteFailure()));
     });
   });
