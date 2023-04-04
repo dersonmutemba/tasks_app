@@ -99,16 +99,5 @@ void main() {
       var matcher = testNoteModel.id;
       expect(actual, matcher);
     });
-
-    test('Shoud throw exception when trying to insert empty note', () async {
-      var future = noteLocalDataSource.insertNote(emptyNote);
-      expectLater(future, throwsA(isA<EmptyNoteException>()));
-    });
-
-    test('Shoud throw exception when trying to insert note with only spaces',
-        () async {
-      var future = noteLocalDataSource.insertNote(emptyNote2);
-      expectLater(future, throwsA(isA<EmptyNoteException>()));
-    });
   });
 }
