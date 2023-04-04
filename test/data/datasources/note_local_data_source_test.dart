@@ -17,6 +17,18 @@ void main() {
       content: 'content',
       createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
       lastEdited: DateTime.parse('2023-02-22T19:29:39.242'));
+  final NoteModel emptyNote = NoteModel(
+      id: '110ec58a-a0f2-4ac4-893-c866d813b8d5',
+      title: '',
+      content: '',
+      createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
+      lastEdited: DateTime.parse('2023-02-22T19:29:39.242'));
+  final emptyNote2 = NoteModel(
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d6",
+      title: "",
+      content: "",
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
   final List<NoteModel> testNoteList = [
     NoteModel(
         id: '110ec58a-a0f2-4ac4-8393-c866d813b8d1',
@@ -86,6 +98,17 @@ void main() {
       var actual = await noteLocalDataSource.insertNote(testNoteModel);
       var matcher = testNoteModel.id;
       expect(actual, matcher);
+    });
+
+    test('Shoud throw exception when trying to insert empty note', () async {
+      var future = noteLocalDataSource.insertNote(emptyNote);
+      expectLater(future, throwsA(isA<EmptyNoteException>()));
+    });
+
+    test('Shoud throw exception when trying to insert note with only spaces',
+        () async {
+      var future = noteLocalDataSource.insertNote(emptyNote2);
+      expectLater(future, throwsA(isA<EmptyNoteException>()));
     });
   });
 }

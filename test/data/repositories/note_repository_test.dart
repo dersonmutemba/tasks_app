@@ -40,6 +40,18 @@ void main() {
       content: "content",
       createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
       lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
+  final emptyNoteModel = NoteModel(
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d5",
+      title: "    ",
+      content: "    ",
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
+  final emptyNoteModel2 = NoteModel(
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d6",
+      title: "",
+      content: "",
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
   final testNoteModelList = [testNoteModel];
   final Note testNote = testNoteModel;
 
@@ -91,7 +103,8 @@ void main() {
         'Should attempt to insert in local database before attempting to insert remotely',
         () async {
       when(mockNoteRemoteDataSource.insertNote(testNoteModel)).thenAnswer(
-          (realInvocation) async => Right(RemoteInsertionSuccess(id: testNote.id)));
+          (realInvocation) async =>
+              Right(RemoteInsertionSuccess(id: testNote.id)));
 
       await repository.insertNote(testNote);
 
@@ -107,7 +120,8 @@ void main() {
 
     test('Should insert notes successfully', () async {
       when(mockNoteRemoteDataSource.insertNote(testNote)).thenAnswer(
-          (realInvocation) async => Right(RemoteInsertionSuccess(id: testNote.id)));
+          (realInvocation) async =>
+              Right(RemoteInsertionSuccess(id: testNote.id)));
 
       final actual = await repository.insertNote(testNote);
 
@@ -174,6 +188,26 @@ void main() {
       verifyZeroInteractions(mockNoteRemoteDataSource);
       verify(mockNoteLocalDataSource.insertNote(testNoteModel));
       expect(actual, Right(InsertionSuccess(id: testNoteModel.id)));
+    });
+
+    test('Should return EmptyNoteFailure if Note is empty', () async {
+      when(mockNoteLocalDataSource.insertNote(emptyNoteModel))
+          .thenThrow(EmptyNoteFailure());
+
+      final actual = await repository.insertNote(emptyNoteModel);
+
+      verify(mockNoteLocalDataSource.insertNote(emptyNoteModel));
+      expect(actual, Left(EmptyNoteFailure()));
+    });
+
+    test('Should return EmptyNoteFailure if Note has only spaces', () async {
+      when(mockNoteLocalDataSource.insertNote(emptyNoteModel2))
+          .thenThrow(EmptyNoteFailure());
+
+      final actual = await repository.insertNote(emptyNoteModel2);
+
+      verify(mockNoteLocalDataSource.insertNote(emptyNoteModel2));
+      expect(actual, Left(EmptyNoteFailure()));
     });
   });
 }
