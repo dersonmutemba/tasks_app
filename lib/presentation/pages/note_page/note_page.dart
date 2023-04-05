@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../core/error/failure.dart';
 import '../../../domain/contracts/note_contract.dart';
 import '../../../domain/entities/note.dart';
 import '../../../injection_container.dart';
@@ -41,23 +42,40 @@ class _NotePageContentState extends State<_NotePageContent> {
       NotePageBloc(noteRepository: serviceLocator.get<NoteContract>());
 
   @override
-  void dispose() {
+  void dispose() async {
+    super.dispose();
     if (note == null) {
       var noteRepository = serviceLocator.get<NoteContract>();
-      noteRepository.insertNote(Note(
+      var response = await noteRepository.insertNote(Note(
         id: const Uuid().v1(),
         title: noteTitleController.text,
         content: noteContentController.text,
         createdAt: DateTime.now(),
         lastEdited: DateTime.now(),
       ));
+      response.fold((l) {
+        if (l is CacheFailure) {
+          ScaffoldMessenger.of(widget.ancestorContext).showSnackBar(
+            const SnackBar(
+              content: Text('Note not saved'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }, (r) {
+        ScaffoldMessenger.of(widget.ancestorContext).showSnackBar(
+          const SnackBar(
+            content: Text('Note saved'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      });
     } else {
       throw Exception();
       // TODO: Add logic for saving edited notes
     }
     noteTitleController.dispose();
     noteContentController.dispose();
-    super.dispose();
   }
 
   @override
@@ -150,6 +168,12 @@ class _NotePageContentState extends State<_NotePageContent> {
             );
           } else if (state is Error) {
             // TODO: Add a popup window
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                duration: const Duration(seconds: 3),
+              ),
+            );
             return Container(
               color: Colors.red,
               child: Center(
@@ -158,6 +182,12 @@ class _NotePageContentState extends State<_NotePageContent> {
             );
           } else if (state is Saved) {
             // TODO: Add a popup window
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                duration: const Duration(seconds: 3),
+              ),
+            );
             return Center(
               child: Text(state.message),
             );
