@@ -10,13 +10,14 @@ import 'bloc/bloc.dart';
 
 class NotePage extends StatelessWidget {
   final String? id;
-  const NotePage({Key? key, this.id}) : super(key: key);
+  final BuildContext ancestorContext;
+  const NotePage(this.ancestorContext, {Key? key, this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _NotePageContent(id: id),
+        child: _NotePageContent(ancestorContext, id: id),
       ),
     );
   }
@@ -24,7 +25,9 @@ class NotePage extends StatelessWidget {
 
 class _NotePageContent extends StatefulWidget {
   final String? id;
-  const _NotePageContent({Key? key, required this.id}) : super(key: key);
+  final BuildContext ancestorContext;
+  const _NotePageContent(this.ancestorContext, {Key? key, required this.id})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NotePageContentState();
