@@ -1,12 +1,10 @@
-class HomeEvent {
+import 'package:equatable/equatable.dart';
+
+class HomeEvent extends Equatable {
   const HomeEvent();
 
   @override
-  bool operator ==(Object other) =>
-      other is HomeEvent && other.runtimeType == runtimeType;
-
-  @override
-  int get hashCode => runtimeType.hashCode;
+  List<Object?> get props => [];
 }
 
 class TasksHomeSelected extends HomeEvent {}
