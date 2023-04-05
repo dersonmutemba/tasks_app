@@ -20,43 +20,44 @@ class Home extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      if (state is SelectedTasksHome) {
-                        context.read<HomeBloc>().add(NotesHomeSelected());
-                      } else if (state is SelectedNotesHome) {
-                        context.read<HomeBloc>().add(TasksHomeSelected());
-                      }
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor:
-                          Theme.of(context).textTheme.bodyLarge!.color,
-                    ),
-                    child: SizedBox(
-                      height: 50,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            state.title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            children: const [
-                              Icon(Icons.keyboard_arrow_up_rounded),
-                              Icon(Icons.keyboard_arrow_down_rounded)
+                      TextButton(
+                        onPressed: () {
+                          if (state is SelectedTasksHome) {
+                            context.read<HomeBloc>().add(NotesHomeSelected());
+                          } else if (state is SelectedNotesHome) {
+                            context.read<HomeBloc>().add(TasksHomeSelected());
+                          }
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor:
+                              Theme.of(context).textTheme.bodyLarge!.color,
+                        ),
+                        child: SizedBox(
+                          height: 50,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                state.title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Column(
+                                children: const [
+                                  Icon(Icons.keyboard_arrow_up_rounded),
+                                  Icon(Icons.keyboard_arrow_down_rounded)
+                                ],
+                              ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ] + _getWidgetsByState(state),
+                    ] +
+                    _getWidgetsByState(state),
               ),
             ),
             floatingActionButton: ElevatedButton(
@@ -67,9 +68,13 @@ class Home extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+                      builder: (BuildContext notePageContext) =>
                           NotePage(context),
                     ),
-                  );
+                  ).then((value) {
+                    context.read<HomeBloc>().add(NotesHomeSelected());
+                  });
+                  // I must see how to refresh info using state
                 }
               },
               style: ButtonStyle(
@@ -93,8 +98,8 @@ class Home extends StatelessWidget {
   }
 
   List<Widget> _getWidgetsByState(HomeState state) {
-    if(state is SelectedNotesHome) {
-      return const[NotesContainer()];
+    if (state is SelectedNotesHome) {
+      return const [NotesContainer()];
     }
     return [];
   }
