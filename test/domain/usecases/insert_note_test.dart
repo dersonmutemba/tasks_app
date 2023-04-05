@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/success/success.dart';
 import 'package:tasks_app/domain/contracts/note_contract.dart';
 import 'package:tasks_app/domain/entities/note.dart';
@@ -36,6 +37,25 @@ void main() {
 
     expect(Right(testSuccess), matcher);
     verify(mockNoteContract.insertNote(testNote));
+    verifyNoMoreInteractions(mockNoteContract);
+  });
+
+  test('Should not insert empty note', () async {
+    final emptyNote = Note(
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d6",
+      title: "",
+      content: "",
+      createdAt: DateTime.now(),
+      lastEdited: DateTime.now(),
+    );
+
+    when(mockNoteContract.insertNote(emptyNote))
+        .thenAnswer((realInvocation) async => Left(EmptyNoteFailure()));
+
+    final matcher = await usecase(Params(note: emptyNote));
+
+    expect(Left(EmptyNoteFailure()), matcher);
+    verify(mockNoteContract.insertNote(emptyNote));
     verifyNoMoreInteractions(mockNoteContract);
   });
 }

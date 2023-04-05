@@ -52,16 +52,22 @@ class NoteRepository implements NoteContract {
 
   @override
   Future<Either<Failure, Success>> insertNote(Note note) async {
-    if (await networkInfo.isConnected) {
-      try {
+    try {
+      if (note.title.trim() == '' && note.content.trim() == '') {
+        throw EmptyNoteException();
+      }
+      if (await networkInfo.isConnected) {
         await localDataSource.insertNote(NoteModel.fromNote(note));
         await remoteDataSource.insertNote(note);
         return Right(RemoteInsertionSuccess(id: note.id));
-      } on ServerException {
-        return Left(ServerFailure());
+      } else {
+        return Right(InsertionSuccess(
+            id: await localDataSource.insertNote(NoteModel.fromNote(note))));
       }
-    } else {
-      return Right(InsertionSuccess(id: await localDataSource.insertNote(NoteModel.fromNote(note))));
+    } on ServerException {
+      return Left(ServerFailure());
+    } on EmptyNoteException {
+      return Left(EmptyNoteFailure());
     }
   }
 }
