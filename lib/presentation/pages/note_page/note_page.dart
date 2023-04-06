@@ -39,7 +39,7 @@ class _NotePageContentState extends State<_NotePageContent> {
   final TextEditingController noteContentController = TextEditingController();
   Note? note;
   var noteBloc =
-      NotePageBloc(noteRepository: serviceLocator.get<NoteContract>());
+      serviceLocator.get<NotePageBloc>();
 
   @override
   void dispose() async {
