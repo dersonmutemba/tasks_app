@@ -9,24 +9,24 @@ import 'bloc.dart';
 
 class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
   final NoteContract noteRepository;
-  late final String? id;
-  NotePageBloc({required this.noteRepository, this.id})
-      : super(id != null ? Loading(id: id) : Creating()) {
+  NotePageBloc({required this.noteRepository})
+      : super(Loading()) {
     on<Load>(_loadNote);
     on<Create>(_createNote);
     on<Save>(_saveNote);
   }
 
   void _loadNote(Load event, emit) async {
-    if (id != null) {
-      var result = await noteRepository.getNote(id!);
+    if (event.id != null) {
+      var result = await noteRepository.getNote(event.id!);
       result.fold((l) {
         emit(Error(message: 'Could not find specified Note'));
       }, (r) {
         emit(Editing(note: r));
       });
+    } else {
+      emit(Creating());
     }
-    emit(Loading());
   }
 
   void _createNote(Create event, emit) async {
@@ -51,9 +51,8 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
         },
         (r) {
           if(r is InsertionSuccess) {
-            id = r.id;
+            emit(Saved(message: 'Note saved successfully'));
           }
-          emit(Saved(message: 'Note saved successfully'));
         }
       );
     }

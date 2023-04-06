@@ -85,11 +85,13 @@ class _NotePageContentState extends State<_NotePageContent> {
       child: BlocBuilder<NotePageBloc, NotePageState>(
         builder: (context, state) {
           if (widget.id != null) {
-            context.read<NotePageBloc>().add(Load());
+            context.read<NotePageBloc>().add(Load(id: widget.id!));
           }
           if (state is Creating || state is Editing) {
             if (state is Editing) {
               note = state.note;
+              noteTitleController.text = state.note.title;
+              noteContentController.text = state.note.content;
             }
 
             return Column(

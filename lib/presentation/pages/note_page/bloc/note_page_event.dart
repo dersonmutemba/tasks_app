@@ -7,7 +7,13 @@ abstract class NotePageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class Load extends NotePageEvent {}
+class Load extends NotePageEvent {
+  final String? id;
+  Load({this.id});
+
+  @override
+  List<Object> get props => [id!];
+}
 
 class Create extends NotePageEvent {
   final Map<String, dynamic> noteProps;
