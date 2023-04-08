@@ -152,8 +152,10 @@ class _NotePageContentState extends State<_NotePageContent> {
           } else if (state is Loading) {
             return Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   CircularProgressIndicator(),
+                  SizedBox(height: 10),
                   Text('Loading'),
                 ],
               ),
