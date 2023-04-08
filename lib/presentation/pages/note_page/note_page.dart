@@ -38,8 +38,7 @@ class _NotePageContentState extends State<_NotePageContent> {
   final TextEditingController noteTitleController = TextEditingController();
   final TextEditingController noteContentController = TextEditingController();
   Note? note;
-  var noteBloc =
-      serviceLocator.get<NotePageBloc>();
+  var noteBloc = serviceLocator.get<NotePageBloc>();
 
   @override
   void dispose() async {
@@ -81,19 +80,15 @@ class _NotePageContentState extends State<_NotePageContent> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => noteBloc,
+      create: (context) => noteBloc..add(Load(id: widget.id)),
       child: BlocBuilder<NotePageBloc, NotePageState>(
         builder: (context, state) {
-          if (widget.id != null) {
-            context.read<NotePageBloc>().add(Load(id: widget.id!));
-          }
           if (state is Creating || state is Editing) {
             if (state is Editing) {
               note = state.note;
               noteTitleController.text = state.note.title;
               noteContentController.text = state.note.content;
             }
-
             return Column(
               children: [
                 const SizedBox(
