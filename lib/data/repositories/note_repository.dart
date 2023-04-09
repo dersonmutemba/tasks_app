@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:tasks_app/core/error/exception.dart';
-import 'package:tasks_app/core/success/success.dart';
 
+import '../../core/error/exception.dart';
 import '../../core/error/failure.dart';
 import '../../core/network/network_info.dart';
+import '../../core/success/success.dart';
 import '../../domain/contracts/note_contract.dart';
 import '../../domain/entities/note.dart';
 import '../datasources/note_local_data_source.dart';
@@ -53,9 +53,7 @@ class NoteRepository implements NoteContract {
   @override
   Future<Either<Failure, Success>> insertNote(Note note) async {
     try {
-      if (note.title.trim() == '' && note.content.trim() == '') {
-        throw EmptyNoteException();
-      }
+      _handleEmptyNotes(note);
       if (await networkInfo.isConnected) {
         await localDataSource.insertNote(NoteModel.fromNote(note));
         await remoteDataSource.insertNote(note);
@@ -68,6 +66,31 @@ class NoteRepository implements NoteContract {
       return Left(ServerFailure());
     } on EmptyNoteException {
       return Left(EmptyNoteFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Success>> updateNote(Note note) async {
+    try{
+      _handleEmptyNotes(note);
+      if(await networkInfo.isConnected) {
+        await localDataSource.updateNote(NoteModel.fromNote(note));
+        await remoteDataSource.updateNote(note);
+        return Right(RemoteUpdateSuccess());
+      } else {
+        await localDataSource.updateNote(NoteModel.fromNote(note));
+        return Right(UpdateSuccess());
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    } on EmptyNoteException {
+      return Left(EmptyNoteFailure());
+    }
+  }
+
+  void _handleEmptyNotes(Note note) {
+    if (note.title.trim() == '' && note.content.trim() == '') {
+      throw EmptyNoteException();
     }
   }
 }
