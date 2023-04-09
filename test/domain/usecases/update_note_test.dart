@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/success/success.dart';
 import 'package:tasks_app/domain/entities/note.dart';
+import 'package:tasks_app/domain/usecases/update_note.dart';
 
 import 'note_contract_mock.mocks.dart';
 
