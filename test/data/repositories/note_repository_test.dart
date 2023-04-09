@@ -48,8 +48,8 @@ void main() {
       lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
   final updatedEmptyNoteModel = NoteModel(
       id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
-      title: "updated title",
-      content: "updated content",
+      title: "",
+      content: "",
       createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
       lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
   final emptyNoteModel = NoteModel(
@@ -164,11 +164,11 @@ void main() {
 
     test('Should update notes successfully', () async {
       when(mockNoteRemoteDataSource.updateNote(updatedTestNoteModel))
-          .thenAnswer((realInvocation) async => Right(UpdateSuccess()));
+          .thenAnswer((realInvocation) async => Right(RemoteUpdateSuccess()));
 
       final actual = await repository.updateNote(updatedTestNoteModel);
 
-      expect(actual, Right(UpdateSuccess()));
+      expect(actual, Right(RemoteUpdateSuccess()));
 
       verify(mockNoteLocalDataSource.updateNote(updatedTestNoteModel));
       verify(mockNoteRemoteDataSource.updateNote(updatedTestNoteModel));
