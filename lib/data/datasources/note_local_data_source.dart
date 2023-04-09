@@ -12,6 +12,8 @@ abstract class NoteLocalDataSource {
   Future<void> cacheNotes(List<NoteModel> notes);
 
   Future<String> insertNote(NoteModel note);
+
+  Future<void> updateNote(NoteModel note);
 }
 
 class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
@@ -28,32 +30,39 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
     }
     await localDatabase.insert(table, valuesList);
   }
-  
+
   @override
   Future<NoteModel> getNote(String id) async {
-    var result = await localDatabase.getObjects(table, [columns.first], [id], columns.sublist(1));
-    if(result != null) {
+    var result = await localDatabase.getObjects(
+        table, [columns.first], [id], columns.sublist(1));
+    if (result != null) {
       return NoteModel.fromJson(result.first);
     }
     throw CacheException();
   }
-  
+
   @override
   Future<List<NoteModel>> getNotes() async {
     var results = await localDatabase.getAllObjects(table);
-    if(results != null) {
+    if (results != null) {
       List<NoteModel> notes = [];
-      for(var result in results) {
+      for (var result in results) {
         notes.add(NoteModel.fromJson(result));
       }
       return notes;
     }
     throw CacheException();
   }
-  
+
   @override
   Future<String> insertNote(NoteModel note) async {
     await localDatabase.insert(table, [note.toJson()]);
     return note.id;
+  }
+
+  @override
+  Future<void> updateNote(NoteModel note) async {
+    await localDatabase.update(table, note.toJson(), columns.sublist(1),
+        note.toJson().values.toList().sublist(1));
   }
 }

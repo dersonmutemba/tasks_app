@@ -101,6 +101,15 @@ class MockNoteLocalDataSource extends _i1.Mock
         returnValue: _i4.Future<String>.value(''),
         returnValueForMissingStub: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
+  @override
+  _i4.Future<void> updateNote(_i2.NoteModel? note) => (super.noSuchMethod(
+        Invocation.method(
+          #updateNote,
+          [note],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [NoteRemoteDataSource].
@@ -122,6 +131,15 @@ class MockNoteRemoteDataSource extends _i1.Mock
   _i4.Future<void> insertNote(_i7.Note? note) => (super.noSuchMethod(
         Invocation.method(
           #insertNote,
+          [note],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<void> updateNote(_i7.Note? note) => (super.noSuchMethod(
+        Invocation.method(
+          #updateNote,
           [note],
         ),
         returnValue: _i4.Future<void>.value(),
