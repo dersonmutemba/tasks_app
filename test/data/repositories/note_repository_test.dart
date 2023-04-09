@@ -40,6 +40,18 @@ void main() {
       content: "content",
       createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
       lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
+  final updatedTestNoteModel = NoteModel(
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
+      title: "updated title",
+      content: "updated content",
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
+  final updatedEmptyNoteModel = NoteModel(
+      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
+      title: "updated title",
+      content: "updated content",
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
   final emptyNoteModel = NoteModel(
       id: "110ec58a-a0f2-4ac4-8393-c866d813b8d5",
       title: "    ",
@@ -131,6 +143,38 @@ void main() {
       verifyNoMoreInteractions(mockNoteLocalDataSource);
       verifyNoMoreInteractions(mockNoteRemoteDataSource);
     });
+
+    test(
+        'Should attempt to update in local database before attempting to update remotely',
+        () async {
+      when(mockNoteRemoteDataSource.updateNote(updatedTestNoteModel))
+          .thenAnswer((realInvocation) async => Right(RemoteUpdateSuccess()));
+
+      await repository.updateNote(updatedTestNoteModel);
+
+      verify(mockNoteLocalDataSource.updateNote(updatedTestNoteModel));
+
+      when(mockNoteRemoteDataSource.updateNote(updatedTestNoteModel))
+          .thenAnswer((realInvocation) async => Left(ServerFailure()));
+
+      await repository.updateNote(updatedTestNoteModel);
+
+      verify(mockNoteLocalDataSource.updateNote(updatedTestNoteModel));
+    });
+
+    test('Should update notes successfully', () async {
+      when(mockNoteRemoteDataSource.updateNote(updatedTestNoteModel))
+          .thenAnswer((realInvocation) async => Right(UpdateSuccess()));
+
+      final actual = await repository.updateNote(updatedTestNoteModel);
+
+      expect(actual, Right(UpdateSuccess()));
+
+      verify(mockNoteLocalDataSource.updateNote(updatedTestNoteModel));
+      verify(mockNoteRemoteDataSource.updateNote(updatedTestNoteModel));
+      verifyNoMoreInteractions(mockNoteLocalDataSource);
+      verifyNoMoreInteractions(mockNoteRemoteDataSource);
+    });
   });
 
   group('If device is offline', () {
@@ -197,6 +241,22 @@ void main() {
 
     test('Should return EmptyNoteFailure if Note has only spaces', () async {
       final actual = await repository.insertNote(emptyNoteModel2);
+      expect(actual, Left(EmptyNoteFailure()));
+    });
+
+    test('Should update note in device', () async {
+      when(mockNoteLocalDataSource.updateNote(updatedTestNoteModel))
+          .thenAnswer((realInvocation) async => Right(UpdateSuccess()));
+
+      final actual = await repository.updateNote(updatedTestNoteModel);
+
+      verifyZeroInteractions(mockNoteRemoteDataSource);
+      verify(mockNoteLocalDataSource.updateNote(updatedTestNoteModel));
+      expect(actual, Right(UpdateSuccess()));
+    });
+
+    test('Should retirm EmptyNoteFailure if Note has only spaces', () async {
+      final actual = await repository.updateNote(updatedEmptyNoteModel);
       expect(actual, Left(EmptyNoteFailure()));
     });
   });
