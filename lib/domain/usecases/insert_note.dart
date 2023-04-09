@@ -1,8 +1,7 @@
-import 'package:tasks_app/core/error/failure.dart';
-
 import 'package:dartz/dartz.dart';
-import 'package:tasks_app/core/success/success.dart';
 
+import '../../core/error/failure.dart';
+import '../../core/success/success.dart';
 import '../../core/usecases/usecase.dart';
 import '../contracts/note_contract.dart';
 import '../entities/note.dart';
