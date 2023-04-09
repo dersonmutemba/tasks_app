@@ -1,16 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/success/success.dart';
-import 'package:tasks_app/domain/contracts/note_contract.dart';
 import 'package:tasks_app/domain/entities/note.dart';
 import 'package:tasks_app/domain/usecases/insert_note.dart';
 
-import 'get_note_test.mocks.dart';
+import 'note_contract_mock.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<NoteContract>()])
 void main() {
   late MockNoteContract mockNoteContract;
   late InsertNote usecase;
