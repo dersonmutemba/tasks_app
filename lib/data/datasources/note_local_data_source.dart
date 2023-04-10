@@ -62,7 +62,7 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
 
   @override
   Future<void> updateNote(NoteModel note) async {
-    await localDatabase.update(table, note.toJson(), columns.sublist(1),
-        note.toJson().values.toList().sublist(1));
+    await localDatabase.update(table, note.toJson(), [columns.first],
+        [note.toJson().values.toList().first]);
   }
 }
