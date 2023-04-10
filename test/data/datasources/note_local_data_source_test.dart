@@ -43,6 +43,12 @@ void main() {
       content: "content",
       createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
       lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
+  final updatedTestNoteModel = NoteModel(
+      id: "910ec58a-a0f2-4ac4-8393-c866d813b8d1",
+      title: "upgrade title",
+      content: "upgrade content",
+      createdAt: DateTime.parse("2023-02-22T19:29:39.242"),
+      lastEdited: DateTime.parse("2023-02-22T19:29:39.242"));
 
   setUpAll(() async {
     sqfliteFfiInit();
@@ -86,6 +92,19 @@ void main() {
       var actual = await noteLocalDataSource.insertNote(testNoteModel);
       var matcher = testNoteModel.id;
       expect(actual, matcher);
+    });
+
+    test('Upgrade Note', () async {
+      var countBefore = (await noteLocalDataSource.getNotes()).length;
+      await noteLocalDataSource.updateNote(updatedTestNoteModel);
+      var countAfter = (await noteLocalDataSource.getNotes()).length;
+      var actualTitle = (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).title;
+      var matcherTitle = updatedTestNoteModel.title;
+      var actualContent = (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).content;
+      var matcherContent = updatedTestNoteModel.content;
+      expect(countBefore, countAfter);
+      expect(actualTitle, matcherTitle);
+      expect(actualContent, matcherContent);
     });
   });
 }
