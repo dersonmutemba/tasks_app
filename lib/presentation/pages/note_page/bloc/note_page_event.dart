@@ -8,11 +8,11 @@ abstract class NotePageEvent extends Equatable {
 }
 
 class Load extends NotePageEvent {
-  final String? id;
-  Load({this.id});
+  final Note? note;
+  Load({this.note});
 
   @override
-  List<Object> get props => [id!];
+  List<Object> get props => [note!];
 }
 
 class Create extends NotePageEvent {

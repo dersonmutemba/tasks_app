@@ -8,11 +8,11 @@ abstract class NotePageState extends Equatable {
 }
 
 class Loading extends NotePageState {
-  final String? id;
-  Loading({this.id});
+  final Note? note;
+  Loading({this.note});
 
   @override
-  List<Object> get props => [id!];
+  List<Object> get props => [note!];
 }
 
 class Creating extends NotePageState {}

@@ -10,24 +10,24 @@ import '../../widgets/my_icon_button.dart';
 import 'bloc/bloc.dart';
 
 class NotePage extends StatelessWidget {
-  final String? id;
+  final Note? note;
   final BuildContext ancestorContext;
-  const NotePage(this.ancestorContext, {Key? key, this.id}) : super(key: key);
+  const NotePage(this.ancestorContext, {Key? key, this.note}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _NotePageContent(ancestorContext, id: id),
+        child: _NotePageContent(ancestorContext, note: note),
       ),
     );
   }
 }
 
 class _NotePageContent extends StatefulWidget {
-  final String? id;
+  final Note? note;
   final BuildContext ancestorContext;
-  const _NotePageContent(this.ancestorContext, {Key? key, required this.id})
+  const _NotePageContent(this.ancestorContext, {Key? key, required this.note})
       : super(key: key);
 
   @override
@@ -37,13 +37,12 @@ class _NotePageContent extends StatefulWidget {
 class _NotePageContentState extends State<_NotePageContent> {
   final TextEditingController noteTitleController = TextEditingController();
   final TextEditingController noteContentController = TextEditingController();
-  Note? note;
   var noteBloc = serviceLocator.get<NotePageBloc>();
 
   @override
   void dispose() async {
     super.dispose();
-    if (note == null) {
+    if (widget.note == null) {
       var noteRepository = serviceLocator.get<NoteContract>();
       var response = await noteRepository.insertNote(Note(
         id: const Uuid().v1(),
@@ -80,12 +79,11 @@ class _NotePageContentState extends State<_NotePageContent> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => noteBloc..add(Load(id: widget.id)),
+      create: (context) => noteBloc..add(Load(note: widget.note)),
       child: BlocBuilder<NotePageBloc, NotePageState>(
         builder: (context, state) {
           if (state is Creating || state is Editing) {
             if (state is Editing) {
-              note = state.note;
               noteTitleController.text = state.note.title;
               noteContentController.text = state.note.content;
             }
