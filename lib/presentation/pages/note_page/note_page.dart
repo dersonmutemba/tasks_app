@@ -152,13 +152,6 @@ class NotePage extends StatelessWidget {
                     child: Text('Widget to be added'),
                   );
                 } else if (state is Error) {
-                  // TODO: Add a popup window
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                      duration: const Duration(seconds: 3),
-                    ),
-                  );
                   return Container(
                     color: Colors.red,
                     child: Center(
@@ -166,13 +159,6 @@ class NotePage extends StatelessWidget {
                     ),
                   );
                 } else if (state is Saved) {
-                  // TODO: Add a popup window
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                      duration: const Duration(seconds: 3),
-                    ),
-                  );
                   return Center(
                     child: Text(state.message),
                   );
