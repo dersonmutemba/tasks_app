@@ -1,10 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/uuid.dart';
 
-import '../../../../core/error/failure.dart';
-import '../../../../core/success/success.dart';
 import '../../../../domain/contracts/note_contract.dart';
-import '../../../../domain/entities/note.dart';
 import 'bloc.dart';
 
 class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
@@ -26,36 +22,13 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
 
   void _createNote(Create event, emit) async {
     emit(Creating());
-    if (event.noteProps['title'] == null ||
-        event.noteProps['content'] == null) {
-      emit(Error(message: 'One of the fields is empty'));
-    } else {
-      var response = await noteRepository.insertNote(Note(
-          id: const Uuid().v1(),
-          title: event.noteProps['title'],
-          content: event.noteProps['content'],
-          createdAt: event.noteProps['date'],
-          lastEdited: DateTime.now()));
-      response.fold(
-        (l) {
-          if (l is ServerFailure) {
-            emit(Error(message: 'Server error'));
-          } else if (l is CacheFailure) {
-            emit(Error(message: 'Database error'));
-          }
-        },
-        (r) {
-          if(r is InsertionSuccess) {
-            emit(Saved(message: 'Note saved successfully'));
-          }
-        }
-      );
-    }
+    // TODO: Add logic for saving notes periodically
+    emit(Error(message: 'Logic not created yet'));
   }
 
   void _saveNote(Save event, emit) async {
     emit(Saving());
-    // TODO: Add logic for saving notes
+    // TODO: Add logic for saving notes periodically
     emit(Error(message: 'Logic not created yet'));
   }
 }
