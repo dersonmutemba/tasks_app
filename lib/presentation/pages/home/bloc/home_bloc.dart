@@ -7,12 +7,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<TasksHomeSelected>((event, emit) async {
       emit(const SelectingTasksHome());
       await Future.delayed(
-          const Duration(seconds: 1), () => emit(const SelectedTasksHome()));
+          const Duration(milliseconds: 10), () => emit(const SelectedTasksHome()));
     });
     on<NotesHomeSelected>((event, emit) async {
       emit(const SelectingNotesHome());
       await Future.delayed(
-          const Duration(seconds: 1), () => emit(const SelectedNotesHome()));
+          const Duration(milliseconds: 10), () => emit(const SelectedNotesHome()));
     });
   }
 }
