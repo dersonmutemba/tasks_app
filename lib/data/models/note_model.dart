@@ -34,8 +34,8 @@ class NoteModel extends Note {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "title": title,
-        "content": content,
+        "title": title.trim(),
+        "content": content.trim(),
         "createdAt": createdAt.toIso8601String(),
         "lastEdited": lastEdited.toIso8601String()
       };
