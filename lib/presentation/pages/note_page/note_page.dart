@@ -16,183 +16,173 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController noteTitleController = TextEditingController();
+    TextEditingController noteContentController = TextEditingController();
+    var noteBloc = serviceLocator.get<NotePageBloc>();
     return Scaffold(
       body: SafeArea(
-        child: _NotePageContent(ancestorContext, note: note),
-      ),
-    );
-  }
-}
-
-class _NotePageContent extends StatefulWidget {
-  final Note? note;
-  final BuildContext ancestorContext;
-  const _NotePageContent(this.ancestorContext, {Key? key, required this.note})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _NotePageContentState();
-}
-
-class _NotePageContentState extends State<_NotePageContent> {
-  final TextEditingController noteTitleController = TextEditingController();
-  final TextEditingController noteContentController = TextEditingController();
-  var noteBloc = serviceLocator.get<NotePageBloc>();
-
-  @override
-  void dispose() async {
-    super.dispose();
-    if (widget.note == null) {
-      var noteRepository = serviceLocator.get<NoteContract>();
-      var response = await noteRepository.insertNote(Note(
-        id: const Uuid().v1(),
-        title: noteTitleController.text,
-        content: noteContentController.text,
-        createdAt: DateTime.now(),
-        lastEdited: DateTime.now(),
-      ));
-      response.fold((l) {
-        if (l is CacheFailure) {
-          ScaffoldMessenger.of(widget.ancestorContext).showSnackBar(
-            const SnackBar(
-              content: Text('Note not saved'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-        }
-      }, (r) {
-        ScaffoldMessenger.of(widget.ancestorContext).showSnackBar(
-          const SnackBar(
-            content: Text('Note saved'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      });
-    } else {
-      throw Exception();
-      // TODO: Add logic for saving edited notes
-    }
-    noteTitleController.dispose();
-    noteContentController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => noteBloc..add(Load(note: widget.note)),
-      child: BlocBuilder<NotePageBloc, NotePageState>(
-        builder: (context, state) {
-          if (state is Creating || state is Editing) {
-            if (state is Editing) {
-              noteTitleController.text = state.note.title;
-              noteContentController.text = state.note.content;
+        child: WillPopScope(
+          onWillPop: () async {
+            var noteRepository = serviceLocator.get<NoteContract>();
+            if (note == null) {
+              var response = await noteRepository.insertNote(Note(
+                id: const Uuid().v1(),
+                title: noteTitleController.text,
+                content: noteContentController.text,
+                createdAt: DateTime.now(),
+                lastEdited: DateTime.now(),
+              ));
+              response.fold((l) {
+                if (l is CacheFailure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Note not saved')),
+                  );
+                }
+              }, (r) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Note saved')),
+                );
+              });
+            } else {
+              var response = await noteRepository.updateNote(Note(
+                id: note!.id,
+                title: noteTitleController.text,
+                content: noteContentController.text,
+                createdAt: note!.createdAt,
+                lastEdited: noteTitleController.text == note!.title &&
+                        noteContentController.text == note!.content
+                    ? note!.lastEdited
+                    : DateTime.now(),
+              ));
+              response.fold(
+                (l) => ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Note not saved')),
+                ),
+                (r) => ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Note saved')),
+                ),
+              );
             }
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
+            return true;
+          },
+          child: BlocProvider(
+            create: (context) => noteBloc..add(Load(note: note)),
+            child: BlocBuilder<NotePageBloc, NotePageState>(
+              builder: (context, state) {
+                if (state is Creating || state is Editing) {
+                  if (state is Editing) {
+                    noteTitleController.text = state.note.title;
+                    noteContentController.text = state.note.content;
+                  }
+                  return Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          MyIconButton(
+                            iconData: Icons.arrow_back_ios,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          const Spacer(),
+                          MyIconButton(
+                            iconData: Icons.more_vert,
+                            onPressed: () {
+                              // TODO: Add a popup menu and some options
+                            },
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      TextField(
+                        maxLines: 1,
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.sentences,
+                        controller: noteTitleController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Title...',
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                        ),
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        onChanged: (value) {},
+                      ),
+                      Expanded(
+                        child: TextField(
+                          expands: true,
+                          minLines: null,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                          textCapitalization: TextCapitalization.sentences,
+                          controller: noteContentController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Write anything...',
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else if (state is Loading) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 10),
+                        Text('Loading'),
+                      ],
                     ),
-                    MyIconButton(
-                      iconData: Icons.arrow_back_ios,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                  );
+                } else if (state is Saving) {
+                  // TODO: Add a popup window
+                  return const Center(
+                    child: Text('Widget to be added'),
+                  );
+                } else if (state is Error) {
+                  // TODO: Add a popup window
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      duration: const Duration(seconds: 3),
                     ),
-                    const Spacer(),
-                    MyIconButton(
-                      iconData: Icons.more_vert,
-                      onPressed: () {
-                        // TODO: Add a popup menu and some options
-                      },
+                  );
+                  return Container(
+                    color: Colors.red,
+                    child: Center(
+                      child: Text('Error: ${state.message}'),
                     ),
-                    const SizedBox(
-                      width: 10,
+                  );
+                } else if (state is Saved) {
+                  // TODO: Add a popup window
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      duration: const Duration(seconds: 3),
                     ),
-                  ],
-                ),
-                TextField(
-                  maxLines: 1,
-                  keyboardType: TextInputType.text,
-                  textCapitalization: TextCapitalization.sentences,
-                  controller: noteTitleController,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Title...',
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  ),
-                  style: Theme.of(context).textTheme.headlineMedium,
-                  onChanged: (value) {},
-                ),
-                Expanded(
-                  child: TextField(
-                    expands: true,
-                    minLines: null,
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
-                    textCapitalization: TextCapitalization.sentences,
-                    controller: noteContentController,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Write anything...',
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else if (state is Loading) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 10),
-                  Text('Loading'),
-                ],
-              ),
-            );
-          } else if (state is Saving) {
-            // TODO: Add a popup window
-            return const Center(
-              child: Text('Widget to be added'),
-            );
-          } else if (state is Error) {
-            // TODO: Add a popup window
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                duration: const Duration(seconds: 3),
-              ),
-            );
-            return Container(
-              color: Colors.red,
-              child: Center(
-                child: Text('Error: ${state.message}'),
-              ),
-            );
-          } else if (state is Saved) {
-            // TODO: Add a popup window
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                duration: const Duration(seconds: 3),
-              ),
-            );
-            return Center(
-              child: Text(state.message),
-            );
-          }
-          return const Center(
-            child: Text('Erro desconhecido'),
-          );
-        },
+                  );
+                  return Center(
+                    child: Text(state.message),
+                  );
+                }
+                return const Center(
+                  child: Text('Erro desconhecido'),
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
