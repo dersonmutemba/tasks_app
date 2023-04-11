@@ -5,8 +5,7 @@ import 'bloc.dart';
 
 class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
   final NoteContract noteRepository;
-  NotePageBloc({required this.noteRepository})
-      : super(Loading()) {
+  NotePageBloc({required this.noteRepository}) : super(Loading()) {
     on<Load>(_loadNote);
     on<Create>(_createNote);
     on<Save>(_saveNote);
@@ -21,14 +20,26 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
   }
 
   void _createNote(Create event, emit) async {
-    emit(Creating());
-    // TODO: Add logic for saving notes periodically
-    emit(Error(message: 'Logic not created yet'));
+    emit(Saving());
+    var response = await noteRepository.insertNote(event.note);
+    response.fold((l) {
+      event.onFailure(l);
+      emit(Saved(message: 'Note saved successfully'));
+    }, (r) {
+      event.onSuccess();
+      emit(Error(message: 'Note not saved'));
+    });
   }
 
   void _saveNote(Save event, emit) async {
     emit(Saving());
-    // TODO: Add logic for saving notes periodically
-    emit(Error(message: 'Logic not created yet'));
+    var response = await noteRepository.insertNote(event.note);
+    response.fold((l) {
+      event.onFailure(l);
+      emit(Saved(message: 'Note saved successfully'));
+    }, (r) {
+      event.onSuccess();
+      emit(Error(message: 'Note not saved'));
+    });
   }
 }

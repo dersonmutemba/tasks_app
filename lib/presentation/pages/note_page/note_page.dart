@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/error/failure.dart';
-import '../../../domain/contracts/note_contract.dart';
 import '../../../domain/entities/note.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
@@ -23,45 +22,47 @@ class NotePage extends StatelessWidget {
       body: SafeArea(
         child: WillPopScope(
           onWillPop: () async {
-            var noteRepository = serviceLocator.get<NoteContract>();
-            if (note == null) {
-              var response = await noteRepository.insertNote(Note(
-                id: const Uuid().v1(),
-                title: noteTitleController.text,
-                content: noteContentController.text,
-                createdAt: DateTime.now(),
-                lastEdited: DateTime.now(),
-              ));
-              response.fold((l) {
-                if (l is CacheFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Note not saved')),
-                  );
-                }
-              }, (r) {
+            onFailure(Failure l) {
+              if (l is CacheFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Note saved')),
-                );
-              });
-            } else {
-              var response = await noteRepository.updateNote(Note(
-                id: note!.id,
-                title: noteTitleController.text,
-                content: noteContentController.text,
-                createdAt: note!.createdAt,
-                lastEdited: noteTitleController.text == note!.title &&
-                        noteContentController.text == note!.content
-                    ? note!.lastEdited
-                    : DateTime.now(),
-              ));
-              response.fold(
-                (l) => ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Note not saved')),
-                ),
-                (r) => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Note saved')),
-                ),
+                );
+              }
+            }
+
+            onSuccess() {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Note saved')),
               );
+            }
+
+            if (note == null) {
+              noteBloc.add(Create(
+                note: Note(
+                  id: const Uuid().v1(),
+                  title: noteTitleController.text,
+                  content: noteContentController.text,
+                  createdAt: DateTime.now(),
+                  lastEdited: DateTime.now(),
+                ),
+                onFailure: onFailure,
+                onSuccess: onSuccess,
+              ));
+            } else {
+              noteBloc.add(Save(
+                note: Note(
+                  id: note!.id,
+                  title: noteTitleController.text,
+                  content: noteContentController.text,
+                  createdAt: note!.createdAt,
+                  lastEdited: noteTitleController.text == note!.title &&
+                          noteContentController.text == note!.content
+                      ? note!.lastEdited
+                      : DateTime.now(),
+                ),
+                onFailure: onFailure,
+                onSuccess: onSuccess,
+              ));
             }
             return true;
           },
