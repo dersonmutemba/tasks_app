@@ -16,7 +16,7 @@ class NoteView extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => NotePage(context, id: note.id),
+          builder: (BuildContext context) => NotePage(context, note: note),
         ),
       ),
     );
