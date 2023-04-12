@@ -1,15 +1,11 @@
-class HomeState {
+import 'package:equatable/equatable.dart';
+
+class HomeState extends Equatable {
   final String title;
   const HomeState({required this.title});
 
   @override
-  bool operator ==(Object other) =>
-      other is HomeState &&
-      other.runtimeType == runtimeType &&
-      other.title == title;
-
-  @override
-  int get hashCode => runtimeType.hashCode;
+  List<Object> get props => [title];
 }
 
 class SelectedTasksHome extends HomeState {
