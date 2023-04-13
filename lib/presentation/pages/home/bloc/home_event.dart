@@ -10,3 +10,5 @@ class HomeEvent extends Equatable {
 class TasksHomeSelected extends HomeEvent {}
 
 class NotesHomeSelected extends HomeEvent {}
+
+class Dismiss extends HomeEvent {}

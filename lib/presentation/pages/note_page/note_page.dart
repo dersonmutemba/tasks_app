@@ -18,52 +18,57 @@ class NotePage extends StatelessWidget {
     TextEditingController noteTitleController = TextEditingController();
     TextEditingController noteContentController = TextEditingController();
     var noteBloc = serviceLocator.get<NotePageBloc>();
+
+    Future saveNoteBeforeExit() async {
+      onFailure(Failure l) {
+        if (l is CacheFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Note not saved')),
+          );
+        }
+      }
+
+      onSuccess() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Note saved')),
+        );
+      }
+
+      if (note == null) {
+        noteBloc.add(Create(
+          note: Note(
+            id: const Uuid().v1(),
+            title: noteTitleController.text,
+            content: noteContentController.text,
+            createdAt: DateTime.now(),
+            lastEdited: DateTime.now(),
+          ),
+          onFailure: onFailure,
+          onSuccess: onSuccess,
+        ));
+      } else {
+        noteBloc.add(Save(
+          note: Note(
+            id: note!.id,
+            title: noteTitleController.text,
+            content: noteContentController.text,
+            createdAt: note!.createdAt,
+            lastEdited: noteTitleController.text == note!.title &&
+                    noteContentController.text == note!.content
+                ? note!.lastEdited
+                : DateTime.now(),
+          ),
+          onFailure: onFailure,
+          onSuccess: onSuccess,
+        ));
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: WillPopScope(
           onWillPop: () async {
-            onFailure(Failure l) {
-              if (l is CacheFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Note not saved')),
-                );
-              }
-            }
-
-            onSuccess() {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Note saved')),
-              );
-            }
-
-            if (note == null) {
-              noteBloc.add(Create(
-                note: Note(
-                  id: const Uuid().v1(),
-                  title: noteTitleController.text,
-                  content: noteContentController.text,
-                  createdAt: DateTime.now(),
-                  lastEdited: DateTime.now(),
-                ),
-                onFailure: onFailure,
-                onSuccess: onSuccess,
-              ));
-            } else {
-              noteBloc.add(Save(
-                note: Note(
-                  id: note!.id,
-                  title: noteTitleController.text,
-                  content: noteContentController.text,
-                  createdAt: note!.createdAt,
-                  lastEdited: noteTitleController.text == note!.title &&
-                          noteContentController.text == note!.content
-                      ? note!.lastEdited
-                      : DateTime.now(),
-                ),
-                onFailure: onFailure,
-                onSuccess: onSuccess,
-              ));
-            }
+            await saveNoteBeforeExit();
             return true;
           },
           child: BlocProvider(
@@ -88,6 +93,7 @@ class NotePage extends StatelessWidget {
                           MyIconButton(
                             iconData: Icons.arrow_back_ios,
                             onPressed: () {
+                              saveNoteBeforeExit();
                               Navigator.pop(context);
                             },
                           ),
