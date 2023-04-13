@@ -33,7 +33,7 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
 
   void _saveNote(Save event, emit) async {
     emit(Saving());
-    var response = await noteRepository.insertNote(event.note);
+    var response = await noteRepository.updateNote(event.note);
     response.fold((l) {
       event.onFailure(l);
       emit(Error(message: 'Note not saved'));
