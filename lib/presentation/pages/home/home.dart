@@ -61,11 +61,12 @@ class Home extends StatelessWidget {
               ),
             ),
             floatingActionButton: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                context.read<HomeBloc>().add(Dismiss());
                 if (state is SelectedTasksHome) {
                   // TODO: Add code for fab click on task
                 } else if (state is SelectedNotesHome) {
-                  Navigator.push(
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext notePageContext) =>
