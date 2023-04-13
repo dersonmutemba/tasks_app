@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../injection_container.dart';
+import '../../../pages/note_page/note_page.dart';
 import '../note_view.dart';
 import 'bloc/bloc.dart';
 
@@ -26,7 +27,18 @@ class NoteList extends StatelessWidget {
             return ListView.builder(
               itemCount: state.notes.length,
               itemBuilder: (context, index) {
-                return NoteView(note: state.notes[index]);
+                return NoteView(
+                    note: state.notes[index],
+                    openNote: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              NotePage(context, note: state.notes[index]),
+                        ),
+                      ).then(
+                          (value) => context.read<NoteListBloc>().add(Load()));
+                    });
               },
             );
           }
