@@ -10,6 +10,7 @@ class NoteListBloc extends Bloc<NoteListEvent, NoteListState> {
   NoteListBloc({required this.getNotes}) : super(Loading()) {
     on<Load>(
       (event, emit) async {
+        emit(Loading());
         var result = await getNotes(NoParams());
         result.fold((l) {
           if (l is ServerFailure) {
