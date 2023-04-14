@@ -43,6 +43,7 @@ class NoteRepository implements NoteContract {
     } else {
       try {
         final localNotes = await localDataSource.getNotes();
+        localNotes.sort((a, b) => b.lastEdited.compareTo(a.lastEdited));
         return Right(localNotes);
       } on CacheException {
         return Left(CacheFailure());
@@ -71,9 +72,9 @@ class NoteRepository implements NoteContract {
 
   @override
   Future<Either<Failure, Success>> updateNote(Note note) async {
-    try{
+    try {
       _handleEmptyNotes(note);
-      if(await networkInfo.isConnected) {
+      if (await networkInfo.isConnected) {
         await localDataSource.updateNote(NoteModel.fromNote(note));
         await remoteDataSource.updateNote(note);
         return Right(RemoteUpdateSuccess());
