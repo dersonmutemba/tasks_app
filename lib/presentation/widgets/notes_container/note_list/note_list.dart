@@ -27,7 +27,9 @@ class NoteList extends StatelessWidget {
             return ListView.builder(
               itemCount: state.notes.length,
               itemBuilder: (context, index) {
-                return NoteView(
+                return Dismissible(
+                  key: ValueKey(state.notes[index]),
+                  child: NoteView(
                     note: state.notes[index],
                     openNote: () async {
                       await Navigator.push(
@@ -38,7 +40,9 @@ class NoteList extends StatelessWidget {
                         ),
                       ).then(
                           (value) => context.read<NoteListBloc>().add(Load()));
-                    });
+                    },
+                  ),
+                );
               },
             );
           }
