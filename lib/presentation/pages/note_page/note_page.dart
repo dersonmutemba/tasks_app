@@ -92,8 +92,8 @@ class NotePage extends StatelessWidget {
                           ),
                           MyIconButton(
                             iconData: Icons.arrow_back_ios,
-                            onPressed: () {
-                              saveNoteBeforeExit();
+                            onPressed: () async {
+                              await saveNoteBeforeExit();
                               Navigator.pop(context);
                             },
                           ),
