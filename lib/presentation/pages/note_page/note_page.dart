@@ -19,6 +19,10 @@ class NotePage extends StatelessWidget {
     TextEditingController noteContentController = TextEditingController();
     var noteBloc = serviceLocator.get<NotePageBloc>();
 
+    void pop() {
+      Navigator.pop(context);
+    }
+
     Future saveNoteBeforeExit() async {
       onFailure(Failure l) {
         if (l is CacheFailure) {
@@ -94,7 +98,7 @@ class NotePage extends StatelessWidget {
                             iconData: Icons.arrow_back_ios,
                             onPressed: () async {
                               await saveNoteBeforeExit();
-                              Navigator.pop(context);
+                              pop();
                             },
                           ),
                           const Spacer(),
