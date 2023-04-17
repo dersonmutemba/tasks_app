@@ -19,10 +19,6 @@ class NotePage extends StatelessWidget {
     TextEditingController noteContentController = TextEditingController();
     var noteBloc = serviceLocator.get<NotePageBloc>();
 
-    void pop() {
-      Navigator.pop(context);
-    }
-
     Future saveNoteBeforeExit() async {
       onFailure(Failure l) {
         if (l is CacheFailure) {
@@ -98,7 +94,9 @@ class NotePage extends StatelessWidget {
                             iconData: Icons.arrow_back_ios,
                             onPressed: () async {
                               await saveNoteBeforeExit();
-                              pop();
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
                             },
                           ),
                           const Spacer(),
@@ -106,6 +104,54 @@ class NotePage extends StatelessWidget {
                             iconData: Icons.more_vert,
                             onPressed: () {
                               // TODO: Add a popup menu and some options
+                              showMenu(
+                                  context: context,
+                                  position: const RelativeRect.fromLTRB(
+                                      100, 0, 0, 100),
+                                  items: [
+                                    PopupMenuItem(
+                                      child: Row(
+                                        children: const [
+                                          Icon(Icons.redo),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text('Redo'),
+                                        ],
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      child: Row(
+                                        children: const [
+                                          Icon(Icons.undo),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text('Undo'),
+                                        ],
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      child: Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.delete_outline_rounded,
+                                            color: Colors.red,
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(
+                                            'Delete',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ]);
                             },
                           ),
                           const SizedBox(
