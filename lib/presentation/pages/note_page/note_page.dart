@@ -6,6 +6,7 @@ import '../../../core/error/failure.dart';
 import '../../../domain/entities/note.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
+import '../../widgets/my_popup_menu_item.dart';
 import 'bloc/bloc.dart';
 
 class NotePage extends StatelessWidget {
@@ -103,53 +104,24 @@ class NotePage extends StatelessWidget {
                           MyIconButton(
                             iconData: Icons.more_vert,
                             onPressed: () {
-                              // TODO: Add a popup menu and some options
                               showMenu(
                                   context: context,
                                   position: const RelativeRect.fromLTRB(
                                       100, 0, 0, 100),
                                   items: [
-                                    PopupMenuItem(
-                                      child: Row(
-                                        children: const [
-                                          Icon(Icons.redo),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text('Redo'),
-                                        ],
-                                      ),
+                                    MyPopupMenuItem(
+                                      title: 'Redo',
+                                      icon: Icons.redo,
                                     ),
-                                    PopupMenuItem(
-                                      child: Row(
-                                        children: const [
-                                          Icon(Icons.undo),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text('Undo'),
-                                        ],
-                                      ),
+                                    MyPopupMenuItem(
+                                      title: 'Undo',
+                                      icon: Icons.undo,
                                     ),
-                                    PopupMenuItem(
-                                      child: Row(
-                                        children: const [
-                                          Icon(
-                                            Icons.delete_outline_rounded,
-                                            color: Colors.red,
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text(
-                                            'Delete',
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    MyPopupMenuItem(
+                                      title: 'Delete',
+                                      icon: Icons.delete_outline_rounded,
+                                      color: Colors.red,
+                                      isImportant: true,
                                     ),
                                   ]);
                             },
