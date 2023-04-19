@@ -31,32 +31,7 @@ class NoteList extends StatelessWidget {
                   key: ValueKey(state.notes[index]),
                   confirmDismiss: (direction) async {
                     if (direction == DismissDirection.endToStart) {
-                      return await showDialog<bool>(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Do you want to delete?'),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, true);
-                                },
-                                child: const Text('Yes'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, false);
-                                },
-                                child: const Text('No'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      
                     }
                     return false;
                   },
