@@ -5,14 +5,17 @@ class MyPopupMenuItem extends PopupMenuItem {
   final IconData? icon;
   final Color? color;
   final bool isImportant;
+  final Function() onClick;
   MyPopupMenuItem(
       {Key? key,
       required this.title,
       this.icon,
       this.color,
-      this.isImportant = false})
+      this.isImportant = false,
+      required this.onClick})
       : super(
           key: key,
+          onTap: onClick,
           child: Row(
             children: [
               Icon(
@@ -34,5 +37,4 @@ class MyPopupMenuItem extends PopupMenuItem {
             ],
           ),
         );
-        // TODO: Add a required onTap method
 }

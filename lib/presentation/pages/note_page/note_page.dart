@@ -112,16 +112,57 @@ class NotePage extends StatelessWidget {
                                     MyPopupMenuItem(
                                       title: 'Redo',
                                       icon: Icons.redo,
+                                      onClick: () {
+                                        // TODO: Add logic for redo
+                                      },
                                     ),
                                     MyPopupMenuItem(
                                       title: 'Undo',
                                       icon: Icons.undo,
+                                      onClick: () {
+                                        // TODO: Add logic for undo
+                                      },
                                     ),
                                     MyPopupMenuItem(
                                       title: 'Delete',
                                       icon: Icons.delete_outline_rounded,
                                       color: Colors.red,
                                       isImportant: true,
+                                      onClick: () async {
+                                        bool? mustDelete =  await showDialog<bool>(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Do you want to delete?'),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5)),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(
+                                                        context, true);
+                                                  },
+                                                  child: const Text('Yes'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(
+                                                        context, false);
+                                                  },
+                                                  child: const Text('No'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                        if(mustDelete!) {
+                                          // TODO: Add logic for delete notes
+                                        }
+                                      },
                                     ),
                                   ]);
                             },
