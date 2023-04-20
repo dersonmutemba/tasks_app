@@ -30,11 +30,20 @@ class NoteList extends StatelessWidget {
                 return Dismissible(
                   key: ValueKey(state.notes[index]),
                   confirmDismiss: (direction) async {
-                    if (direction == DismissDirection.endToStart) {
-                      
-                    }
+                    if (direction == DismissDirection.endToStart) {}
                     return false;
                   },
+                  background: Container(),
+                  secondaryBackground: Container(
+                    color: Colors.red,
+                    padding: const EdgeInsets.all(24),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        Image.asset('assets/gifs/white_trash_bin.gif'),
+                      ],
+                    ),
+                  ),
                   child: NoteView(
                     note: state.notes[index],
                     openNote: () async {
