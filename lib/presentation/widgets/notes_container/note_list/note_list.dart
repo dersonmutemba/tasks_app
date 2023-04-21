@@ -11,8 +11,9 @@ class NoteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var noteListBloc = serviceLocator<NoteListBloc>();
     return BlocProvider(
-      create: (arg) => serviceLocator<NoteListBloc>()..add(Load()),
+      create: (arg) => noteListBloc..add(Load()),
       child: BlocBuilder<NoteListBloc, NoteListState>(
         builder: ((context, state) {
           if (state is Empty) {
@@ -30,7 +31,17 @@ class NoteList extends StatelessWidget {
                 return Dismissible(
                   key: ValueKey(state.notes[index]),
                   confirmDismiss: (direction) async {
-                    if (direction == DismissDirection.endToStart) {}
+                    if (direction == DismissDirection.endToStart) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text('Note deleted'),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () => noteListBloc.add(Load()),
+                        ),
+                        duration: const Duration(seconds: 3),
+                      ));
+                      return true;
+                    }
                     return false;
                   },
                   background: Container(),
