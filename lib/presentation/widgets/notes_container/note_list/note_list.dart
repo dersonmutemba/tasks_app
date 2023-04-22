@@ -11,6 +11,7 @@ class NoteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
     var noteListBloc = serviceLocator<NoteListBloc>();
     return BlocProvider(
       create: (arg) => noteListBloc..add(Load()),
@@ -25,51 +26,72 @@ class NoteList extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state is Loaded) {
-            return ListView.builder(
-              itemCount: state.notes.length,
-              itemBuilder: (context, index) {
-                return Dismissible(
-                  key: ValueKey(state.notes[index]),
-                  confirmDismiss: (direction) async {
-                    if (direction == DismissDirection.endToStart) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text('Note deleted'),
-                        action: SnackBarAction(
-                          label: 'Undo',
-                          onPressed: () => noteListBloc.add(Load()),
-                        ),
-                        duration: const Duration(seconds: 3),
-                      ));
-                      return true;
-                    }
-                    return false;
-                  },
-                  background: Container(),
-                  secondaryBackground: Container(
-                    color: Colors.red,
-                    padding: const EdgeInsets.all(24),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        Image.asset('assets/gifs/white_trash_bin.gif'),
-                      ],
+            return Column(
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.only(left: 20, bottom: 10, right: 20),
+                  child: TextField(
+                    controller: searchController,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      hintText: 'Search...',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
                     ),
+                    maxLines: 1,
                   ),
-                  child: NoteView(
-                    note: state.notes[index],
-                    openNote: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              NotePage(context, note: state.notes[index]),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.notes.length,
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        key: ValueKey(state.notes[index]),
+                        confirmDismiss: (direction) async {
+                          if (direction == DismissDirection.endToStart) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: const Text('Note deleted'),
+                              action: SnackBarAction(
+                                label: 'Undo',
+                                onPressed: () => noteListBloc.add(Load()),
+                              ),
+                              duration: const Duration(seconds: 3),
+                            ));
+                            return true;
+                          }
+                          return false;
+                        },
+                        background: Container(),
+                        secondaryBackground: Container(
+                          color: Colors.red,
+                          padding: const EdgeInsets.all(24),
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              Image.asset('assets/gifs/white_trash_bin.gif'),
+                            ],
+                          ),
                         ),
-                      ).then(
-                          (value) => context.read<NoteListBloc>().add(Load()));
+                        child: NoteView(
+                          note: state.notes[index],
+                          openNote: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    NotePage(context, note: state.notes[index]),
+                              ),
+                            ).then((value) =>
+                                context.read<NoteListBloc>().add(Load()));
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
+                ),
+              ],
             );
           }
           return Container();
