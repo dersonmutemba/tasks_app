@@ -102,6 +102,10 @@ class NotePage extends StatelessWidget {
                           ),
                           const Spacer(),
                           MyIconButton(
+                            iconData: Icons.ios_share_rounded,
+                            onPressed: () {},
+                          ),
+                          MyIconButton(
                             iconData: Icons.more_vert,
                             onPressed: () {
                               showMenu(
