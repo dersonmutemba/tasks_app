@@ -11,7 +11,6 @@ class MyIconButton extends StatelessWidget {
       onPressed: onPressed,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(vertical: 10),
-      iconSize: 30,
       icon: Icon(
         iconData,
       ),
