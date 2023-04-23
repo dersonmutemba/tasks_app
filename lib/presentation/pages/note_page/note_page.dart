@@ -6,6 +6,7 @@ import '../../../core/error/failure.dart';
 import '../../../domain/entities/note.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
+import '../../widgets/my_popup_menu_item.dart';
 import 'bloc/bloc.dart';
 
 class NotePage extends StatelessWidget {
@@ -92,16 +93,95 @@ class NotePage extends StatelessWidget {
                           ),
                           MyIconButton(
                             iconData: Icons.arrow_back_ios,
-                            onPressed: () {
-                              saveNoteBeforeExit();
-                              Navigator.pop(context);
+                            onPressed: () async {
+                              await saveNoteBeforeExit();
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
                             },
                           ),
                           const Spacer(),
                           MyIconButton(
+                            iconData: Icons.ios_share_rounded,
+                            onPressed: () {},
+                          ),
+                          MyIconButton(
                             iconData: Icons.more_vert,
                             onPressed: () {
-                              // TODO: Add a popup menu and some options
+                              showMenu(
+                                  context: context,
+                                  position: const RelativeRect.fromLTRB(
+                                      100, 0, 0, 100),
+                                  items: [
+                                    MyPopupMenuItem(
+                                      title: 'Redo',
+                                      icon: Icons.redo,
+                                      onClick: () {
+                                        // TODO: Add logic for redo
+                                      },
+                                    ),
+                                    MyPopupMenuItem(
+                                      title: 'Undo',
+                                      icon: Icons.undo,
+                                      onClick: () {
+                                        // TODO: Add logic for undo
+                                      },
+                                    ),
+                                    MyPopupMenuItem(
+                                      title: 'Delete',
+                                      icon: Icons.delete_outline_rounded,
+                                      color: Colors.red,
+                                      isImportant: true,
+                                      onClick: () {
+                                        Future.delayed(
+                                            const Duration(seconds: 0),
+                                            () async {
+                                          bool? mustDelete = await showDialog<
+                                                  bool>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Do you want to delete?'),
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5)),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context, true);
+                                                        },
+                                                        child:
+                                                            const Text('Yes'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context, false);
+                                                        },
+                                                        child: const Text('No'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ) ??
+                                              false;
+                                          if (mustDelete) {
+                                            // TODO: Add logic for delete notes
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                            }
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ]);
                             },
                           ),
                           const SizedBox(
@@ -141,21 +221,9 @@ class NotePage extends StatelessWidget {
                       ),
                     ],
                   );
-                } else if (state is Loading) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 10),
-                        Text('Loading'),
-                      ],
-                    ),
-                  );
-                } else if (state is Saving) {
-                  // TODO: Add a popup window
+                } else if (state is Loading || state is Saving) {
                   return const Center(
-                    child: Text('Widget to be added'),
+                    child: CircularProgressIndicator(),
                   );
                 } else if (state is Error) {
                   return Container(
@@ -170,7 +238,7 @@ class NotePage extends StatelessWidget {
                   );
                 }
                 return const Center(
-                  child: Text('Erro desconhecido'),
+                  child: Text('Unknown error'),
                 );
               },
             ),
