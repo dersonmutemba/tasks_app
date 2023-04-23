@@ -94,4 +94,10 @@ class NoteRepository implements NoteContract {
       throw EmptyNoteException();
     }
   }
+  
+  @override
+  Future<Either<Failure, Success>> deleteNote(String id) {
+    // TODO: implement deleteNote
+    throw UnimplementedError();
+  }
 }
