@@ -221,21 +221,9 @@ class NotePage extends StatelessWidget {
                       ),
                     ],
                   );
-                } else if (state is Loading) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 10),
-                        Text('Loading'),
-                      ],
-                    ),
-                  );
-                } else if (state is Saving) {
-                  // TODO: Add a popup window
+                } else if (state is Loading || state is Saving) {
                   return const Center(
-                    child: Text('Widget to be added'),
+                    child: CircularProgressIndicator(),
                   );
                 } else if (state is Error) {
                   return Container(
@@ -250,7 +238,7 @@ class NotePage extends StatelessWidget {
                   );
                 }
                 return const Center(
-                  child: Text('Erro desconhecido'),
+                  child: Text('Unknown error'),
                 );
               },
             ),
