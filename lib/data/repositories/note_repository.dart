@@ -89,15 +89,25 @@ class NoteRepository implements NoteContract {
     }
   }
 
+  @override
+  Future<Either<Failure, Success>> deleteNote(String id) async {
+    try {
+      if (await networkInfo.isConnected) {
+        await localDataSource.deleteNote(id);
+        await remoteDataSource.deleteNote(id);
+        return Right(RemoteDeleteSuccess());
+      } else {
+        await localDataSource.deleteNote(id);
+        return Right(DeleteSuccess());
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
   void _handleEmptyNotes(Note note) {
     if (note.title.trim() == '' && note.content.trim() == '') {
       throw EmptyNoteException();
     }
-  }
-  
-  @override
-  Future<Either<Failure, Success>> deleteNote(String id) {
-    // TODO: implement deleteNote
-    throw UnimplementedError();
   }
 }
