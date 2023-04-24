@@ -255,7 +255,7 @@ void main() {
       expect(actual, Right(UpdateSuccess()));
     });
 
-    test('Should retirm EmptyNoteFailure if Note has only spaces', () async {
+    test('Should return EmptyNoteFailure if Note has only spaces', () async {
       final actual = await repository.updateNote(updatedEmptyNoteModel);
       expect(actual, Left(EmptyNoteFailure()));
     });
