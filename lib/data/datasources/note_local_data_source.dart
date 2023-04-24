@@ -69,8 +69,7 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
   }
   
   @override
-  Future<void> deleteNote(String id) {
-    // TODO: implement deleteNote
-    throw UnimplementedError();
+  Future<void> deleteNote(String id) async {
+    await localDatabase.delete(table, [columns.first], [id]);
   }
 }
