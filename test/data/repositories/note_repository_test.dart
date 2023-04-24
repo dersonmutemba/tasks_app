@@ -175,6 +175,38 @@ void main() {
       verifyNoMoreInteractions(mockNoteLocalDataSource);
       verifyNoMoreInteractions(mockNoteRemoteDataSource);
     });
+
+    test(
+        'Should attempt to delete in local database before attempting to delete remotely',
+        () async {
+      when(mockNoteRemoteDataSource.deleteNote(testId))
+          .thenAnswer((realInvocation) async => Right(RemoteDeleteSuccess()));
+
+      await repository.deleteNote(testId);
+
+      verify(mockNoteLocalDataSource.deleteNote(testId));
+
+      when(mockNoteRemoteDataSource.deleteNote(testId))
+          .thenAnswer((realInvocation) async => Left(ServerFailure()));
+
+      await repository.deleteNote(testId);
+
+      verify(mockNoteLocalDataSource.deleteNote(testId));
+    });
+
+    test('Should delete notes successfully', () async {
+      when(mockNoteRemoteDataSource.deleteNote(testId))
+          .thenAnswer((realInvocation) async => Right(RemoteDeleteSuccess()));
+
+      final actual = await repository.deleteNote(testId);
+
+      expect(actual, Right(RemoteDeleteSuccess()));
+
+      verify(mockNoteRemoteDataSource.deleteNote(testId));
+      verify(mockNoteLocalDataSource.deleteNote(testId));
+      verifyNoMoreInteractions(mockNoteRemoteDataSource);
+      verifyNoMoreInteractions(mockNoteLocalDataSource);
+    });
   });
 
   group('If device is offline', () {
@@ -253,6 +285,17 @@ void main() {
       verifyZeroInteractions(mockNoteRemoteDataSource);
       verify(mockNoteLocalDataSource.updateNote(updatedTestNoteModel));
       expect(actual, Right(UpdateSuccess()));
+    });
+
+    test('Should delete note in device', () async {
+      when(mockNoteLocalDataSource.deleteNote(testId))
+          .thenAnswer((realInvocation) async => Right(DeleteSuccess()));
+      
+      final actual = await repository.deleteNote(testId);
+
+      verifyZeroInteractions(mockNoteRemoteDataSource);
+      verify(mockNoteLocalDataSource.deleteNote(testId));
+      expect(actual, Right(DeleteSuccess()));
     });
 
     test('Should return EmptyNoteFailure if Note has only spaces', () async {
