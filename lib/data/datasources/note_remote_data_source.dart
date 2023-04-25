@@ -9,6 +9,8 @@ abstract class NoteRemoteDataSource {
   Future<void> insertNote(Note note);
 
   Future<void> updateNote(Note note);
+
+  Future<void> deleteNote(String id);
 }
 
 class NoteRemoteDataSourceImplementation implements NoteRemoteDataSource {
@@ -16,7 +18,7 @@ class NoteRemoteDataSourceImplementation implements NoteRemoteDataSource {
   NoteRemoteDataSourceImplementation({required this.client});
 
   @override
-  Future<List<NoteModel>> getNotes() {
+  Future<List<NoteModel>> getNotes() async {
     // TODO: implement getNotes
     throw UnimplementedError();
   }
@@ -28,8 +30,14 @@ class NoteRemoteDataSourceImplementation implements NoteRemoteDataSource {
   }
   
   @override
-  Future<void> updateNote(Note note) {
+  Future<void> updateNote(Note note) async {
     // TODO: implement updateNote
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> deleteNote(String id) async {
+    // TODO: implement deleteNote
     throw UnimplementedError();
   }
 }

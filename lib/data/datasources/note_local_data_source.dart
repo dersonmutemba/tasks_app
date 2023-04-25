@@ -14,6 +14,8 @@ abstract class NoteLocalDataSource {
   Future<String> insertNote(NoteModel note);
 
   Future<void> updateNote(NoteModel note);
+
+  Future<void> deleteNote(String id);
 }
 
 class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
@@ -64,5 +66,10 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
   Future<void> updateNote(NoteModel note) async {
     await localDatabase.update(table, note.toJson(), [columns.first],
         [note.toJson().values.toList().first]);
+  }
+  
+  @override
+  Future<void> deleteNote(String id) async {
+    await localDatabase.delete(table, [columns.first], [id]);
   }
 }

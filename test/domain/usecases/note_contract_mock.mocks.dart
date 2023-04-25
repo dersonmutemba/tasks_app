@@ -137,4 +137,29 @@ class MockNoteContract extends _i1.Mock implements _i3.NoteContract {
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> deleteNote(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteNote,
+          [id],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #deleteNote,
+            [id],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #deleteNote,
+            [id],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
 }

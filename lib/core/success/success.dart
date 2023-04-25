@@ -21,3 +21,7 @@ class RemoteInsertionSuccess extends Success {
 class UpdateSuccess extends Success {}
 
 class RemoteUpdateSuccess extends Success {}
+
+class RemoteDeleteSuccess extends Success {}
+
+class DeleteSuccess extends Success {}

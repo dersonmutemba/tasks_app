@@ -5,6 +5,7 @@ class MyPopupMenuItem extends PopupMenuItem {
   final IconData? icon;
   final Color? color;
   final bool isImportant;
+  final bool isEnabled;
   final Function() onClick;
   MyPopupMenuItem(
       {Key? key,
@@ -12,10 +13,12 @@ class MyPopupMenuItem extends PopupMenuItem {
       this.icon,
       this.color,
       this.isImportant = false,
+      this.isEnabled = true,
       required this.onClick})
       : super(
           key: key,
           onTap: onClick,
+          enabled: isEnabled,
           child: Row(
             children: [
               Icon(

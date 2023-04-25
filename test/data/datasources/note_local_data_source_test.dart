@@ -106,5 +106,11 @@ void main() {
       expect(actualTitle, matcherTitle);
       expect(actualContent, matcherContent);
     });
+
+    test('Delete Note', () async {
+      await noteLocalDataSource.deleteNote(testNoteModel.id);
+      var future = noteLocalDataSource.getNote(testNoteModel.id);
+      expect(future, throwsA(isA<CacheException>()));
+    });
   });
 }

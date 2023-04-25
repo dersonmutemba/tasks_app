@@ -18,7 +18,7 @@ class NotePage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController noteTitleController = TextEditingController();
     TextEditingController noteContentController = TextEditingController();
-    var noteBloc = serviceLocator.get<NotePageBloc>();
+    var noteBloc = serviceLocator<NotePageBloc>();
 
     Future saveNoteBeforeExit() async {
       onFailure(Failure l) {
@@ -132,6 +132,7 @@ class NotePage extends StatelessWidget {
                                       icon: Icons.delete_outline_rounded,
                                       color: Colors.red,
                                       isImportant: true,
+                                      isEnabled: note != null,
                                       onClick: () {
                                         Future.delayed(
                                             const Duration(seconds: 0),
