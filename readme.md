@@ -9,4 +9,8 @@ App for saving Notes and track Tasks.
 ## Overview
 
 This is Flutter app that is mainly focused on organizing tasks and notes.
-Currently it consists only of business logic, models and controllers for notes.
+
+Here is a preview of the prototype of the app:
+
+![image](https://user-images.githubusercontent.com/55860970/234390949-80c81f81-f16f-4fdb-9b94-b300b1450965.png)
+
