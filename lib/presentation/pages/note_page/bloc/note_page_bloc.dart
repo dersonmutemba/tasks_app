@@ -1,11 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/contracts/note_contract.dart';
+import '../../../../domain/usecases/insert_note.dart' as insert_note;
+import '../../../../domain/usecases/update_note.dart' as update_note;
 import 'bloc.dart';
 
 class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
-  final NoteContract noteRepository;
-  NotePageBloc({required this.noteRepository}) : super(Loading()) {
+  final insert_note.InsertNote insertNote;
+  final update_note.UpdateNote updateNote;
+  NotePageBloc({required this.insertNote, required this.updateNote})
+      : super(Loading()) {
     on<Load>(_loadNote);
     on<Create>(_createNote);
     on<Save>(_saveNote);
@@ -21,7 +24,7 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
 
   void _createNote(Create event, emit) async {
     emit(Saving());
-    var response = await noteRepository.insertNote(event.note);
+    var response = await insertNote(insert_note.Params(note: event.note));
     response.fold((l) {
       event.onFailure(l);
       emit(Saved(message: 'Note saved successfully'));
@@ -33,7 +36,7 @@ class NotePageBloc extends Bloc<NotePageEvent, NotePageState> {
 
   void _saveNote(Save event, emit) async {
     emit(Saving());
-    var response = await noteRepository.updateNote(event.note);
+    var response = await updateNote(update_note.Params(note: event.note));
     response.fold((l) {
       event.onFailure(l);
       emit(Error(message: 'Note not saved'));

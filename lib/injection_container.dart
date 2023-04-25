@@ -12,8 +12,11 @@ import 'data/datasources/note_local_data_source.dart';
 import 'data/datasources/note_remote_data_source.dart';
 import 'data/repositories/note_repository.dart';
 import 'domain/contracts/note_contract.dart';
+import 'domain/usecases/delete_note.dart';
 import 'domain/usecases/get_note.dart';
 import 'domain/usecases/get_notes.dart';
+import 'domain/usecases/insert_note.dart';
+import 'domain/usecases/update_note.dart';
 import 'presentation/pages/note_page/bloc/note_page_bloc.dart';
 import 'presentation/widgets/notes_container/note_list/bloc/note_list_bloc.dart';
 
@@ -24,7 +27,8 @@ Future<void> init() async {
 
   serviceLocator.registerFactory(
     () => NotePageBloc(
-      noteRepository: serviceLocator(),
+      insertNote: serviceLocator(),
+      updateNote: serviceLocator(),
     ),
   );
 
@@ -32,8 +36,11 @@ Future<void> init() async {
     () => NoteListBloc(getNotes: serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton(() => DeleteNote(serviceLocator()));
   serviceLocator.registerLazySingleton(() => GetNote(serviceLocator()));
   serviceLocator.registerLazySingleton(() => GetNotes(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => InsertNote(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => UpdateNote(serviceLocator()));
 
   serviceLocator.registerLazySingleton<NoteContract>(
     () => NoteRepository(
