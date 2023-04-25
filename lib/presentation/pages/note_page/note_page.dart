@@ -18,7 +18,7 @@ class NotePage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController noteTitleController = TextEditingController();
     TextEditingController noteContentController = TextEditingController();
-    var noteBloc = serviceLocator.get<NotePageBloc>();
+    var noteBloc = serviceLocator<NotePageBloc>();
 
     Future saveNoteBeforeExit() async {
       onFailure(Failure l) {
