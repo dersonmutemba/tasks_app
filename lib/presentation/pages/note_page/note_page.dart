@@ -132,6 +132,7 @@ class NotePage extends StatelessWidget {
                                       icon: Icons.delete_outline_rounded,
                                       color: Colors.red,
                                       isImportant: true,
+                                      isEnabled: note != null,
                                       onClick: () {
                                         Future.delayed(
                                             const Duration(seconds: 0),
