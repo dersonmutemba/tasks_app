@@ -22,5 +22,8 @@ Here is a preview of the prototype of the app:
 
 Here are screenshots of the app now
 
-![1682545735635](https://user-images.githubusercontent.com/55860970/234711280-4ac413b4-90f1-4ea6-8297-d3bcbab363b3.jpg) ![1682545735580](https://user-images.githubusercontent.com/55860970/234711360-abded6f9-332e-409d-8291-eed651e6a0bf.jpg) ![1682545735610](https://user-images.githubusercontent.com/55860970/234711435-97e9c338-e9be-4d66-af11-592b0ebace3d.jpg)
+![1682545735635](https://user-images.githubusercontent.com/55860970/234718187-7d89d397-7709-4513-9591-9a5f28b7fd02.jpg)
+![1682545735580](https://user-images.githubusercontent.com/55860970/234718197-3d640db5-8641-409e-8736-28a74e48c8e2.jpg)
+![1682545735610](https://user-images.githubusercontent.com/55860970/234718205-d01ec27e-e21d-46ac-b378-eabaa2ea2f38.jpg)
+
 
