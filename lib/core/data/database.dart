@@ -61,7 +61,7 @@ class LocalDatabase {
           .toList();
       return result;
     }
-    return null;
+    return [];
   }
 
   Future<int> delete(String table, List<String> selectionColumns,
