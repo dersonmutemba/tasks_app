@@ -18,9 +18,11 @@ class NoteList extends StatelessWidget {
       child: BlocBuilder<NoteListBloc, NoteListState>(
         builder: ((context, state) {
           if (state is Empty) {
-            return const Text('Empty');
+            return const Center(
+              child: Text('No notes saved yet. Click on "+" to add one'),
+            );
           } else if (state is Error) {
-            return const Text('Error');
+            return const Center(child: Text('Error'));
           } else if (state is Loading) {
             return const Center(
               child: CircularProgressIndicator(),
