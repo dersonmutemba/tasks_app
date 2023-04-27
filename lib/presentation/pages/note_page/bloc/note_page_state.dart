@@ -17,6 +17,8 @@ class Loading extends NotePageState {
 
 class Creating extends NotePageState {}
 
+class Deleting extends NotePageState {}
+
 class Editing extends NotePageState {
   final Note note;
   Editing({required this.note});
