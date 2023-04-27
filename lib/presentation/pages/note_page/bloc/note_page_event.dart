@@ -20,10 +20,19 @@ class Create extends NotePageEvent {
   final Note note;
   final Function(Failure l) onFailure;
   final Function() onSuccess;
-  Create({required this.note, required this.onFailure, required this.onSuccess});
+  Create(
+      {required this.note, required this.onFailure, required this.onSuccess});
 
   @override
   List<Object> get props => [note];
+}
+
+class Delete extends NotePageEvent {
+  final String id;
+  Delete(this.id);
+
+  @override
+  List<Object> get props => [id];
 }
 
 class Save extends NotePageEvent {
