@@ -68,11 +68,15 @@ class NoteList extends StatelessWidget {
                         background: Container(),
                         secondaryBackground: Container(
                           color: Colors.red,
-                          padding: const EdgeInsets.all(24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: Row(
                             children: [
                               const Spacer(),
-                              Image.asset('assets/gifs/white_trash_bin.gif'),
+                              Image.asset(
+                                'assets/gifs/white_trash_bin.gif',
+                                height: 32,
+                                width: 32,
+                              ),
                             ],
                           ),
                         ),
