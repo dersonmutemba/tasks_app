@@ -27,6 +27,7 @@ Future<void> init() async {
 
   serviceLocator.registerFactory(
     () => NotePageBloc(
+      deleteNote: serviceLocator(),
       insertNote: serviceLocator(),
       updateNote: serviceLocator(),
     ),

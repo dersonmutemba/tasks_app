@@ -174,7 +174,7 @@ class NotePage extends StatelessWidget {
                                               ) ??
                                               false;
                                           if (mustDelete) {
-                                            // TODO: Add logic for delete notes
+                                            noteBloc.add(Delete(note!.id));
                                             if (context.mounted) {
                                               Navigator.pop(context);
                                             }
