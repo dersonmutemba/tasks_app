@@ -29,11 +29,7 @@ class NotePage extends StatelessWidget {
         }
       }
 
-      onSuccess() {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Note saved')),
-        );
-      }
+      onSuccess() {}
 
       if (note == null) {
         noteBloc.add(Create(
@@ -174,7 +170,7 @@ class NotePage extends StatelessWidget {
                                               ) ??
                                               false;
                                           if (mustDelete) {
-                                            // TODO: Add logic for delete notes
+                                            noteBloc.add(Delete(note!.id));
                                             if (context.mounted) {
                                               Navigator.pop(context);
                                             }

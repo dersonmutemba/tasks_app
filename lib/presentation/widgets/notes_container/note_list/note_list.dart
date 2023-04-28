@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../domain/usecases/delete_note.dart';
 import '../../../../injection_container.dart';
 import '../../../pages/note_page/note_page.dart';
 import '../note_view.dart';
@@ -53,14 +54,26 @@ class NoteList extends StatelessWidget {
                         key: ValueKey(state.notes[index]),
                         confirmDismiss: (direction) async {
                           if (direction == DismissDirection.endToStart) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: const Text('Note deleted'),
-                              action: SnackBarAction(
-                                label: 'Undo',
-                                onPressed: () => noteListBloc.add(Load()),
-                              ),
-                              duration: const Duration(seconds: 3),
-                            ));
+                            Future showDeleteSnackBar() async {
+                              var snackBar = ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: const Text('Note deleted'),
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () => noteListBloc.add(Load()),
+                                ),
+                                duration: const Duration(seconds: 3),
+                              ));
+                              if (await snackBar.closed !=
+                                  SnackBarClosedReason.action) {
+                                await serviceLocator<DeleteNote>()(
+                                    Params(id: state.notes[index].id));
+                                state.notes.removeAt(index);
+                                noteListBloc.add(Load());
+                              }
+                            }
+
+                            showDeleteSnackBar();
                             return true;
                           }
                           return false;
@@ -68,11 +81,15 @@ class NoteList extends StatelessWidget {
                         background: Container(),
                         secondaryBackground: Container(
                           color: Colors.red,
-                          padding: const EdgeInsets.all(24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: Row(
                             children: [
                               const Spacer(),
-                              Image.asset('assets/gifs/white_trash_bin.gif'),
+                              Image.asset(
+                                'assets/gifs/white_trash_bin.gif',
+                                height: 32,
+                                width: 32,
+                              ),
                             ],
                           ),
                         ),
