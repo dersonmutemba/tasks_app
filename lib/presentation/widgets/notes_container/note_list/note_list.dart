@@ -66,9 +66,10 @@ class NoteList extends StatelessWidget {
                               ));
                               if (await snackBar.closed !=
                                   SnackBarClosedReason.action) {
-                                serviceLocator<DeleteNote>()(
+                                await serviceLocator<DeleteNote>()(
                                     Params(id: state.notes[index].id));
                                 state.notes.removeAt(index);
+                                noteListBloc.add(Load());
                               }
                             }
 
