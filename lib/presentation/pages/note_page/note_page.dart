@@ -29,11 +29,7 @@ class NotePage extends StatelessWidget {
         }
       }
 
-      onSuccess() {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Note saved')),
-        );
-      }
+      onSuccess() {}
 
       if (note == null) {
         noteBloc.add(Create(
