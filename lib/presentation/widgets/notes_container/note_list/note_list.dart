@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../domain/usecases/delete_note.dart';
 import '../../../../injection_container.dart';
 import '../../../pages/note_page/note_page.dart';
 import '../note_view.dart';
@@ -53,14 +54,25 @@ class NoteList extends StatelessWidget {
                         key: ValueKey(state.notes[index]),
                         confirmDismiss: (direction) async {
                           if (direction == DismissDirection.endToStart) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: const Text('Note deleted'),
-                              action: SnackBarAction(
-                                label: 'Undo',
-                                onPressed: () => noteListBloc.add(Load()),
-                              ),
-                              duration: const Duration(seconds: 3),
-                            ));
+                            Future showDeleteSnackBar() async {
+                              var snackBar = ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: const Text('Note deleted'),
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () => noteListBloc.add(Load()),
+                                ),
+                                duration: const Duration(seconds: 3),
+                              ));
+                              if (await snackBar.closed !=
+                                  SnackBarClosedReason.action) {
+                                serviceLocator<DeleteNote>()(
+                                    Params(id: state.notes[index].id));
+                                state.notes.removeAt(index);
+                              }
+                            }
+
+                            showDeleteSnackBar();
                             return true;
                           }
                           return false;
