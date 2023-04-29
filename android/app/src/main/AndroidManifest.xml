@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tasks_app">
+    package="mz.co.deryandrady.tasks_app">
    <application
         android:label="tasks_app"
         android:name="${applicationName}"
