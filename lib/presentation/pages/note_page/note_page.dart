@@ -116,17 +116,17 @@ class NotePage extends StatelessWidget {
                                       100, 0, 0, 100),
                                   items: [
                                     MyPopupMenuItem(
-                                      title: 'Redo',
-                                      icon: Icons.redo,
-                                      onClick: () {
-                                        focusedController.redo();
-                                      },
-                                    ),
-                                    MyPopupMenuItem(
                                       title: 'Undo',
                                       icon: Icons.undo,
                                       onClick: () {
                                         focusedController.undo();
+                                      },
+                                    ),
+                                    MyPopupMenuItem(
+                                      title: 'Redo',
+                                      icon: Icons.redo,
+                                      onClick: () {
+                                        focusedController.redo();
                                       },
                                     ),
                                     MyPopupMenuItem(
