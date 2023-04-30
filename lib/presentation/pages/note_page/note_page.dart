@@ -17,8 +17,13 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late MyTextEditingController focusedController;
     MyTextEditingController noteTitleController = MyTextEditingController();
+    FocusNode noteTitleFocusNode = FocusNode()
+      ..addListener(() => focusedController = noteTitleController);
     MyTextEditingController noteContentController = MyTextEditingController();
+    FocusNode noteContentFocusNode = FocusNode()
+      ..addListener(() => focusedController = noteContentController);
     var noteBloc = serviceLocator<NotePageBloc>();
 
     Future saveNoteBeforeExit() async {
@@ -114,14 +119,14 @@ class NotePage extends StatelessWidget {
                                       title: 'Redo',
                                       icon: Icons.redo,
                                       onClick: () {
-                                        // TODO: Add logic for redo
+                                        focusedController.redo();
                                       },
                                     ),
                                     MyPopupMenuItem(
                                       title: 'Undo',
                                       icon: Icons.undo,
                                       onClick: () {
-                                        // TODO: Add logic for undo
+                                        focusedController.undo();
                                       },
                                     ),
                                     MyPopupMenuItem(
@@ -199,7 +204,7 @@ class NotePage extends StatelessWidget {
                               horizontal: 20, vertical: 10),
                         ),
                         style: Theme.of(context).textTheme.headlineMedium,
-                        onChanged: (value) {},
+                        focusNode: noteTitleFocusNode,
                       ),
                       Expanded(
                         child: TextField(
@@ -215,6 +220,7 @@ class NotePage extends StatelessWidget {
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                           ),
+                          focusNode: noteContentFocusNode,
                         ),
                       ),
                     ],
