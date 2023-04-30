@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class MyIconButton extends StatelessWidget {
   final IconData iconData;
   final Function() onPressed;
-  const MyIconButton({Key? key, required this.iconData, required this.onPressed}) : super(key: key);
+  final String? tooltip;
+  const MyIconButton({Key? key, required this.iconData, required this.onPressed, this.tooltip}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +12,7 @@ class MyIconButton extends StatelessWidget {
       onPressed: onPressed,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(vertical: 10),
+      tooltip: tooltip,
       icon: Icon(
         iconData,
       ),
