@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/error/failure.dart';
+import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/note.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
@@ -16,8 +17,8 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController noteTitleController = TextEditingController();
-    TextEditingController noteContentController = TextEditingController();
+    MyTextEditingController noteTitleController = MyTextEditingController();
+    MyTextEditingController noteContentController = MyTextEditingController();
     var noteBloc = serviceLocator<NotePageBloc>();
 
     Future saveNoteBeforeExit() async {
