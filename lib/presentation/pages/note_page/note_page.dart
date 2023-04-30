@@ -95,6 +95,7 @@ class NotePage extends StatelessWidget {
                           ),
                           MyIconButton(
                             iconData: Icons.arrow_back_ios,
+                            tooltip: 'Go back',
                             onPressed: () async {
                               await saveNoteBeforeExit();
                               if (context.mounted) {
@@ -105,10 +106,12 @@ class NotePage extends StatelessWidget {
                           const Spacer(),
                           MyIconButton(
                             iconData: Icons.ios_share_rounded,
+                            tooltip: 'Share',
                             onPressed: () {},
                           ),
                           MyIconButton(
                             iconData: Icons.more_vert,
+                            tooltip: 'More options',
                             onPressed: () {
                               showMenu(
                                   context: context,
