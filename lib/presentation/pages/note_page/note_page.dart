@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/error/failure.dart';
+import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/note.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
@@ -16,8 +17,13 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController noteTitleController = TextEditingController();
-    TextEditingController noteContentController = TextEditingController();
+    late MyTextEditingController focusedController;
+    MyTextEditingController noteTitleController = MyTextEditingController();
+    FocusNode noteTitleFocusNode = FocusNode()
+      ..addListener(() => focusedController = noteTitleController);
+    MyTextEditingController noteContentController = MyTextEditingController();
+    FocusNode noteContentFocusNode = FocusNode()
+      ..addListener(() => focusedController = noteContentController);
     var noteBloc = serviceLocator<NotePageBloc>();
 
     Future saveNoteBeforeExit() async {
@@ -89,6 +95,7 @@ class NotePage extends StatelessWidget {
                           ),
                           MyIconButton(
                             iconData: Icons.arrow_back_ios,
+                            tooltip: 'Go back',
                             onPressed: () async {
                               await saveNoteBeforeExit();
                               if (context.mounted) {
@@ -99,10 +106,12 @@ class NotePage extends StatelessWidget {
                           const Spacer(),
                           MyIconButton(
                             iconData: Icons.ios_share_rounded,
+                            tooltip: 'Share',
                             onPressed: () {},
                           ),
                           MyIconButton(
                             iconData: Icons.more_vert,
+                            tooltip: 'More options',
                             onPressed: () {
                               showMenu(
                                   context: context,
@@ -110,17 +119,17 @@ class NotePage extends StatelessWidget {
                                       100, 0, 0, 100),
                                   items: [
                                     MyPopupMenuItem(
-                                      title: 'Redo',
-                                      icon: Icons.redo,
-                                      onClick: () {
-                                        // TODO: Add logic for redo
-                                      },
-                                    ),
-                                    MyPopupMenuItem(
                                       title: 'Undo',
                                       icon: Icons.undo,
                                       onClick: () {
-                                        // TODO: Add logic for undo
+                                        focusedController.undo();
+                                      },
+                                    ),
+                                    MyPopupMenuItem(
+                                      title: 'Redo',
+                                      icon: Icons.redo,
+                                      onClick: () {
+                                        focusedController.redo();
                                       },
                                     ),
                                     MyPopupMenuItem(
@@ -198,7 +207,7 @@ class NotePage extends StatelessWidget {
                               horizontal: 20, vertical: 10),
                         ),
                         style: Theme.of(context).textTheme.headlineMedium,
-                        onChanged: (value) {},
+                        focusNode: noteTitleFocusNode,
                       ),
                       Expanded(
                         child: TextField(
@@ -214,6 +223,7 @@ class NotePage extends StatelessWidget {
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                           ),
+                          focusNode: noteContentFocusNode,
                         ),
                       ),
                     ],
