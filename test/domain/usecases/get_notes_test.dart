@@ -16,10 +16,18 @@ void main() {
     usecase = GetNotes(mockNoteContract);
   });
 
-  final testNotes = [Note(id: "id", title: "title", content: "content", createdAt: DateTime.now(), lastEdited: DateTime.now())];
+  final testNotes = [
+    Note(
+        id: "id",
+        title: "title",
+        content: "content",
+        createdAt: DateTime.now(),
+        lastEdited: DateTime.now())
+  ];
 
   test('Should get Notes from the repository', () async {
-    when(mockNoteContract.getNotes()).thenAnswer((value) async => Right(testNotes));
+    when(mockNoteContract.getNotes())
+        .thenAnswer((value) async => Right(testNotes));
 
     final matcher = await usecase(NoParams());
 

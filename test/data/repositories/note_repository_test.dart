@@ -290,7 +290,7 @@ void main() {
     test('Should delete note in device', () async {
       when(mockNoteLocalDataSource.deleteNote(testId))
           .thenAnswer((realInvocation) async => Right(DeleteSuccess()));
-      
+
       final actual = await repository.deleteNote(testId);
 
       verifyZeroInteractions(mockNoteRemoteDataSource);

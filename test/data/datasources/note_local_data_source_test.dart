@@ -98,9 +98,11 @@ void main() {
       var countBefore = (await noteLocalDataSource.getNotes()).length;
       await noteLocalDataSource.updateNote(updatedTestNoteModel);
       var countAfter = (await noteLocalDataSource.getNotes()).length;
-      var actualTitle = (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).title;
+      var actualTitle =
+          (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).title;
       var matcherTitle = updatedTestNoteModel.title;
-      var actualContent = (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).content;
+      var actualContent =
+          (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).content;
       var matcherContent = updatedTestNoteModel.content;
       expect(countBefore, countAfter);
       expect(actualTitle, matcherTitle);
