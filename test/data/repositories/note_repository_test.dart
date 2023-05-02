@@ -34,6 +34,7 @@ void main() {
   });
 
   const String testId = "110ec58a-a0f2-4ac4-8393-c866d813b8d1";
+  const String testSearchQuery = 'title';
   final testNoteModel = NoteModel(
       id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
       title: "title",
@@ -244,6 +245,16 @@ void main() {
 
       verify(mockNoteLocalDataSource.getNote(testId));
       expect(actual, Right(testNote));
+    });
+
+    test('Should search notes from local source', () async {
+      when(mockNoteLocalDataSource.searchNotes(testSearchQuery))
+          .thenAnswer((realInvocation) async => testNoteModelList);
+
+      final actual = await repository.searchNotes(testSearchQuery);
+
+      verify(mockNoteLocalDataSource.searchNotes(testSearchQuery));
+      expect(actual, Right(testNoteModelList));
     });
 
     test('Should return CacheFailure if Note not found', () async {
