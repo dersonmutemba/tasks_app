@@ -25,13 +25,13 @@ void main() {
   ];
 
   test('Should search Notes in the repository', () async {
-    when(mockNoteContract.searchNote(any))
+    when(mockNoteContract.searchNotes(any))
         .thenAnswer((value) async => Right(testNotes));
 
     final matcher = await usecase(Params(query: testSearchQuery));
 
     expect(Right(testNotes), matcher);
-    verify(mockNoteContract.searchNote(testSearchQuery));
+    verify(mockNoteContract.searchNotes(testSearchQuery));
     verifyNoMoreInteractions(mockNoteContract);
   });
 }
