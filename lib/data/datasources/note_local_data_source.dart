@@ -16,6 +16,8 @@ abstract class NoteLocalDataSource {
   Future<void> updateNote(NoteModel note);
 
   Future<void> deleteNote(String id);
+
+  Future<List<NoteModel>> searchNotes(String query);
 }
 
 class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
@@ -67,9 +69,23 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
     await localDatabase.update(table, note.toJson(), [columns.first],
         [note.toJson().values.toList().first]);
   }
-  
+
   @override
   Future<void> deleteNote(String id) async {
     await localDatabase.delete(table, [columns.first], [id]);
+  }
+
+  @override
+  Future<List<NoteModel>> searchNotes(String query) async {
+    var results = await localDatabase.searchObjects(table,
+        columns.sublist(1, 3), query, columns.sublist(3)..add(columns[0]));
+    if (results != null) {
+      List<NoteModel> notes = [];
+      for (var result in results) {
+        notes.add(NoteModel.fromJson(result));
+      }
+      return notes;
+    }
+    throw CacheException();
   }
 }

@@ -17,3 +17,5 @@ class ServerFailure extends Failure {}
 class CacheFailure extends Failure {}
 
 class EmptyNoteFailure extends Failure {}
+
+class UnknownFailure extends Failure {}
