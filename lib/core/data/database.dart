@@ -52,6 +52,45 @@ class LocalDatabase {
     return null;
   }
 
+  Future<List<Map<String, dynamic>>?> searchObjects(
+      String table,
+      List<String> searchColumns,
+      String searchQuery,
+      List<String> otherColumns) async {
+    Batch batch = db.batch();
+    batch.query(
+      table,
+      columns: searchColumns + otherColumns,
+      where: _generateWhere(searchColumns),
+      whereArgs: List.generate(searchColumns.length, (index) => searchQuery),
+      distinct: true,
+    );
+    batch.query(
+      table,
+      columns: searchColumns + otherColumns,
+      where: _generateWhere(searchColumns, wildcard: '%', whereOperator: 'LIKE'),
+      whereArgs: List.generate(searchColumns.length, (index) => searchQuery),
+      distinct: true,
+    );
+    batch.query(
+      table,
+      columns: searchColumns + otherColumns,
+      where: _generateWhere(searchColumns, wildcard: '%', operator: 'OR', whereOperator: 'LIKE'),
+      whereArgs: List.generate(searchColumns.length, (index) => searchQuery),
+      distinct: true,
+    );
+    List<dynamic> commit = await batch.commit();
+    List<Map> maps = List.generate(commit.length, (index) => commit[index]);
+    if (maps.isNotEmpty) {
+      List<Map<String, dynamic>> result = maps
+          .map(
+              (map) => map.map((key, value) => MapEntry(key.toString(), value)))
+          .toList();
+      return result;
+    }
+    return null;
+  }
+
   Future<List<Map<String, dynamic>>?> getAllObjects(String table) async {
     List<Map> maps = await db.query(table);
     if (maps.isNotEmpty) {
