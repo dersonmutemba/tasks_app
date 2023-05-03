@@ -53,22 +53,22 @@ void main() {
         lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
     NoteModel(
         id: '160ec58a-a0f2-4ac4-8393-c866d813b8d1',
-        title: 'search title',
-        content: 'search content',
+        title: 'search',
+        content: 'search',
         createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
         lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
   ];
   final List<NoteModel> testNoteListSearchResult = [
     NoteModel(
-        id: '310ec58c-a0f2-4ac4-8393-c866d813b8d1',
-        title: 'search title',
-        content: 'content',
+        id: '160ec58a-a0f2-4ac4-8393-c866d813b8d1',
+        title: 'search',
+        content: 'search',
         createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
         lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
     NoteModel(
-        id: '160ec58a-a0f2-4ac4-8393-c866d813b8d1',
+        id: '310ec58c-a0f2-4ac4-8393-c866d813b8d1',
         title: 'search title',
-        content: 'search content',
+        content: 'content',
         createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
         lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
   ];
@@ -150,7 +150,7 @@ void main() {
       expect(future, throwsA(isA<CacheException>()));
     });
 
-    test('Search should return notes containing search', () async {
+    test('Search should return notes containing search in order of matching', () async {
       await noteLocalDataSource.cacheNotes(testNoteListToSearch);
       var actual = await noteLocalDataSource.searchNotes(testSearchQuery);
       expect(actual, testNoteListSearchResult);
