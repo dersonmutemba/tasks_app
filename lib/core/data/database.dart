@@ -76,12 +76,13 @@ class LocalDatabase {
         where: _generateWhere(selectionColumns), whereArgs: selectionValues);
   }
 
-  String _generateWhere(List<String> fields) {
+  String _generateWhere(List<String> fields,
+      {String wildcard = '', String operator = 'AND', String whereOperator = '='}) {
     String where = '';
     for (int i = 0; i + 1 < fields.length; i++) {
-      where += '${fields[i]} = ?, ';
+      where += '${fields[i]} $whereOperator $wildcard?$wildcard $operator ';
     }
-    return '$where${fields.last} = ?';
+    return '$where${fields.last} $whereOperator $wildcard?$wildcard';
   }
 
   Future finalize() async => db.close();
