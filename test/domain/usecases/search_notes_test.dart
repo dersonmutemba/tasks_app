@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tasks_app/domain/entities/note.dart';
+import 'package:tasks_app/domain/usecases/search_notes.dart';
 
 import 'note_contract_mock.mocks.dart';
 
