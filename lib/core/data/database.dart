@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -80,7 +81,16 @@ class LocalDatabase {
           List.generate(searchColumns.length, (index) => '%$searchQuery%'),
     );
     List<dynamic> commit = await batch.commit();
-    List<Map> maps = List.generate(commit.length, (index) => commit[index]);
+    List<Map> maps = [];
+    for (var batchresult in commit) {
+      Map map = {};
+      for (int i = 0; i < batchresult.first.length; i++) {
+        map.addAll({batchresult.first.keys[i]: batchresult.first.row[i]});
+      }
+      if(!_mapContains(maps, map)) {
+        maps.add(map);
+      }
+    }
     if (maps.isNotEmpty) {
       List<Map<String, dynamic>> result = maps
           .map(
@@ -122,6 +132,15 @@ class LocalDatabase {
       where += '${fields[i]} $whereOperator ? $operator ';
     }
     return '$where${fields.last} $whereOperator ?';
+  }
+
+  bool _mapContains(List<Map> maps, Map map) {
+    for (var element in maps) {
+      if (mapEquals(element, map)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future finalize() async => db.close();
