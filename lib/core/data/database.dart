@@ -63,21 +63,21 @@ class LocalDatabase {
       columns: searchColumns + otherColumns,
       where: _generateWhere(searchColumns),
       whereArgs: List.generate(searchColumns.length, (index) => searchQuery),
-      distinct: true,
     );
     batch.query(
       table,
       columns: searchColumns + otherColumns,
-      where: _generateWhere(searchColumns, wildcard: '%', whereOperator: 'LIKE'),
-      whereArgs: List.generate(searchColumns.length, (index) => searchQuery),
-      distinct: true,
+      where: _generateWhere(searchColumns, whereOperator: 'LIKE'),
+      whereArgs:
+          List.generate(searchColumns.length, (index) => '%$searchQuery%'),
     );
     batch.query(
       table,
       columns: searchColumns + otherColumns,
-      where: _generateWhere(searchColumns, wildcard: '%', operator: 'OR', whereOperator: 'LIKE'),
-      whereArgs: List.generate(searchColumns.length, (index) => searchQuery),
-      distinct: true,
+      where:
+          _generateWhere(searchColumns, operator: 'OR', whereOperator: 'LIKE'),
+      whereArgs:
+          List.generate(searchColumns.length, (index) => '%$searchQuery%'),
     );
     List<dynamic> commit = await batch.commit();
     List<Map> maps = List.generate(commit.length, (index) => commit[index]);
@@ -116,12 +116,12 @@ class LocalDatabase {
   }
 
   String _generateWhere(List<String> fields,
-      {String wildcard = '', String operator = 'AND', String whereOperator = '='}) {
+      {String operator = 'AND', String whereOperator = '='}) {
     String where = '';
     for (int i = 0; i + 1 < fields.length; i++) {
-      where += '${fields[i]} $whereOperator $wildcard?$wildcard $operator ';
+      where += '${fields[i]} $whereOperator ? $operator ';
     }
-    return '$where${fields.last} $whereOperator $wildcard?$wildcard';
+    return '$where${fields.last} $whereOperator ?';
   }
 
   Future finalize() async => db.close();
