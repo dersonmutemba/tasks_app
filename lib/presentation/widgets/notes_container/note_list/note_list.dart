@@ -44,6 +44,9 @@ class NoteList extends StatelessWidget {
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
                     ),
                     maxLines: 1,
+                    onChanged: (value) {
+                      noteListBloc.add(Search(value));
+                    },
                   ),
                 ),
                 Expanded(
