@@ -6,3 +6,11 @@ abstract class NoteListEvent extends Equatable {
 }
 
 class Load extends NoteListEvent {}
+
+class Search extends NoteListEvent {
+  final String query;
+  Search(this.query);
+
+  @override
+  List<Object> get props => [query];
+}
