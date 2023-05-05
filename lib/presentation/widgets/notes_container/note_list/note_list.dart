@@ -23,7 +23,7 @@ class NoteList extends StatelessWidget {
               child: Text('No notes saved yet. Click on "+" to add one'),
             );
           } else if (state is Error) {
-            return const Center(child: Text('Error'));
+            return Center(child: Text(state.message));
           } else if (state is Loading) {
             return const Center(
               child: CircularProgressIndicator(),
