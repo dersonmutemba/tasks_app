@@ -84,11 +84,13 @@ class LocalDatabase {
     List<Map> maps = [];
     for (var batchresult in commit) {
       Map map = {};
+      if (batchresult.isNotEmpty) {
       for (int i = 0; i < batchresult.first.length; i++) {
         map.addAll({batchresult.first.keys[i]: batchresult.first.row[i]});
       }
-      if(!_mapContains(maps, map)) {
+        if (!_mapContains(maps, map)) {
         maps.add(map);
+        }
       }
     }
     if (maps.isNotEmpty) {
