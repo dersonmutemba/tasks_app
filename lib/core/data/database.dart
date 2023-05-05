@@ -58,6 +58,9 @@ class LocalDatabase {
       List<String> searchColumns,
       String searchQuery,
       List<String> otherColumns) async {
+    if (query.trim() == '') {
+      return getAllObjects(table);
+    }
     Batch batch = db.batch();
     batch.query(
       table,
@@ -85,11 +88,11 @@ class LocalDatabase {
     for (var batchresult in commit) {
       Map map = {};
       if (batchresult.isNotEmpty) {
-      for (int i = 0; i < batchresult.first.length; i++) {
-        map.addAll({batchresult.first.keys[i]: batchresult.first.row[i]});
-      }
+        for (int i = 0; i < batchresult.first.length; i++) {
+          map.addAll({batchresult.first.keys[i]: batchresult.first.row[i]});
+        }
         if (!_mapContains(maps, map)) {
-        maps.add(map);
+          maps.add(map);
         }
       }
     }
