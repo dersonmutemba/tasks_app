@@ -58,7 +58,8 @@ class LocalDatabase {
       List<String> searchColumns,
       String searchQuery,
       List<String> otherColumns) async {
-    if (query.trim() == '') {
+    searchQuery = searchQuery.trim();
+    if (searchQuery == '') {
       return getAllObjects(table);
     }
     Batch batch = db.batch();
