@@ -86,6 +86,6 @@ class NoteLocalDataSourceImplementation implements NoteLocalDataSource {
       }
       return notes;
     }
-    throw CacheException();
+    return [];
   }
 }
