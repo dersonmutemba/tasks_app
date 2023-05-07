@@ -89,11 +89,15 @@ class LocalDatabase {
     for (var batchresult in commit) {
       Map map = {};
       if (batchresult.isNotEmpty) {
-        for (int i = 0; i < batchresult.first.length; i++) {
-          map.addAll({batchresult.first.keys[i]: batchresult.first.row[i]});
-        }
-        if (!_mapContains(maps, map)) {
-          maps.add(map);
+        for (int i = 0; i < batchresult.length; i++) {
+          var b1 = batchresult[i];
+          for (int j = 0; j < batchresult[j].length; j++) {
+            var b2 = batchresult[i][j];
+            map.addAll({batchresult[i].keys[j]: batchresult[i].row[j]});
+          }
+          if (!_mapContains(maps, map)) {
+            maps.add(map);
+          }
         }
       }
     }
