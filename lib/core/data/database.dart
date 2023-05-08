@@ -90,9 +90,8 @@ class LocalDatabase {
       Map map = {};
       if (batchresult.isNotEmpty) {
         for (int i = 0; i < batchresult.length; i++) {
-          var b1 = batchresult[i];
-          for (int j = 0; j < batchresult[j].length; j++) {
-            var b2 = batchresult[i][j];
+          map = {};
+          for (int j = 0; j < batchresult[i].length; j++) {
             map.addAll({batchresult[i].keys[j]: batchresult[i].row[j]});
           }
           if (!_mapContains(maps, map)) {
