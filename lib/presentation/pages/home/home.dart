@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widgets/my_bottom_navbar_button.dart';
 import '../../widgets/notes_container/notes_container.dart';
 import '../note_page/note_page.dart';
 import 'bloc/bloc.dart';
@@ -109,6 +110,31 @@ class Home extends StatelessWidget {
   Widget _getBottomNavigationBar(HomeState state, BuildContext context) {
     return SizedBox(
       height: 60,
+      child: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            child: MyBottomNavBarButton(
+              icon: Icons.add_task_sharp,
+              onPressed: () {
+                context.read<HomeBloc>().add(TasksHomeSelected());
+              },
+              text: 'Tasks',
+              isEmphasized: state is SelectedTasksHome,
+            ),
+          ),
+          Expanded(
+            child: MyBottomNavBarButton(
+              icon: Icons.edit_note_rounded,
+              onPressed: () {
+                context.read<HomeBloc>().add(NotesHomeSelected());
+              },
+              text: 'Notes',
+              isEmphasized: state is SelectedNotesHome,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
