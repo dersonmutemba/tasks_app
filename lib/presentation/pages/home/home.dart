@@ -21,42 +21,14 @@ class Home extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          if (state is SelectedTasksHome) {
-                            context.read<HomeBloc>().add(NotesHomeSelected());
-                          } else if (state is SelectedNotesHome) {
-                            context.read<HomeBloc>().add(TasksHomeSelected());
-                          }
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor:
-                              Theme.of(context).textTheme.bodyLarge!.color,
-                        ),
-                        child: SizedBox(
-                          height: 50,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
+                      Container(
+                        padding: const EdgeInsets.all(30),
+                        alignment: Alignment.center,
+                        child: Text(
                                 state.title,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                          style: Theme.of(context).textTheme.titleLarge,
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Column(
-                                children: const [
-                                  Icon(Icons.keyboard_arrow_up_rounded),
-                                  Icon(Icons.keyboard_arrow_down_rounded)
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      )
                     ] +
                     _getWidgetsByState(state),
               ),
