@@ -60,6 +60,7 @@ class Home extends StatelessWidget {
                     _getWidgetsByState(state),
               ),
             ),
+            bottomNavigationBar: _getBottomNavigationBar(state, context),
             floatingActionButton: ElevatedButton(
               onPressed: () async {
                 context.read<HomeBloc>().add(Dismiss());
@@ -103,5 +104,11 @@ class Home extends StatelessWidget {
       return const [NotesContainer()];
     }
     return [];
+  }
+
+  Widget _getBottomNavigationBar(HomeState state, BuildContext context) {
+    return SizedBox(
+      height: 60,
+    );
   }
 }
