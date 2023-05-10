@@ -7,10 +7,8 @@ class NotesContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: const [Expanded(child: NoteList())],
-      ),
+    return Column(
+      children: const [Expanded(child: NoteList())],
     );
   }
 }

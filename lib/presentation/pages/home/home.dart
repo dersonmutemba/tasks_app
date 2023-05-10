@@ -21,16 +21,18 @@ class Home extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(30),
-                        alignment: Alignment.center,
-                        child: Text(
-                                state.title,
-                          style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                      )
-                    ] +
-                    _getWidgetsByState(state),
+                  Container(
+                    padding: const EdgeInsets.all(30),
+                    alignment: Alignment.center,
+                    child: Text(
+                      state.title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  Expanded(
+                    child: _getWidgetsByState(state) ?? const SizedBox(),
+                  ),
+                ],
               ),
             ),
             bottomNavigationBar: _getBottomNavigationBar(state, context),
@@ -72,11 +74,11 @@ class Home extends StatelessWidget {
     );
   }
 
-  List<Widget> _getWidgetsByState(HomeState state) {
+  Widget? _getWidgetsByState(HomeState state) {
     if (state is SelectedNotesHome) {
-      return const [NotesContainer()];
+      return const NotesContainer();
     }
-    return [];
+    return null;
   }
 
   Widget _getBottomNavigationBar(HomeState state, BuildContext context) {
