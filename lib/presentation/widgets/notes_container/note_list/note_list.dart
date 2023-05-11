@@ -39,9 +39,13 @@ class NoteList extends StatelessWidget {
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderSide: BorderSide.none,
+                      ),
                       hintText: 'Search...',
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      fillColor: Color.fromRGBO(25, 25, 25, .1),
+                      filled: true,
                     ),
                     maxLines: 1,
                     onChanged: (value) {
