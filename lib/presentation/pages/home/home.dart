@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widgets/my_bottom_navbar_button.dart';
 import '../../widgets/notes_container/notes_container.dart';
 import '../note_page/note_page.dart';
 import 'bloc/bloc.dart';
@@ -20,46 +21,21 @@ class Home extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          if (state is SelectedTasksHome) {
-                            context.read<HomeBloc>().add(NotesHomeSelected());
-                          } else if (state is SelectedNotesHome) {
-                            context.read<HomeBloc>().add(TasksHomeSelected());
-                          }
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor:
-                              Theme.of(context).textTheme.bodyLarge!.color,
-                        ),
-                        child: SizedBox(
-                          height: 50,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                state.title,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Column(
-                                children: const [
-                                  Icon(Icons.keyboard_arrow_up_rounded),
-                                  Icon(Icons.keyboard_arrow_down_rounded)
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ] +
-                    _getWidgetsByState(state),
+                  Container(
+                    padding: const EdgeInsets.all(30),
+                    alignment: Alignment.center,
+                    child: Text(
+                      state.title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  Expanded(
+                    child: _getWidgetsByState(state) ?? const SizedBox(),
+                  ),
+                ],
               ),
             ),
+            bottomNavigationBar: _getBottomNavigationBar(state, context),
             floatingActionButton: ElevatedButton(
               onPressed: () async {
                 context.read<HomeBloc>().add(Dismiss());
@@ -98,10 +74,41 @@ class Home extends StatelessWidget {
     );
   }
 
-  List<Widget> _getWidgetsByState(HomeState state) {
+  Widget? _getWidgetsByState(HomeState state) {
     if (state is SelectedNotesHome) {
-      return const [NotesContainer()];
+      return const NotesContainer();
     }
-    return [];
+    return null;
+  }
+
+  Widget _getBottomNavigationBar(HomeState state, BuildContext context) {
+    return SizedBox(
+      height: 60,
+      child: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            child: MyBottomNavBarButton(
+              icon: Icons.add_task_sharp,
+              onPressed: () {
+                context.read<HomeBloc>().add(TasksHomeSelected());
+              },
+              text: 'Tasks',
+              isEmphasized: state is SelectedTasksHome,
+            ),
+          ),
+          Expanded(
+            child: MyBottomNavBarButton(
+              icon: Icons.edit_note_rounded,
+              onPressed: () {
+                context.read<HomeBloc>().add(NotesHomeSelected());
+              },
+              text: 'Notes',
+              isEmphasized: state is SelectedNotesHome,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
