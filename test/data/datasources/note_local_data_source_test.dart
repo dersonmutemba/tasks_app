@@ -37,6 +37,41 @@ void main() {
         createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
         lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
   ];
+  const String testSearchQuery = 'search';
+  final List<NoteModel> testNoteListToSearch = [
+    NoteModel(
+        id: '110ec58a-a0f2-4ac4-8393-c866d813b8d1',
+        title: 'title',
+        content: 'content',
+        createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
+        lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
+    NoteModel(
+        id: '310ec58c-a0f2-4ac4-8393-c866d813b8d1',
+        title: 'search title',
+        content: 'content',
+        createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
+        lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
+    NoteModel(
+        id: '160ec58a-a0f2-4ac4-8393-c866d813b8d1',
+        title: 'search',
+        content: 'search',
+        createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
+        lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
+  ];
+  final List<NoteModel> testNoteListSearchResult = [
+    NoteModel(
+        id: '160ec58a-a0f2-4ac4-8393-c866d813b8d1',
+        title: 'search',
+        content: 'search',
+        createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
+        lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
+    NoteModel(
+        id: '310ec58c-a0f2-4ac4-8393-c866d813b8d1',
+        title: 'search title',
+        content: 'content',
+        createdAt: DateTime.parse('2023-02-22T19:29:39.242'),
+        lastEdited: DateTime.parse('2023-02-22T19:29:39.242')),
+  ];
   final testNoteModel = NoteModel(
       id: "910ec58a-a0f2-4ac4-8393-c866d813b8d1",
       title: "title",
@@ -98,9 +133,11 @@ void main() {
       var countBefore = (await noteLocalDataSource.getNotes()).length;
       await noteLocalDataSource.updateNote(updatedTestNoteModel);
       var countAfter = (await noteLocalDataSource.getNotes()).length;
-      var actualTitle = (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).title;
+      var actualTitle =
+          (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).title;
       var matcherTitle = updatedTestNoteModel.title;
-      var actualContent = (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).content;
+      var actualContent =
+          (await noteLocalDataSource.getNote(updatedTestNoteModel.id)).content;
       var matcherContent = updatedTestNoteModel.content;
       expect(countBefore, countAfter);
       expect(actualTitle, matcherTitle);
@@ -111,6 +148,12 @@ void main() {
       await noteLocalDataSource.deleteNote(testNoteModel.id);
       var future = noteLocalDataSource.getNote(testNoteModel.id);
       expect(future, throwsA(isA<CacheException>()));
+    });
+
+    test('Search should return notes containing search in order of matching', () async {
+      await noteLocalDataSource.cacheNotes(testNoteListToSearch);
+      var actual = await noteLocalDataSource.searchNotes(testSearchQuery);
+      expect(actual, testNoteListSearchResult);
     });
   });
 }

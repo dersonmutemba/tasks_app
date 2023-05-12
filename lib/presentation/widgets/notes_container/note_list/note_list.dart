@@ -23,7 +23,7 @@ class NoteList extends StatelessWidget {
               child: Text('No notes saved yet. Click on "+" to add one'),
             );
           } else if (state is Error) {
-            return const Center(child: Text('Error'));
+            return Center(child: Text(state.message));
           } else if (state is Loading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -39,11 +39,18 @@ class NoteList extends StatelessWidget {
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderSide: BorderSide.none,
+                      ),
                       hintText: 'Search...',
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      fillColor: Color.fromRGBO(25, 25, 25, .1),
+                      filled: true,
                     ),
                     maxLines: 1,
+                    onChanged: (value) {
+                      noteListBloc.add(Search(value));
+                    },
                   ),
                 ),
                 Expanded(

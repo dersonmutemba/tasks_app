@@ -10,4 +10,5 @@ abstract class NoteContract {
   Future<Either<Failure, List<Note>>> getNotes();
   Future<Either<Failure, Success>> updateNote(Note note);
   Future<Either<Failure, Success>> deleteNote(String id);
+  Future<Either<Failure, List<Note>>> searchNotes(String query);
 }

@@ -1,21 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tasks_app/core/usecases/usecase.dart';
 import 'package:tasks_app/domain/entities/note.dart';
-import 'package:tasks_app/domain/usecases/get_notes.dart';
+import 'package:tasks_app/domain/usecases/search_notes.dart';
 
 import 'note_contract_mock.mocks.dart';
 
 void main() {
   late MockNoteContract mockNoteContract;
-  late GetNotes usecase;
+  late SearchNotes usecase;
 
   setUp(() {
     mockNoteContract = MockNoteContract();
-    usecase = GetNotes(mockNoteContract);
+    usecase = SearchNotes(mockNoteContract);
   });
 
+  const testSearchQuery = 'title';
   final testNotes = [
     Note(
         id: "id",
@@ -25,14 +25,14 @@ void main() {
         lastEdited: DateTime.now())
   ];
 
-  test('Should get Notes from the repository', () async {
-    when(mockNoteContract.getNotes())
+  test('Should search Notes in the repository', () async {
+    when(mockNoteContract.searchNotes(any))
         .thenAnswer((value) async => Right(testNotes));
 
-    final matcher = await usecase(NoParams());
+    final matcher = await usecase(Params(query: testSearchQuery));
 
     expect(Right(testNotes), matcher);
-    verify(mockNoteContract.getNotes());
+    verify(mockNoteContract.searchNotes(testSearchQuery));
     verifyNoMoreInteractions(mockNoteContract);
   });
 }

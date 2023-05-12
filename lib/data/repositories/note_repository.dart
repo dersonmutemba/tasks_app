@@ -105,6 +105,18 @@ class NoteRepository implements NoteContract {
     }
   }
 
+  @override
+  Future<Either<Failure, List<Note>>> searchNotes(String query) async {
+    try {
+      final notes = await localDataSource.searchNotes(query);
+      return Right(notes);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on Exception {
+      return Left(UnknownFailure());
+    }
+  }
+
   void _handleEmptyNotes(Note note) {
     if (note.title.trim() == '' && note.content.trim() == '') {
       throw EmptyNoteException();

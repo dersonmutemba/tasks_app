@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -52,6 +53,63 @@ class LocalDatabase {
     return null;
   }
 
+  Future<List<Map<String, dynamic>>?> searchObjects(
+      String table,
+      List<String> searchColumns,
+      String searchQuery,
+      List<String> otherColumns) async {
+    searchQuery = searchQuery.trim();
+    if (searchQuery == '') {
+      return getAllObjects(table);
+    }
+    Batch batch = db.batch();
+    batch.query(
+      table,
+      columns: searchColumns + otherColumns,
+      where: _generateWhere(searchColumns),
+      whereArgs: List.generate(searchColumns.length, (index) => searchQuery),
+    );
+    batch.query(
+      table,
+      columns: searchColumns + otherColumns,
+      where: _generateWhere(searchColumns, whereOperator: 'LIKE'),
+      whereArgs:
+          List.generate(searchColumns.length, (index) => '%$searchQuery%'),
+    );
+    batch.query(
+      table,
+      columns: searchColumns + otherColumns,
+      where:
+          _generateWhere(searchColumns, operator: 'OR', whereOperator: 'LIKE'),
+      whereArgs:
+          List.generate(searchColumns.length, (index) => '%$searchQuery%'),
+    );
+    List<dynamic> commit = await batch.commit();
+    List<Map> maps = [];
+    for (var batchresult in commit) {
+      Map map = {};
+      if (batchresult.isNotEmpty) {
+        for (int i = 0; i < batchresult.length; i++) {
+          map = {};
+          for (int j = 0; j < batchresult[i].length; j++) {
+            map.addAll({batchresult[i].keys[j]: batchresult[i].row[j]});
+          }
+          if (!_mapContains(maps, map)) {
+            maps.add(map);
+          }
+        }
+      }
+    }
+    if (maps.isNotEmpty) {
+      List<Map<String, dynamic>> result = maps
+          .map(
+              (map) => map.map((key, value) => MapEntry(key.toString(), value)))
+          .toList();
+      return result;
+    }
+    return null;
+  }
+
   Future<List<Map<String, dynamic>>?> getAllObjects(String table) async {
     List<Map> maps = await db.query(table);
     if (maps.isNotEmpty) {
@@ -76,12 +134,22 @@ class LocalDatabase {
         where: _generateWhere(selectionColumns), whereArgs: selectionValues);
   }
 
-  String _generateWhere(List<String> fields) {
+  String _generateWhere(List<String> fields,
+      {String operator = 'AND', String whereOperator = '='}) {
     String where = '';
     for (int i = 0; i + 1 < fields.length; i++) {
-      where += '${fields[i]} = ?, ';
+      where += '${fields[i]} $whereOperator ? $operator ';
     }
-    return '$where${fields.last} = ?';
+    return '$where${fields.last} $whereOperator ?';
+  }
+
+  bool _mapContains(List<Map> maps, Map map) {
+    for (var element in maps) {
+      if (mapEquals(element, map)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future finalize() async => db.close();

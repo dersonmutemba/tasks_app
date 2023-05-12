@@ -16,10 +16,16 @@ void main() {
   });
 
   const testId = "id";
-  final testNote = Note(id: testId, title: "title", content: "content", createdAt: DateTime.now(), lastEdited: DateTime.now());
+  final testNote = Note(
+      id: testId,
+      title: "title",
+      content: "content",
+      createdAt: DateTime.now(),
+      lastEdited: DateTime.now());
 
   test('Should get Note from the repository', () async {
-    when(mockNoteContract.getNote(any)).thenAnswer((value) async => Right(testNote));
+    when(mockNoteContract.getNote(any))
+        .thenAnswer((value) async => Right(testNote));
 
     final matcher = await usecase(Params(id: testId));
 
