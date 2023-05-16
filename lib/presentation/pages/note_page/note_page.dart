@@ -110,7 +110,7 @@ class NotePage extends StatelessWidget {
                             tooltip: 'Share',
                             onPressed: () {
                               Share.share(
-                                noteContentController.text,
+                                '${noteTitleController.text}\n\n${noteContentController.text}',
                                 subject: noteTitleController.text,
                               );
                             },
