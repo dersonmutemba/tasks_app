@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/error/failure.dart';
@@ -107,7 +108,12 @@ class NotePage extends StatelessWidget {
                           MyIconButton(
                             iconData: Icons.ios_share_rounded,
                             tooltip: 'Share',
-                            onPressed: () {},
+                            onPressed: () {
+                              Share.share(
+                                '${noteTitleController.text}\n\n${noteContentController.text}',
+                                subject: noteTitleController.text,
+                              );
+                            },
                           ),
                           MyIconButton(
                             iconData: Icons.more_vert,
