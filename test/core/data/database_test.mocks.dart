@@ -102,6 +102,25 @@ class MockLocalDatabase extends _i1.Mock implements _i3.LocalDatabase {
         returnValue: _i4.Future<List<Map<String, dynamic>>?>.value(),
       ) as _i4.Future<List<Map<String, dynamic>>?>);
   @override
+  _i4.Future<List<Map<String, dynamic>>?> searchObjects(
+    String? table,
+    List<String>? searchColumns,
+    String? searchQuery,
+    List<String>? otherColumns,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #searchObjects,
+          [
+            table,
+            searchColumns,
+            searchQuery,
+            otherColumns,
+          ],
+        ),
+        returnValue: _i4.Future<List<Map<String, dynamic>>?>.value(),
+      ) as _i4.Future<List<Map<String, dynamic>>?>);
+  @override
   _i4.Future<List<Map<String, dynamic>>?> getAllObjects(String? table) =>
       (super.noSuchMethod(
         Invocation.method(
