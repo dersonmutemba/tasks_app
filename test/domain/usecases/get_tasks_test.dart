@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tasks_app/core/usecases/usecase.dart';
 import 'package:tasks_app/domain/entities/task.dart' as task;
+import 'package:tasks_app/domain/entities/task_exp.dart';
 import 'package:tasks_app/domain/usecases/get_tasks.dart';
 
 import 'test_contract_mock.mocks.dart';
@@ -26,7 +27,7 @@ void main() {
       lastEdited: DateTime.now(),
       startedAt: DateTime.now(),
       dueDate: DateTime.now(),
-      completed: true,
+      status: Status.completed,
     )
   ];
 

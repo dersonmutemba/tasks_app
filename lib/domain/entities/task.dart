@@ -1,3 +1,5 @@
+import 'enumuration/status.dart';
+
 class Task {
   final String id;
   final String name;
@@ -7,7 +9,7 @@ class Task {
   final DateTime lastEdited;
   final DateTime startedAt;
   final DateTime dueDate;
-  final bool completed;
+  final Status status;
   // TODO: Add repetition properties
   Task(
       {required this.id,
@@ -18,7 +20,7 @@ class Task {
       required this.lastEdited,
       required this.startedAt,
       required this.dueDate,
-      required this.completed});
+      required this.status});
 
   @override
   bool operator ==(Object other) =>
@@ -32,10 +34,10 @@ class Task {
       other.lastEdited == lastEdited &&
       other.startedAt == startedAt &&
       other.dueDate == dueDate &&
-      other.completed == completed;
+      other.status == status;
 
   @override
   int get hashCode =>
-      ("$id$name$description$icon$createdAt$lastEdited$startedAt$dueDate$completed")
+      ("$id$name$description$icon$createdAt$lastEdited$startedAt$dueDate$status")
           .hashCode;
 }
