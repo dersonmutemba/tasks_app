@@ -8,8 +8,9 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tasks_app/core/error/failure.dart' as _i5;
+import 'package:tasks_app/core/success/success.dart' as _i6;
 import 'package:tasks_app/domain/contracts/task_contract.dart' as _i3;
-import 'package:tasks_app/domain/entities/task.dart' as _i6;
+import 'package:tasks_app/domain/entities/task.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -37,14 +38,39 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 /// See the documentation for Mockito's code generation for more information.
 class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Task>>> getTasks() =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> insertTask(_i7.Task? task) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertTask,
+          [task],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #insertTask,
+            [task],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #insertTask,
+            [task],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>> getTasks() =>
       (super.noSuchMethod(
         Invocation.method(
           #getTasks,
           [],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i6.Task>>>.value(
-            _FakeEither_0<_i5.Failure, List<_i6.Task>>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
+            _FakeEither_0<_i5.Failure, List<_i7.Task>>(
           this,
           Invocation.method(
             #getTasks,
@@ -52,24 +78,24 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Task>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i6.Task>>(
+            _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i7.Task>>(
           this,
           Invocation.method(
             #getTasks,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Task>>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Task>> getTask(String? id) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i7.Task>> getTask(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTask,
           [id],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Task>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Task>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i7.Task>>.value(
+            _FakeEither_0<_i5.Failure, _i7.Task>(
           this,
           Invocation.method(
             #getTask,
@@ -77,13 +103,13 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.Task>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Task>(
+            _i4.Future<_i2.Either<_i5.Failure, _i7.Task>>.value(
+                _FakeEither_0<_i5.Failure, _i7.Task>(
           this,
           Invocation.method(
             #getTask,
             [id],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Task>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i7.Task>>);
 }

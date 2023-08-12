@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/success/success.dart';
 import 'package:tasks_app/domain/entities/task.dart' as task;
+import 'package:tasks_app/domain/usecases/insert_task.dart';
 
 import 'test_contract_mock.mocks.dart';
 
@@ -58,7 +60,7 @@ void main() {
     final matcher = await usecase(Params(task: emptyTask));
 
     expect(Left(EmptyTaskFailure()), matcher);
-    verify(mockTaskContract.insertNote(emptyNote));
+    verify(mockTaskContract.insertTask(emptyTask));
     verifyNoMoreInteractions(mockTaskContract);
   });
 }

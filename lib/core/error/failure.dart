@@ -18,4 +18,6 @@ class CacheFailure extends Failure {}
 
 class EmptyNoteFailure extends Failure {}
 
+class EmptyTaskFailure extends Failure {}
+
 class UnknownFailure extends Failure {}
