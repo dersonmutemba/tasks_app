@@ -1,9 +1,8 @@
-import 'package:dartz/dartz.dart';
+import 'package:tasks_app/interfaces/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/success/success.dart';
-import 'package:tasks_app/domain/entities/task.dart' as task;
 import 'package:tasks_app/domain/entities/task_exp.dart';
 import 'package:tasks_app/domain/usecases/insert_task.dart';
 
@@ -18,7 +17,7 @@ void main() {
     usecase = InsertTask(mockTaskContract);
   });
 
-  final testTask = task.Task(
+  final testTask = Task(
     id: 'id',
     name: 'name',
     description: 'description',
@@ -43,7 +42,7 @@ void main() {
   });
 
   test('Should not insert empty task', () async {
-    final emptyTask = task.Task(
+    final emptyTask = Task(
       id: 'id',
       name: '',
       description: '',

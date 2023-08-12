@@ -1,16 +1,16 @@
-import 'package:dartz/dartz.dart';
+import 'package:tasks_app/interfaces/dartz.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/usecases/usecase.dart';
 import '../contracts/task_contract.dart';
-import '../entities/task.dart' as task;
+import '../entities/task.dart';
 
-class GetTasks extends UseCase<List<task.Task>, NoParams> {
+class GetTasks extends UseCase<List<Task>, NoParams> {
   final TaskContract contract;
   GetTasks(this.contract);
 
   @override
-  Future<Either<Failure, List<task.Task>>> call(NoParams params) async {
+  Future<Either<Failure, List<Task>>> call(NoParams params) async {
     return await contract.getTasks();
   }
 }

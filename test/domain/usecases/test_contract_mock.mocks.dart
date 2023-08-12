@@ -5,12 +5,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tasks_app/core/error/failure.dart' as _i5;
 import 'package:tasks_app/core/success/success.dart' as _i6;
 import 'package:tasks_app/domain/contracts/task_contract.dart' as _i3;
 import 'package:tasks_app/domain/entities/task.dart' as _i7;
+import 'package:tasks_app/interfaces/dartz.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

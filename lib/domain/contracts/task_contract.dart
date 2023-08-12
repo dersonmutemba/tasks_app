@@ -1,11 +1,11 @@
-import 'package:dartz/dartz.dart';
+import 'package:tasks_app/interfaces/dartz.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/success/success.dart';
-import '../entities/task.dart' as task;
+import '../entities/task.dart';
 
 abstract class TaskContract {
-  Future<Either<Failure, Success>> insertTask(task.Task task);
-  Future<Either<Failure, List<task.Task>>> getTasks();
-  Future<Either<Failure, task.Task>> getTask(String id);
+  Future<Either<Failure, Success>> insertTask(Task task);
+  Future<Either<Failure, List<Task>>> getTasks();
+  Future<Either<Failure, Task>> getTask(String id);
 }

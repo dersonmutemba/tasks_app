@@ -1,10 +1,10 @@
-import 'package:dartz/dartz.dart';
+import 'package:tasks_app/interfaces/dartz.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/success/success.dart';
 import '../../core/usecases/usecase.dart';
 import '../contracts/task_contract.dart';
-import '../entities/task.dart' as task_object;
+import '../entities/task.dart';
 
 class InsertTask extends UseCase<Success, Params> {
   final TaskContract contract;
@@ -16,7 +16,7 @@ class InsertTask extends UseCase<Success, Params> {
 }
 
 class Params {
-  final task_object.Task task;
+  final Task task;
   Params({required this.task});
 
   @override
