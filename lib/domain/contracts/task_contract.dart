@@ -6,7 +6,8 @@ import '../entities/task.dart';
 
 abstract class TaskContract {
   Future<Either<Failure, Success>> insertTask(Task task);
-  Future<Either<Failure, List<Task>>> getTasks();
   Future<Either<Failure, Task>> getTask(String id);
+  Future<Either<Failure, List<Task>>> getTasks();
   Future<Either<Failure, Success>> updateTask(Task task);
+  Future<Either<Failure, Success>> deleteTask();
 }
