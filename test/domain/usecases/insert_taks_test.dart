@@ -45,7 +45,7 @@ void main() {
     final emptyTask = Task(
       id: 'id',
       name: '',
-      description: '',
+      description: 'description',
       icon: 'icon',
       createdAt: DateTime.now(),
       lastEdited: DateTime.now(),

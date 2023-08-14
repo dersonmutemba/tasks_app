@@ -3,23 +3,23 @@ import 'enumuration/status.dart';
 class Task {
   final String id;
   final String name;
-  final String description;
-  final String icon;
+  final String? description;
+  final String? icon;
   final DateTime createdAt;
-  final DateTime lastEdited;
-  final DateTime startedAt;
-  final DateTime dueDate;
+  final DateTime? lastEdited;
+  final DateTime? startedAt;
+  final DateTime? dueDate;
   final Status status;
   // TODO: Add repetition properties
   Task(
       {required this.id,
       required this.name,
-      required this.description,
-      required this.icon,
+      this.description,
+      this.icon,
       required this.createdAt,
-      required this.lastEdited,
-      required this.startedAt,
-      required this.dueDate,
+      this.lastEdited,
+      this.startedAt,
+      this.dueDate,
       required this.status});
 
   @override
