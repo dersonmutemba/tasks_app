@@ -63,31 +63,6 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>> getTasks() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getTasks,
-          [],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
-            _FakeEither_0<_i5.Failure, List<_i7.Task>>(
-          this,
-          Invocation.method(
-            #getTasks,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i7.Task>>(
-          this,
-          Invocation.method(
-            #getTasks,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>);
-  @override
   _i4.Future<_i2.Either<_i5.Failure, _i7.Task>> getTask(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -113,6 +88,31 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i7.Task>>);
   @override
+  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>> getTasks() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTasks,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
+            _FakeEither_0<_i5.Failure, List<_i7.Task>>(
+          this,
+          Invocation.method(
+            #getTasks,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i7.Task>>(
+          this,
+          Invocation.method(
+            #getTasks,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>);
+  @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> updateTask(_i7.Task? task) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -134,6 +134,31 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
           Invocation.method(
             #updateTask,
             [task],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> deleteTask(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteTask,
+          [id],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #deleteTask,
+            [id],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #deleteTask,
+            [id],
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
