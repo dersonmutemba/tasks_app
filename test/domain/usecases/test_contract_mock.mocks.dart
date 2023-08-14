@@ -112,4 +112,29 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i7.Task>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> updateTask(_i7.Task? task) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateTask,
+          [task],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #updateTask,
+            [task],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #updateTask,
+            [task],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
 }
