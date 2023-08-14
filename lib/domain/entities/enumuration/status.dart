@@ -3,4 +3,5 @@ enum Status {
   aborted,
   completed,
   paused,
+  notStarted
 }
