@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tasks_app/core/error/failure.dart';
 import 'package:tasks_app/core/success/success.dart';
 import 'package:tasks_app/domain/entities/task_exp.dart';
+import 'package:tasks_app/domain/usecases/update_task.dart';
 import 'package:tasks_app/interfaces/dartz.dart';
 
 import 'test_contract_mock.mocks.dart';
@@ -19,7 +20,7 @@ void main() {
   final testTask = Task(
     id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
     name: "updated name",
-    createdAt: DateTime.parse("2023-08-14TT02:55:39:242"),
+    createdAt: DateTime.parse("2023-08-14T02:55:39.242"),
     status: Status.doing,
   );
 
@@ -38,7 +39,7 @@ void main() {
     final updateEmptyTask = Task(
       id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
       name: "",
-      createdAt: DateTime.parse("2023-08-14TT02:55:39:242"),
+      createdAt: DateTime.parse("2023-08-14T02:55:39.242"),
       status: Status.doing,
     );
 
