@@ -38,18 +38,18 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 /// See the documentation for Mockito's code generation for more information.
 class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> insertTask(_i7.Task? task) =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> deleteTask(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
-          #insertTask,
-          [task],
+          #deleteTask,
+          [id],
         ),
         returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
             _FakeEither_0<_i5.Failure, _i6.Success>(
           this,
           Invocation.method(
-            #insertTask,
-            [task],
+            #deleteTask,
+            [id],
           ),
         )),
         returnValueForMissingStub:
@@ -57,8 +57,8 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
                 _FakeEither_0<_i5.Failure, _i6.Success>(
           this,
           Invocation.method(
-            #insertTask,
-            [task],
+            #deleteTask,
+            [id],
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
@@ -113,6 +113,57 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>);
   @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> insertTask(_i7.Task? task) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertTask,
+          [task],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+            _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #insertTask,
+            [task],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
+                _FakeEither_0<_i5.Failure, _i6.Success>(
+          this,
+          Invocation.method(
+            #insertTask,
+            [task],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>> searchTasks(
+          String? query) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #searchTasks,
+          [query],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
+            _FakeEither_0<_i5.Failure, List<_i7.Task>>(
+          this,
+          Invocation.method(
+            #searchTasks,
+            [query],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i7.Task>>(
+          this,
+          Invocation.method(
+            #searchTasks,
+            [query],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i7.Task>>>);
+  @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> updateTask(_i7.Task? task) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -134,31 +185,6 @@ class MockTaskContract extends _i1.Mock implements _i3.TaskContract {
           Invocation.method(
             #updateTask,
             [task],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.Success>> deleteTask(String? id) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #deleteTask,
-          [id],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
-            _FakeEither_0<_i5.Failure, _i6.Success>(
-          this,
-          Invocation.method(
-            #deleteTask,
-            [id],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>.value(
-                _FakeEither_0<_i5.Failure, _i6.Success>(
-          this,
-          Invocation.method(
-            #deleteTask,
-            [id],
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.Success>>);
