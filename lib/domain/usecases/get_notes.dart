@@ -1,6 +1,6 @@
 import 'package:tasks_app/core/error/failure.dart';
 
-import 'package:dartz/dartz.dart';
+import 'package:tasks_app/interfaces/dartz.dart';
 
 import '../../core/usecases/usecase.dart';
 import '../contracts/note_contract.dart';

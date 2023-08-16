@@ -1,17 +1,17 @@
 import 'package:tasks_app/interfaces/dartz.dart';
 
 import '../../core/error/failure.dart';
+import '../../core/success/success.dart';
 import '../../core/usecases/usecase.dart';
-import '../contracts/note_contract.dart';
-import '../entities/note.dart';
+import '../contracts/task_contract.dart';
 
-class GetNote extends UseCase<Note, Params> {
-  final NoteContract contract;
-  GetNote(this.contract);
+class DeleteTask extends UseCase<Success, Params> {
+  final TaskContract contract;
+  DeleteTask(this.contract);
 
   @override
-  Future<Either<Failure, Note>> call(Params params) async =>
-      contract.getNote(params.id);
+  Future<Either<Failure, Success>> call(Params params) async =>
+      contract.deleteTask(params.id);
 }
 
 class Params {

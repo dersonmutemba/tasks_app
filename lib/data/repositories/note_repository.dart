@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:tasks_app/interfaces/dartz.dart';
 
 import '../../core/error/exception.dart';
 import '../../core/error/failure.dart';
