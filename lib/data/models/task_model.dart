@@ -28,11 +28,16 @@ class TaskModel extends Task {
         name: json['name'],
         description: json['description'],
         icon: json['icon'],
-        createdAt: json['createdAt'],
-        lastEdited: json['lastEdited'],
-        startedAt: json['startedAt'],
-        dueDate: json['dueDate'],
-        status: json['status'],
+        createdAt: DateTime.parse(json['createdAt']),
+        lastEdited: json['lastEdited'] != null
+            ? DateTime.parse(json['lastEdited'])
+            : null,
+        startedAt: json['startedAt'] != null
+            ? DateTime.parse(json['startedAt'])
+            : null,
+        dueDate:
+            json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
+        status: statusFromString(json['status']) ?? Status.unknown,
       );
 
   factory TaskModel.fromTask(Task task) => TaskModel(
@@ -53,9 +58,9 @@ class TaskModel extends Task {
         'description': description,
         'icon': icon,
         'createdAt': createdAt.toIso8601String(),
-        'lastEdited': lastEdited!.toIso8601String(),
-        'startedAt': startedAt!.toIso8601String(),
-        'dueDate': dueDate!.toIso8601String(),
+        'lastEdited': lastEdited?.toIso8601String(),
+        'startedAt': startedAt?.toIso8601String(),
+        'dueDate': dueDate?.toIso8601String(),
         'status': status,
       };
 }
