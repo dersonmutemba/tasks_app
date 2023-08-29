@@ -108,11 +108,6 @@ void main() {
       expect(actual, testNoteList.first);
     });
 
-    test('Get Existing Note', () async {
-      var actual = await noteLocalDataSource.getNote(testNoteList.first.id);
-      expect(actual, testNoteList.first);
-    });
-
     test('Trying to get unexisting Note', () async {
       var future = noteLocalDataSource.getNote(testNote.id);
       expectLater(future, throwsA(isA<CacheException>()));
