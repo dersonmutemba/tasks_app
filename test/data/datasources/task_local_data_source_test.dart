@@ -13,7 +13,7 @@ void main() {
   late TaskLocalDataSourceImplementation taskLocalDataSource;
   const String taskTable = 'task';
   final TaskModel testTask = TaskModel(
-      id: "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
+      id: "210ec58a-a0f2-4ac4-8393-c866d813b8d1",
       name: 'name',
       createdAt: DateTime.parse("2023-08-20T23:50:39.242"),
       status: Status.doing);
@@ -99,7 +99,7 @@ void main() {
     await database.execute('''
       CREATE TABLE $taskTable(
         id TEXT PRIMARY KEY,
-        title TEXT NOT NULL,
+        name TEXT NOT NULL,
         description TEXT,
         icon TEXT,
         createdAt DATETIME NOT NULL,
