@@ -41,7 +41,7 @@ void main() {
         "lastEdited": null,
         "startedAt": null,
         "dueDate": null,
-        "status": Status.doing,
+        "status": 'Status.doing',
       };
 
       expect(actual, matcher);

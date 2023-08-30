@@ -61,6 +61,6 @@ class TaskModel extends Task {
         'lastEdited': lastEdited?.toIso8601String(),
         'startedAt': startedAt?.toIso8601String(),
         'dueDate': dueDate?.toIso8601String(),
-        'status': status,
+        'status': status.toString(),
       };
 }
