@@ -1,3 +1,6 @@
+import 'package:tasks_app/data/models/task_model.dart';
+
+import '../../core/error/exception.dart';
 import '../../core/error/failure.dart';
 import '../../core/network/network_info.dart';
 import '../../core/success/success.dart';
@@ -18,38 +21,101 @@ class TaskRepository implements TaskContract {
       required this.networkInfo});
 
   @override
-  Future<Either<Failure, Success>> deleteTask(String id) {
-    // TODO: implement deleteTask
-    throw UnimplementedError();
+  Future<Either<Failure, Success>> deleteTask(String id) async {
+    try {
+      if (await networkInfo.isConnected) {
+        await localDataSource.deleteTask(id);
+        await remoteDataSource.deleteTask(id);
+        return Right(RemoteDeleteSuccess());
+      } else {
+        await localDataSource.deleteTask(id);
+        return Right(DeleteSuccess());
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, Task>> getTask(String id) {
-    // TODO: implement getTask
-    throw UnimplementedError();
+  Future<Either<Failure, Task>> getTask(String id) async {
+    try {
+      final task = await localDataSource.getTask(id);
+      return Right(task);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, List<Task>>> getTasks() {
-    // TODO: implement getTasks
-    throw UnimplementedError();
+  Future<Either<Failure, List<Task>>> getTasks() async {
+    try {
+      if (await networkInfo.isConnected) {
+        final remoteTasks = await remoteDataSource.getTasks();
+        localDataSource.cacheTasks(remoteTasks);
+        return Right(remoteTasks);
+      } else {
+        final tasks = await localDataSource.getTasks();
+        return Right(tasks);
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, Success>> insertTask(Task task) {
-    // TODO: implement insertTask
-    throw UnimplementedError();
+  Future<Either<Failure, Success>> insertTask(Task task) async {
+    try {
+      _handleEmptyTasks(task);
+      if (await networkInfo.isConnected) {
+        await localDataSource.insertTask(TaskModel.fromTask(task));
+        await remoteDataSource.insertTask(TaskModel.fromTask(task));
+        return Right(RemoteInsertionSuccess(id: task.id));
+      } else {
+        return Right(InsertionSuccess(
+            id: await localDataSource.insertTask(TaskModel.fromTask(task))));
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    } on EmptyTaskException {
+      return Left(EmptyTaskFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, List<Task>>> searchTasks(String query) {
-    // TODO: implement searchTasks
-    throw UnimplementedError();
+  Future<Either<Failure, List<Task>>> searchTasks(String query) async {
+    try {
+      return Right(await localDataSource.searchTasks(query));
+    } on CacheException {
+      return Left(CacheFailure());
+    } on Exception {
+      return Left(UnknownFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, Success>> updateTask(Task task) {
-    // TODO: implement updateTask
-    throw UnimplementedError();
+  Future<Either<Failure, Success>> updateTask(Task task) async {
+    try {
+      _handleEmptyTasks(task);
+      if(await networkInfo.isConnected) {
+        await localDataSource.updateTask(TaskModel.fromTask(task));
+        await remoteDataSource.updateTask(TaskModel.fromTask(task));
+        return Right(RemoteUpdateSuccess());
+      } else {
+        await localDataSource.updateTask(TaskModel.fromTask(task));
+        return Right(UpdateSuccess());
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    } on EmptyTaskException {
+      return Left(EmptyTaskFailure());
+    }
+  }
+
+  void _handleEmptyTasks(Task task) {
+    if (task.name.trim() == '') {
+      throw EmptyTaskException();
+    }
   }
 }
