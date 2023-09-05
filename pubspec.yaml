@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get_it: ^7.2.0
   flutter_bloc: ^8.1.2
-  shared_preferences: ^2.0.17
+  shared_preferences: ^2.2.1
   dartz: ^0.10.1
   uuid: ^3.0.7
   build_runner: ^2.3.3
