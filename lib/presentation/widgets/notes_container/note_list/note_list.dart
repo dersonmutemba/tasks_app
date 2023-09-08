@@ -14,6 +14,29 @@ class NoteList extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
     var noteListBloc = serviceLocator<NoteListBloc>();
+
+    Widget searchContainer = Container(
+      padding: const EdgeInsets.only(left: 20, bottom: 10, right: 20),
+      child: TextField(
+        controller: searchController,
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide.none,
+          ),
+          hintText: 'Search...',
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          fillColor: Color.fromRGBO(25, 25, 25, .1),
+          filled: true,
+        ),
+        maxLines: 1,
+        onChanged: (value) {
+          noteListBloc.add(Search(value));
+        },
+      ),
+    );
+
     return BlocProvider(
       create: (arg) => noteListBloc..add(Load()),
       child: BlocBuilder<NoteListBloc, NoteListState>(
@@ -21,6 +44,18 @@ class NoteList extends StatelessWidget {
           if (state is Empty) {
             return const Center(
               child: Text('No notes saved yet. Click on "+" to add one'),
+            );
+          } else if (state is NotFound) {
+            return Column(
+              children: [
+                searchContainer,
+                const Expanded(
+                  child: Center(
+                    child:
+                        Text('No note were found that matched the query above'),
+                  ),
+                )
+              ],
             );
           } else if (state is Error) {
             return Center(child: Text(state.message));
@@ -31,28 +66,7 @@ class NoteList extends StatelessWidget {
           } else if (state is Loaded) {
             return Column(
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.only(left: 20, bottom: 10, right: 20),
-                  child: TextField(
-                    controller: searchController,
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        borderSide: BorderSide.none,
-                      ),
-                      hintText: 'Search...',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      fillColor: Color.fromRGBO(25, 25, 25, .1),
-                      filled: true,
-                    ),
-                    maxLines: 1,
-                    onChanged: (value) {
-                      noteListBloc.add(Search(value));
-                    },
-                  ),
-                ),
+                searchContainer,
                 Expanded(
                   child: ListView.builder(
                     itemCount: state.notes.length,
