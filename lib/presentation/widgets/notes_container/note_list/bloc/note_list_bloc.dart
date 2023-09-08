@@ -44,7 +44,7 @@ class NoteListBloc extends Bloc<NoteListEvent, NoteListState> {
           }
         }, (r) {
           if (r.isEmpty) {
-            emit(Empty());
+            emit(NotFound());
           } else {
             emit(Loaded(r));
           }

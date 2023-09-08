@@ -11,6 +11,8 @@ class Loading extends NoteListState {}
 
 class Empty extends NoteListState {}
 
+class NotFound extends NoteListState {}
+
 class Error extends NoteListState {
   final String message;
   Error({required this.message});
