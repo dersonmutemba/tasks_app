@@ -11,13 +11,19 @@ class NoteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       title: Text(
         note.title,
         maxLines: 1,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
       ),
-      subtitle: Text(
-        note.content,
-        maxLines: 3,
+      subtitle: Container(
+        padding: const EdgeInsets.only(top: 8, bottom: 4),
+        child: Text(
+          note.content,
+          maxLines: 3,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
+        ),
       ),
       enableFeedback: true,
       onTap: () async {
