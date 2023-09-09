@@ -15,14 +15,14 @@ class NoteView extends StatelessWidget {
       title: Text(
         note.title,
         maxLines: 1,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+        style: Theme.of(context).textTheme.titleMedium,
       ),
       subtitle: Container(
         padding: const EdgeInsets.only(top: 8, bottom: 4),
         child: Text(
           note.content,
           maxLines: 3,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
+          style: Theme.of(context).textTheme.labelMedium,
         ),
       ),
       enableFeedback: true,
