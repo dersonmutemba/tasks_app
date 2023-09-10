@@ -55,13 +55,10 @@ class Home extends StatelessWidget {
                 }
               },
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)))),
+                shape: MaterialStateProperty.all(const CircleBorder()),
               ),
               child: Container(
-                height: 40,
-                width: 40,
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.all(10),
                 child: const Icon(
                   Icons.add_rounded,
                   size: 30,
