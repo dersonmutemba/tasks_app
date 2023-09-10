@@ -82,8 +82,11 @@ class Home extends StatelessWidget {
   }
 
   Widget _getBottomNavigationBar(HomeState state, BuildContext context) {
-    return SizedBox(
-      height: 60,
+    return Container(
+      height: 55,
+      decoration: const BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.grey, width: .5))
+      ),
       child: Flex(
         direction: Axis.horizontal,
         children: [
