@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tasks App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
         textTheme: TextTheme(
           titleMedium: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
           bodyMedium: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 2),
