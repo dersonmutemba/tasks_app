@@ -62,6 +62,7 @@ class Home extends StatelessWidget {
                 child: const Icon(
                   Icons.add_rounded,
                   size: 30,
+                  color: Colors.white,
                 ),
               ),
             ),
