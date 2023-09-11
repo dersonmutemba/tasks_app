@@ -16,7 +16,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tasks App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
+        textTheme: TextTheme(
+          titleMedium: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
+          bodyMedium: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 2),
+          labelMedium: Theme.of(context).textTheme.labelMedium?.copyWith(fontSize: 16, fontWeight: FontWeight.w300, height: 1.5),
+        ),
       ),
       home: const Home(),
     );

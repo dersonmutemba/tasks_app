@@ -55,16 +55,14 @@ class Home extends StatelessWidget {
                 }
               },
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)))),
+                shape: MaterialStateProperty.all(const CircleBorder()),
               ),
               child: Container(
-                height: 40,
-                width: 40,
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.all(10),
                 child: const Icon(
                   Icons.add_rounded,
                   size: 30,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -82,8 +80,11 @@ class Home extends StatelessWidget {
   }
 
   Widget _getBottomNavigationBar(HomeState state, BuildContext context) {
-    return SizedBox(
-      height: 60,
+    return Container(
+      height: 55,
+      decoration: const BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.grey, width: .5))
+      ),
       child: Flex(
         direction: Axis.horizontal,
         children: [

@@ -17,9 +17,10 @@ class MyBottomNavBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
+        side: BorderSide.none,
         foregroundColor: isEmphasized
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).textTheme.bodyMedium!.color,
+            ? Colors.black
+            : const Color.fromARGB(255, 126, 126, 126),
       ),
       onPressed: onPressed,
       child: Column(

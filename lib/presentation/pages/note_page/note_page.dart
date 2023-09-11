@@ -230,6 +230,7 @@ class NotePage extends StatelessWidget {
                                 horizontal: 20, vertical: 10),
                           ),
                           focusNode: noteContentFocusNode,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
                     ],
