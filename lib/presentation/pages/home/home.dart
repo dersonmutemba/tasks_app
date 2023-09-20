@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/my_bottom_navbar_button.dart';
 import '../../widgets/notes_container/notes_container.dart';
+import '../../widgets/tasks_container/tasks_container.dart';
 import '../note_page/note_page.dart';
 import 'bloc/bloc.dart';
 
@@ -75,6 +76,8 @@ class Home extends StatelessWidget {
   Widget? _getWidgetsByState(HomeState state) {
     if (state is SelectedNotesHome) {
       return const NotesContainer();
+    } else if (state is SelectedTasksHome) {
+      return const TasksContainer();
     }
     return null;
   }
