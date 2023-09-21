@@ -19,3 +19,7 @@ class SelectedNotesHome extends HomeState {
 class Dismissed extends HomeState {
   const Dismissed() : super(title: '');
 }
+
+class Loading extends HomeState {
+  const Loading() : super(title: '');
+}

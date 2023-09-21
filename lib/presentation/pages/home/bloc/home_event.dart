@@ -12,3 +12,5 @@ class TasksHomeSelected extends HomeEvent {}
 class NotesHomeSelected extends HomeEvent {}
 
 class Dismiss extends HomeEvent {}
+
+class Load extends HomeEvent {}

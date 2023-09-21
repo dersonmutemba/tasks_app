@@ -13,9 +13,18 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc(),
+      create: (_) => HomeBloc()..add(Load()),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: ((context, state) {
+          if (state is Loading) {
+            return const Scaffold(
+              body: SafeArea(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          }
           return Scaffold(
             body: SafeArea(
               child: Column(
@@ -86,8 +95,7 @@ class Home extends StatelessWidget {
     return Container(
       height: 55,
       decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: Colors.grey, width: .5))
-      ),
+          border: Border(top: BorderSide(color: Colors.grey, width: .5))),
       child: Flex(
         direction: Axis.horizontal,
         children: [

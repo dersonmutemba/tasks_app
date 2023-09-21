@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'injection_container.dart' as di;
 import 'presentation/pages/home/home.dart';
 
 void main() {
-  di.init();
   runApp(const MyApp());
 }
 
