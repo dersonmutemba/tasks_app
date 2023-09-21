@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/usecases/delete_note.dart';
 import '../../../../injection_container.dart';
 import '../../../pages/note_page/note_page.dart';
+import '../../my_search_bar.dart';
 import '../note_view.dart';
 import 'bloc/bloc.dart';
 
@@ -15,27 +16,11 @@ class NoteList extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
     var noteListBloc = serviceLocator<NoteListBloc>();
 
-    Widget searchContainer = Container(
-      padding: const EdgeInsets.only(left: 20, bottom: 10, right: 20),
-      child: TextField(
+    Widget searchContainer = MySearchBar(
         controller: searchController,
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            borderSide: BorderSide.none,
-          ),
-          hintText: 'Search...',
-          contentPadding: EdgeInsets.symmetric(horizontal: 20),
-          fillColor: Color.fromRGBO(25, 25, 25, .1),
-          filled: true,
-        ),
-        maxLines: 1,
         onChanged: (value) {
           noteListBloc.add(Search(value));
-        },
-      ),
-    );
+        });
 
     return BlocProvider(
       create: (arg) => noteListBloc..add(Load()),
