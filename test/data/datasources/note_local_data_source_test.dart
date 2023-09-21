@@ -96,7 +96,7 @@ void main() {
         ${keys.elementAt(3)} DATETIME NOT NULL,
         ${keys.elementAt(4)} DATETIME NOT NULL
       );''');
-    localDatabase = LocalDatabase(noteTable, database: database);
+    localDatabase = LocalDatabase([noteTable], database: database);
     noteLocalDataSource = NoteLocalDataSourceImplementation(localDatabase);
   });
 

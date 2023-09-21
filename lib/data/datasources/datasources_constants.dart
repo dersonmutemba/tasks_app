@@ -10,15 +10,15 @@ Map<String, dynamic> datasourcesConstants = {
   'noteColumns': ['id', 'title', 'content', 'createdAt', 'lastEdited'],
   'taskTable': 'task',
   'taskColumns': ['id', 'name', 'description', 'icon', 'createdAt', 'lastEdited', 'startedAt', 'dueDate', 'status'],
-  'tablesQuery': '''
-      CREATE TABLE if not exists ${_datasourcesConstants['noteTable']}(
+  'tablesQuery': [
+    '''CREATE TABLE if not exists ${_datasourcesConstants['noteTable']}(
         ${_datasourcesConstants['noteColumns'][0]} TEXT PRIMARY KEY,
         ${_datasourcesConstants['noteColumns'][1]} TEXT NOT NULL,
         ${_datasourcesConstants['noteColumns'][2]} TEXT NOT NULL,
         ${_datasourcesConstants['noteColumns'][3]} DATETIME NOT NULL,
         ${_datasourcesConstants['noteColumns'][4]} DATETIME NOT NULL
-      );
-      CREATE TABLE if not exists ${_datasourcesConstants['taskTable']}(
+      );''',
+    '''CREATE TABLE if not exists ${_datasourcesConstants['taskTable']}(
         ${_datasourcesConstants['taskColumns'][0]} TEXT PRIMARY KEY,
         ${_datasourcesConstants['taskColumns'][1]} TEXT NOT NULL,
         ${_datasourcesConstants['taskColumns'][2]} TEXT,
@@ -29,5 +29,6 @@ Map<String, dynamic> datasourcesConstants = {
         ${_datasourcesConstants['taskColumns'][7]} DATETIME,
         ${_datasourcesConstants['taskColumns'][8]} TEXT NOT NULL
       );
-  ''',
+  '''
+  ],
 };

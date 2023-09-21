@@ -107,7 +107,7 @@ void main() {
         dueDate DATETIME,
         status TEXT NOT NULL
       );''');
-    localDatabase = LocalDatabase(taskTable, database: database);
+    localDatabase = LocalDatabase([taskTable], database: database);
     taskLocalDataSource = TaskLocalDataSourceImplementation(localDatabase);
   });
 

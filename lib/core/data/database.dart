@@ -8,8 +8,8 @@ import 'constants.dart';
 
 class LocalDatabase {
   late Database db;
-  final String query;
-  LocalDatabase(this.query, {Database? database}) {
+  final List<String> queries;
+  LocalDatabase(this.queries, {Database? database}) {
     if (database != null) {
       db = database;
     } else {
@@ -23,7 +23,9 @@ class LocalDatabase {
         : await getDatabasesPath();
     final String path = '$directory/$dbName';
     db = await openDatabase(path, version: dbVersion);
-    db.execute(query);
+    for (var query in queries) {
+      db.execute(query);
+    }
   }
 
   Future insert(String table, List<Map<String, dynamic>> valuesList) async {
