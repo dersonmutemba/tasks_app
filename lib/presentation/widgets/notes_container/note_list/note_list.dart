@@ -17,10 +17,11 @@ class NoteList extends StatelessWidget {
     var noteListBloc = serviceLocator<NoteListBloc>();
 
     Widget searchContainer = MySearchBar(
-        controller: searchController,
-        onChanged: (value) {
-          noteListBloc.add(Search(value));
-        });
+      controller: searchController,
+      onChanged: (value) {
+        noteListBloc.add(Search(value));
+      },
+    );
 
     return BlocProvider(
       create: (arg) => noteListBloc..add(Load()),
