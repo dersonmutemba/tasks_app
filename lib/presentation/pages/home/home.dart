@@ -5,6 +5,7 @@ import '../../widgets/my_bottom_navbar_button.dart';
 import '../../widgets/notes_container/notes_container.dart';
 import '../../widgets/tasks_container/tasks_container.dart';
 import '../note_page/note_page.dart';
+import '../task_page/task_page.dart';
 import 'bloc/bloc.dart';
 
 class Home extends StatelessWidget {
@@ -50,7 +51,15 @@ class Home extends StatelessWidget {
               onPressed: () async {
                 context.read<HomeBloc>().add(Dismiss());
                 if (state is SelectedTasksHome) {
-                  // TODO: Add code for fab click on task
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext taskPageContext) =>
+                          TaskPage(context),
+                    ),
+                  ).then((value) {
+                    context.read<HomeBloc>().add(TasksHomeSelected());
+                  });
                 } else if (state is SelectedNotesHome) {
                   await Navigator.push(
                     context,
