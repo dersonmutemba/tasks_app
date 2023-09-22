@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasks_app/presentation/pages/task_page/bloc/bloc.dart';
 
 import 'core/data/database.dart';
 import 'core/network/data_connection_checker.dart';
@@ -44,6 +45,12 @@ Future<void> init() async {
       updateNote: serviceLocator(),
     ),
   );
+
+  serviceLocator.registerFactory(() => TaskPageBloc(
+    deleteTask: serviceLocator(),
+    insertTask: serviceLocator(),
+    updateTask: serviceLocator(),
+  ));
 
   serviceLocator.registerFactory(
     () => NoteListBloc(getNotes: serviceLocator(), searchNotes: serviceLocator())
