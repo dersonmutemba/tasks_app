@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/task.dart';
 import '../../../injection_container.dart';
 import 'bloc/bloc.dart';
@@ -12,6 +13,14 @@ class TaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late MyTextEditingController focusedController;
+    MyTextEditingController taskNameController = MyTextEditingController();
+    FocusNode taskNameFocusNode = FocusNode()
+      ..addListener(() => focusedController = taskNameController);
+    MyTextEditingController taskDescriptionController =
+        MyTextEditingController();
+    FocusNode taskDescriptionFocusNode = FocusNode()
+      ..addListener(() => focusedController = taskDescriptionController);
     var taskBloc = serviceLocator<TaskPageBloc>();
 
     return Scaffold(
