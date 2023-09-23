@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/task.dart';
 import '../../../injection_container.dart';
+import '../../widgets/my_icon_button.dart';
 import 'bloc/bloc.dart';
 
 class TaskPage extends StatelessWidget {
@@ -35,8 +36,80 @@ class TaskPage extends StatelessWidget {
             child: BlocBuilder<TaskPageBloc, TaskPageState>(
               builder: (context, state) {
                 if (state is Creating || state is Editing) {
-                  return const Center(
-                    child: Text('Creating or Editing'),
+                  if (state is Editing) {
+                    taskNameController.text = state.task.name;
+                    taskDescriptionController.text = state.task.description!;
+                  }
+                  return Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          MyIconButton(
+                            iconData: Icons.arrow_back_ios,
+                            tooltip: 'Go back',
+                            onPressed: () async {
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            },
+                          ),
+                          const Spacer(),
+                          MyIconButton(
+                            iconData: Icons.more_vert,
+                            tooltip: 'More options',
+                            onPressed: () {},
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.blue,
+                              ),
+                              height: 40,
+                              width: 40,
+                              child: const Icon(
+                                Icons.photo_outlined,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: TextField(
+                                maxLines: 1,
+                                keyboardType: TextInputType.text,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: taskNameController,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Name...',
+                                  contentPadding: EdgeInsets.symmetric(vertical: 10),
+                                ),
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
+                                focusNode: taskNameFocusNode,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   );
                 } else if (state is Loading || state is Saving) {
                   return const Center(
