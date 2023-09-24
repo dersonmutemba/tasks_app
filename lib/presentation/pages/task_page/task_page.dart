@@ -99,13 +99,58 @@ class TaskPage extends StatelessWidget {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   hintText: 'Name...',
-                                  contentPadding: EdgeInsets.symmetric(vertical: 10),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 10),
                                 ),
                                 style:
                                     Theme.of(context).textTheme.headlineMedium,
                                 focusNode: taskNameFocusNode,
                               ),
                             )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(25),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25)),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(150, 225, 225, 225),
+                                  foregroundColor: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .color,
+                                ),
+                                child: const Text('Due Tomorrow'),
+                                onPressed: () {},
+                              ),
+                            ),
+                            const SizedBox(width: 20,),
+                            Expanded(
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25)),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(150, 225, 225, 225),
+                                  foregroundColor: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .color,
+                                ),
+                                child: const Text('Cancelled'),
+                                onPressed: () {},
+                              ),
+                            ),
                           ],
                         ),
                       ),
