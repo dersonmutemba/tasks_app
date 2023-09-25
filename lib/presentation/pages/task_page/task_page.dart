@@ -6,6 +6,7 @@ import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/task.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
+import '../../widgets/my_solid_button.dart';
 import 'bloc/bloc.dart';
 
 class TaskPage extends StatelessWidget {
@@ -110,38 +111,16 @@ class TaskPage extends StatelessWidget {
                           child: Row(
                             children: [
                               Expanded(
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(25)),
-                                    ),
-                                    backgroundColor:
-                                        const Color.fromARGB(150, 225, 225, 225),
-                                    foregroundColor: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .color,
-                                  ),
+                                child: MySolidButton(
                                   child: const Text('Due Tomorrow'),
                                   onPressed: () {},
                                 ),
                               ),
-                              const SizedBox(width: 20,),
+                              const SizedBox(
+                                width: 20,
+                              ),
                               Expanded(
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(25)),
-                                    ),
-                                    backgroundColor:
-                                        const Color.fromARGB(150, 225, 225, 225),
-                                    foregroundColor: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .color,
-                                  ),
+                                child: MySolidButton(
                                   child: const Text('Cancelled'),
                                   onPressed: () {},
                                 ),
