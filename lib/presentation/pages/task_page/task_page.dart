@@ -154,6 +154,24 @@ class TaskPage extends StatelessWidget {
                           ],
                         ),
                       ),
+                        Expanded(
+                          child: TextField(
+                            expands: true,
+                            minLines: null,
+                            maxLines: null,
+                            keyboardType: TextInputType.multiline,
+                            textCapitalization: TextCapitalization.sentences,
+                            controller: taskDescriptionController,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Add a description',
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                            ),
+                            focusNode: taskDescriptionFocusNode,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
                     ],
                   );
                 } else if (state is Loading || state is Saving) {
