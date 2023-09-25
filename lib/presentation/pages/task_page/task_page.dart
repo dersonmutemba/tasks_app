@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/task.dart';
@@ -72,11 +73,12 @@ class TaskPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(25),
                                   color: Colors.blue,
                                 ),
+                                padding: const EdgeInsets.all(5),
                                 height: 40,
                                 width: 40,
-                                child: const Icon(
-                                  Icons.photo_outlined,
-                                  color: Colors.white,
+                                child: SvgPicture.asset(
+                                  'assets/vectors/lightbulb.svg',
+                                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcATop,),
                                 ),
                               ),
                               const SizedBox(
