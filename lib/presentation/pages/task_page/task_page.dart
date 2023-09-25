@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/task.dart';
 import '../../../injection_container.dart';
+import '../../widgets/my_circular_solid_button.dart';
 import '../../widgets/my_icon_button.dart';
 import '../../widgets/my_solid_button.dart';
 import 'bloc/bloc.dart';
@@ -43,7 +44,8 @@ class TaskPage extends StatelessWidget {
                     taskDescriptionController.text = state.task.description!;
                   }
                   return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     child: Column(
                       children: [
                         Row(
@@ -69,17 +71,11 @@ class TaskPage extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.blue,
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                height: 40,
-                                width: 40,
+                              MyCircularSolidButton(
+                                onPressed: () {},
                                 child: SvgPicture.asset(
                                   'assets/vectors/lightbulb.svg',
-                                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcATop,),
+                                  width: 30,
                                 ),
                               ),
                               const SizedBox(
@@ -98,8 +94,9 @@ class TaskPage extends StatelessWidget {
                                     contentPadding:
                                         EdgeInsets.symmetric(vertical: 10),
                                   ),
-                                  style:
-                                      Theme.of(context).textTheme.headlineMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
                                   focusNode: taskNameFocusNode,
                                 ),
                               )
