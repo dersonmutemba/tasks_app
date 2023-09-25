@@ -110,7 +110,38 @@ class TaskPage extends StatelessWidget {
                               Expanded(
                                 child: MySolidButton(
                                   child: const Text('Due Tomorrow'),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Column(
+                                          children: [
+                                            const Spacer(),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    height: 450,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(50),
+                                                        topRight:
+                                                            Radius.circular(50),
+                                                      ),
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
                               const SizedBox(
