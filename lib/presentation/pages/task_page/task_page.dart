@@ -121,7 +121,7 @@ class TaskPage extends StatelessWidget {
                                               children: [
                                                 Expanded(
                                                   child: Container(
-                                                    height: 450,
+                                                    height: 400,
                                                     decoration:
                                                         const BoxDecoration(
                                                       borderRadius:
