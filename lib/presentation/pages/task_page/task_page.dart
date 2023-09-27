@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tasks_app/presentation/widgets/my_popup_container.dart';
 
 import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/task.dart';
@@ -113,33 +114,7 @@ class TaskPage extends StatelessWidget {
                                   onPressed: () async {
                                     await showDialog(
                                       context: context,
-                                      builder: (context) {
-                                        return Column(
-                                          children: [
-                                            const Spacer(),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    height: 400,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(50),
-                                                        topRight:
-                                                            Radius.circular(50),
-                                                      ),
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        );
-                                      },
+                                      builder: (context) => const MyPopupContainer(),
                                     );
                                   },
                                 ),
