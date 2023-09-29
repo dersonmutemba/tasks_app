@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyPopupContainer extends StatefulWidget {
-  const MyPopupContainer({Key? key}) : super(key: key);
+  final Widget child;
+  const MyPopupContainer({Key? key, required this.child}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MyPopupContainerState();
@@ -30,6 +31,8 @@ class _MyPopupContainerState extends State<MyPopupContainer> {
             topRight: Radius.circular(50),
           ),
         ),
+        clipBehavior: Clip.antiAlias,
+        child: widget.child,
       ),
     );
   }
