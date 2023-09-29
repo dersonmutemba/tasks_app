@@ -20,6 +20,12 @@ class MyApp extends StatelessWidget {
           bodyMedium: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 2),
           labelMedium: Theme.of(context).textTheme.labelMedium?.copyWith(fontSize: 16, fontWeight: FontWeight.w300, height: 1.5),
         ),
+        textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStatePropertyAll(Colors.black),
+            iconColor: MaterialStatePropertyAll(Colors.white),
+          ),
+        ),
       ),
       home: const Home(),
     );
