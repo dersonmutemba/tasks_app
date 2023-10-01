@@ -11,23 +11,27 @@ import '../../widgets/my_icon_button.dart';
 import '../../widgets/my_solid_button.dart';
 import 'bloc/bloc.dart';
 
-class TaskPage extends StatelessWidget {
+class TaskPage extends StatefulWidget {
   final Task? task;
   final BuildContext ancestorContext;
   const TaskPage(this.ancestorContext, {Key? key, this.task}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() => _TaskPageState();
+}
+
+class _TaskPageState extends State<TaskPage> {
     late MyTextEditingController focusedController;
     MyTextEditingController taskNameController = MyTextEditingController();
-    FocusNode taskNameFocusNode = FocusNode()
-      ..addListener(() => focusedController = taskNameController);
     MyTextEditingController taskDescriptionController =
         MyTextEditingController();
+    var taskBloc = serviceLocator<TaskPageBloc>();
+  @override
+  Widget build(BuildContext context) {
+    FocusNode taskNameFocusNode = FocusNode()
+      ..addListener(() => focusedController = taskNameController);
     FocusNode taskDescriptionFocusNode = FocusNode()
       ..addListener(() => focusedController = taskDescriptionController);
-    var taskBloc = serviceLocator<TaskPageBloc>();
-
     return Scaffold(
       body: SafeArea(
         child: WillPopScope(
@@ -36,7 +40,7 @@ class TaskPage extends StatelessWidget {
             return true;
           },
           child: BlocProvider(
-            create: (context) => taskBloc..add(Load(task: task)),
+            create: (context) => taskBloc..add(Load(task: widget.task)),
             child: BlocBuilder<TaskPageBloc, TaskPageState>(
               builder: (context, state) {
                 if (state is Creating || state is Editing) {
