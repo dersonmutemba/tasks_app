@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tasks_app/presentation/widgets/my_popup_container.dart';
 
 import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/task.dart';
@@ -21,11 +20,13 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
-    late MyTextEditingController focusedController;
+  late MyTextEditingController focusedController;
     MyTextEditingController taskNameController = MyTextEditingController();
     MyTextEditingController taskDescriptionController =
         MyTextEditingController();
     var taskBloc = serviceLocator<TaskPageBloc>();
+  DateTime dueDate = DateTime.now().add(const Duration(days: 1));
+
   @override
   Widget build(BuildContext context) {
     FocusNode taskNameFocusNode = FocusNode()
@@ -114,12 +115,16 @@ class _TaskPageState extends State<TaskPage> {
                             children: [
                               Expanded(
                                 child: MySolidButton(
-                                  child: const Text('Due Tomorrow'),
+                                  child:
+                                      Text('Due ${_resolveDateTime(dueDate)}'),
                                   onPressed: () async {
-                                    await showDialog(
+                                    dueDate = (await showDatePicker(
                                       context: context,
-                                      builder: (context) => const MyPopupContainer(),
-                                    );
+                                      initialDate: dueDate,
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2099),
+                                    ))!;
+                                    setState(() {});
                                   },
                                 ),
                               ),
@@ -181,5 +186,9 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ),
     );
+  }
+
+  String _resolveDateTime(DateTime dateTime) {
+    return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }
 }
