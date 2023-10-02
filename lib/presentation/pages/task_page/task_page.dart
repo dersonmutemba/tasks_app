@@ -123,7 +123,7 @@ class _TaskPageState extends State<TaskPage> {
                                       initialDate: dueDate,
                                       firstDate: DateTime.now(),
                                       lastDate: DateTime(2099),
-                                    ))!;
+                                    )) ?? dueDate;
                                     setState(() {});
                                   },
                                 ),
