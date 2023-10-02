@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tasks_app/presentation/widgets/my_popup_container.dart';
 
 import '../../../core/extensions/my_text_editing_controller.dart';
+import '../../../domain/entities/enumuration/status.dart';
 import '../../../domain/entities/task.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_circular_solid_button.dart';
@@ -21,11 +23,11 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   late MyTextEditingController focusedController;
-    MyTextEditingController taskNameController = MyTextEditingController();
-    MyTextEditingController taskDescriptionController =
-        MyTextEditingController();
-    var taskBloc = serviceLocator<TaskPageBloc>();
+  MyTextEditingController taskNameController = MyTextEditingController();
+  MyTextEditingController taskDescriptionController = MyTextEditingController();
+  var taskBloc = serviceLocator<TaskPageBloc>();
   DateTime dueDate = DateTime.now().add(const Duration(days: 1));
+  Status status = Status.notStarted;
 
   @override
   Widget build(BuildContext context) {
@@ -119,11 +121,12 @@ class _TaskPageState extends State<TaskPage> {
                                       Text('Due ${_resolveDateTime(dueDate)}'),
                                   onPressed: () async {
                                     dueDate = (await showDatePicker(
-                                      context: context,
-                                      initialDate: dueDate,
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime(2099),
-                                    )) ?? dueDate;
+                                          context: context,
+                                          initialDate: dueDate,
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime(2099),
+                                        )) ??
+                                        dueDate;
                                     setState(() {});
                                   },
                                 ),
@@ -133,8 +136,31 @@ class _TaskPageState extends State<TaskPage> {
                               ),
                               Expanded(
                                 child: MySolidButton(
-                                  child: const Text('Cancelled'),
-                                  onPressed: () {},
+                                  child: Text(status.name.toString()),
+                                  onPressed: () async {
+                                    status = (await showDialog<Status>(
+                                      context: context,
+                                      builder: (context) {
+                                        List<Status> statuses = Status.values;
+                                        return MyPopupContainer(
+                                          child: ListView.builder(
+                                            itemCount: statuses.length,
+                                            itemBuilder: (context, index) {
+                                              return TextButton(
+                                                child: Text(statuses[index]
+                                                    .name
+                                                    .toString()),
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pop(statuses[index]),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ))!;
+                                    setState(() {});
+                                  },
                                 ),
                               ),
                             ],
