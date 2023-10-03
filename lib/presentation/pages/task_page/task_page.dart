@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasks_app/presentation/widgets/my_popup_container.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../../core/error/failure.dart';
 import '../../../core/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/enumuration/status.dart';
 import '../../../domain/entities/task.dart';
@@ -26,6 +28,8 @@ class _TaskPageState extends State<TaskPage> {
   MyTextEditingController taskNameController = MyTextEditingController();
   MyTextEditingController taskDescriptionController = MyTextEditingController();
   var taskBloc = serviceLocator<TaskPageBloc>();
+
+  String icon = 'assets/vectors/lightbulb.svg';
   DateTime dueDate = DateTime.now().add(const Duration(days: 1));
   Status status = Status.notStarted;
 
@@ -35,11 +39,63 @@ class _TaskPageState extends State<TaskPage> {
       ..addListener(() => focusedController = taskNameController);
     FocusNode taskDescriptionFocusNode = FocusNode()
       ..addListener(() => focusedController = taskDescriptionController);
+
+      Future saveTaskBeforeExit() async {
+        onFailure(Failure l) {
+          if (l is CacheFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Task not saved')),
+            );
+          }
+        }
+
+        onSuccess() {}
+
+        if (widget.task == null) {
+          taskBloc.add(Create(
+            task: Task(
+              id: const Uuid().v1(),
+              name: taskNameController.text,
+              description: taskDescriptionController.text,
+              icon: icon,
+              createdAt: DateTime.now(),
+              lastEdited: DateTime.now(),
+              startedAt: status == Status.doing ? DateTime.now() : null,
+              dueDate: dueDate,
+              status: status,
+          ),
+          onFailure: onFailure,
+          onSuccess: onSuccess,
+          ));
+        } else {
+          taskBloc.add(Save(
+            task: Task(
+              id: widget.task!.id,
+              name: taskNameController.text,
+              description: taskDescriptionController.text,
+              icon: icon,
+              createdAt: widget.task!.createdAt,
+              lastEdited: taskNameController.text == widget.task!.name &&
+                      taskDescriptionController.text == widget.task!.description &&
+                      icon == widget.task!.icon &&
+                      dueDate == widget.task!.dueDate &&
+                      status == widget.task!.status
+                    ? widget.task!.lastEdited
+                    : DateTime.now(),
+              startedAt: _handleStartedAt(status),
+              dueDate: dueDate,
+              status: status,
+            ),
+            onFailure: onFailure,
+            onSuccess: onSuccess,
+          ));
+        }
+  }
     return Scaffold(
       body: SafeArea(
         child: WillPopScope(
           onWillPop: () async {
-            // TODO: Add logic for pop
+            await saveTaskBeforeExit();
             return true;
           },
           child: BlocProvider(
@@ -62,6 +118,7 @@ class _TaskPageState extends State<TaskPage> {
                               iconData: Icons.arrow_back_ios,
                               tooltip: 'Go back',
                               onPressed: () async {
+                                await saveTaskBeforeExit();
                                 if (context.mounted) {
                                   Navigator.pop(context);
                                 }
@@ -82,7 +139,7 @@ class _TaskPageState extends State<TaskPage> {
                               MyCircularSolidButton(
                                 onPressed: () {},
                                 child: SvgPicture.asset(
-                                  'assets/vectors/lightbulb.svg',
+                                  icon,
                                   width: 30,
                                 ),
                               ),
@@ -221,5 +278,13 @@ class _TaskPageState extends State<TaskPage> {
       if (now.day == dateTime.day - 1) return 'Tomorrow';
     }
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+  }
+
+  DateTime? _handleStartedAt(Status status) {
+    if (![Status.aborted, Status.notStarted, Status.unknown].contains(status)) {
+      if (status == widget.task!.status) return widget.task!.startedAt;
+      if (status == Status.doing) return DateTime.now();
+    }
+    return null;
   }
 }
