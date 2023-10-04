@@ -9,6 +9,7 @@ import '../../../shared/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/enumuration/status.dart';
 import '../../../domain/entities/task.dart';
 import '../../../injection_container.dart';
+import '../../../shared/utils/date_time_handler.dart';
 import '../../widgets/my_circular_solid_button.dart';
 import '../../widgets/my_icon_button.dart';
 import '../../widgets/my_solid_button.dart';
@@ -190,7 +191,7 @@ class _TaskPageState extends State<TaskPage> {
                               Expanded(
                                 child: MySolidButton(
                                   child:
-                                      Text('Due ${_resolveDateTime(dueDate)}'),
+                                      Text('Due ${DateTimeHandler.resolveDateTime(dueDate)}'),
                                   onPressed: () async {
                                     dueDate = (await showDatePicker(
                                           context: context,
@@ -284,15 +285,6 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ),
     );
-  }
-
-  String _resolveDateTime(DateTime dateTime) {
-    DateTime now = DateTime.now();
-    if (now.month == dateTime.month && now.year == dateTime.year) {
-      if (now.day == dateTime.day) return 'Today';
-      if (now.day == dateTime.day - 1) return 'Tomorrow';
-    }
-    return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }
 
   DateTime? _handleStartedAt(Status status) {
