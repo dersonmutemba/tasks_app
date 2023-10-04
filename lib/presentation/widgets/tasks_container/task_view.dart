@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../domain/entities/task.dart';
 
@@ -12,6 +13,13 @@ class TaskView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      leading: CircleAvatar(
+        child: task.icon == null
+            ? Text(task.name.substring(0, 1))
+            : SvgPicture.asset(
+                task.icon!,
+              ),
+      ),
       title: Text(
         task.name,
         maxLines: 1,
