@@ -30,16 +30,14 @@ class _TaskPageState extends State<TaskPage> {
   MyTextEditingController taskDescriptionController = MyTextEditingController();
   var taskBloc = serviceLocator<TaskPageBloc>();
 
-  late String icon;
+  String? icon;
   late DateTime dueDate;
   late Status status;
 
   @override
   void initState() {
-    // TODO: Add possibility of icon and dueDate be null
-    icon = widget.task == null || widget.task!.icon == null
-        ? 'assets/vectors/lightbulb.svg'
-        : widget.task!.icon!;
+    // TODO: Add possibility of dueDate be null
+    icon = widget.task == null ? null : widget.task!.icon;
     dueDate = widget.task == null || widget.task!.dueDate == null
         ? DateTime.now().add(const Duration(days: 1))
         : widget.task!.dueDate!;
@@ -154,10 +152,16 @@ class _TaskPageState extends State<TaskPage> {
                             children: [
                               MyCircularSolidButton(
                                 onPressed: () {},
-                                child: SvgPicture.asset(
-                                  icon,
-                                  width: 30,
-                                ),
+                                child: icon == null
+                                    ? CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+                                        child: const Text('Add icon'),
+                                      )
+                                    : SvgPicture.asset(
+                                        icon!,
+                                        width: 30,
+                                      ),
                               ),
                               const SizedBox(
                                 width: 10,
@@ -190,8 +194,8 @@ class _TaskPageState extends State<TaskPage> {
                             children: [
                               Expanded(
                                 child: MySolidButton(
-                                  child:
-                                      Text('Due ${DateTimeHandler.resolveDateTime(dueDate)}'),
+                                  child: Text(
+                                      'Due ${DateTimeHandler.resolveDateTime(dueDate)}'),
                                   onPressed: () async {
                                     dueDate = (await showDatePicker(
                                           context: context,
