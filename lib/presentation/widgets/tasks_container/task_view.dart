@@ -30,6 +30,7 @@ class TaskView extends StatelessWidget {
       subtitle: Container(
         padding: const EdgeInsets.only(top: 8, bottom: 4),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               task.description!,
