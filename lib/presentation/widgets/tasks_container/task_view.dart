@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../domain/entities/task.dart';
+import '../../../shared/utils/date_time_handler.dart';
+import '../my_solid_button.dart';
 
 class TaskView extends StatelessWidget {
   final Task task;
@@ -27,9 +29,30 @@ class TaskView extends StatelessWidget {
       ),
       subtitle: Container(
         padding: const EdgeInsets.only(top: 8, bottom: 4),
-        child: Text(
-          task.description!,
-          style: Theme.of(context).textTheme.labelMedium,
+        child: Column(
+          children: [
+            Text(
+              task.description!,
+              maxLines: 3,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MySolidButton(
+                  child: Text(
+                    DateTimeHandler.resolveDateTime(task.dueDate!),
+                  ),
+                  onPressed: () {},
+                ),
+                MySolidButton(
+                  child: Text(
+                    task.status.name.toString(),
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       enableFeedback: true,
