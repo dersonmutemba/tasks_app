@@ -5,7 +5,7 @@ import 'package:tasks_app/presentation/widgets/my_popup_container.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/error/failure.dart';
-import '../../../core/extensions/my_text_editing_controller.dart';
+import '../../../shared/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/enumuration/status.dart';
 import '../../../domain/entities/task.dart';
 import '../../../injection_container.dart';

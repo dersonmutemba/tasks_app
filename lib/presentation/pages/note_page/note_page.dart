@@ -4,7 +4,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/error/failure.dart';
-import '../../../core/extensions/my_text_editing_controller.dart';
+import '../../../shared/extensions/my_text_editing_controller.dart';
 import '../../../domain/entities/note.dart';
 import '../../../injection_container.dart';
 import '../../widgets/my_icon_button.dart';
