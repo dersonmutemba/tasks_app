@@ -54,7 +54,7 @@ class TaskList extends StatelessWidget {
               children: [
                 searchContainer,
                 Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
                     itemCount: state.tasks.length,
                     itemBuilder: (context, index) {
                       return TaskView(
@@ -71,6 +71,7 @@ class TaskList extends StatelessWidget {
                         },
                       );
                     },
+                    separatorBuilder: (context, index) => const Divider(height: 1),
                   ),
                 )
               ],
