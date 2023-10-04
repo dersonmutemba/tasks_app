@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../injection_container.dart';
+import '../../../pages/task_page/task_page.dart';
 import '../../my_search_bar.dart';
+import '../task_view.dart';
 import 'bloc/bloc.dart';
 
 class TaskList extends StatelessWidget {
@@ -40,7 +42,9 @@ class TaskList extends StatelessWidget {
               ],
             );
           } else if (state is Error) {
-            return Center(child: Text(state.message),);
+            return Center(
+              child: Text(state.message),
+            );
           } else if (state is Loading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -53,7 +57,19 @@ class TaskList extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: state.tasks.length,
                     itemBuilder: (context, index) {
-                      
+                      return TaskView(
+                        task: state.tasks[index],
+                        openTask: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  TaskPage(context, task: state.tasks[index]),
+                            ),
+                          ).then((value) =>
+                              context.read<TaskListBloc>().add(Load()));
+                        },
+                      );
                     },
                   ),
                 )
