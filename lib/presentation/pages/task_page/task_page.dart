@@ -29,9 +29,22 @@ class _TaskPageState extends State<TaskPage> {
   MyTextEditingController taskDescriptionController = MyTextEditingController();
   var taskBloc = serviceLocator<TaskPageBloc>();
 
-  String icon = 'assets/vectors/lightbulb.svg';
-  DateTime dueDate = DateTime.now().add(const Duration(days: 1));
-  Status status = Status.notStarted;
+  late String icon;
+  late DateTime dueDate;
+  late Status status;
+
+  @override
+  void initState() {
+    // TODO: Add possibility of icon and dueDate be null
+    icon = widget.task == null || widget.task!.icon == null
+        ? 'assets/vectors/lightbulb.svg'
+        : widget.task!.icon!;
+    dueDate = widget.task == null || widget.task!.dueDate == null
+        ? DateTime.now().add(const Duration(days: 1))
+        : widget.task!.dueDate!;
+    status = widget.task == null ? Status.notStarted : widget.task!.status;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,57 +53,59 @@ class _TaskPageState extends State<TaskPage> {
     FocusNode taskDescriptionFocusNode = FocusNode()
       ..addListener(() => focusedController = taskDescriptionController);
 
-      Future saveTaskBeforeExit() async {
-        onFailure(Failure l) {
-          if (l is CacheFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Task not saved')),
-            );
-          }
+    Future saveTaskBeforeExit() async {
+      onFailure(Failure l) {
+        if (l is CacheFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Task not saved')),
+          );
         }
+      }
 
-        onSuccess() {}
+      onSuccess() {}
 
-        if (widget.task == null) {
-          taskBloc.add(Create(
-            task: Task(
-              id: const Uuid().v1(),
-              name: taskNameController.text,
-              description: taskDescriptionController.text,
-              icon: icon,
-              createdAt: DateTime.now(),
-              lastEdited: DateTime.now(),
-              startedAt: status == Status.doing ? DateTime.now() : null,
-              dueDate: dueDate,
-              status: status,
+      if (widget.task == null) {
+        taskBloc.add(Create(
+          task: Task(
+            id: const Uuid().v1(),
+            name: taskNameController.text,
+            description: taskDescriptionController.text,
+            icon: icon,
+            createdAt: DateTime.now(),
+            lastEdited: DateTime.now(),
+            startedAt: status == Status.doing ? DateTime.now() : null,
+            dueDate: dueDate,
+            status: status,
           ),
           onFailure: onFailure,
           onSuccess: onSuccess,
-          ));
-        } else {
-          taskBloc.add(Save(
-            task: Task(
-              id: widget.task!.id,
-              name: taskNameController.text,
-              description: taskDescriptionController.text,
-              icon: icon,
-              createdAt: widget.task!.createdAt,
-              lastEdited: taskNameController.text == widget.task!.name &&
-                      taskDescriptionController.text == widget.task!.description &&
-                      icon == widget.task!.icon &&
-                      dueDate == widget.task!.dueDate &&
-                      status == widget.task!.status
-                    ? widget.task!.lastEdited
-                    : DateTime.now(),
-              startedAt: _handleStartedAt(status),
-              dueDate: dueDate,
-              status: status,
-            ),
-            onFailure: onFailure,
-            onSuccess: onSuccess,
-          ));
-        }
-  }
+        ));
+      } else {
+        taskBloc.add(Save(
+          task: Task(
+            id: widget.task!.id,
+            name: taskNameController.text,
+            description: taskDescriptionController.text,
+            icon: icon,
+            createdAt: widget.task!.createdAt,
+            lastEdited: taskNameController.text == widget.task!.name &&
+                    taskDescriptionController.text ==
+                        widget.task!.description &&
+                    icon == widget.task!.icon &&
+                    dueDate == widget.task!.dueDate &&
+                    status == widget.task!.status
+                ? widget.task!.lastEdited
+                : DateTime.now(),
+            startedAt: _handleStartedAt(status),
+            dueDate: dueDate,
+            status: status,
+          ),
+          onFailure: onFailure,
+          onSuccess: onSuccess,
+        ));
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: WillPopScope(
