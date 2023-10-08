@@ -14,7 +14,7 @@ class TaskView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20).copyWith(bottom: 0),
       leading: CircleAvatar(
         child: task.icon == null
             ? Text(task.name.substring(0, 1))
