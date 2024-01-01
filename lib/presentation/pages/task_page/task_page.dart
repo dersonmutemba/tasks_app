@@ -155,7 +155,10 @@ class _TaskPageState extends State<TaskPage> {
                                 child: icon == null
                                     ? CircleAvatar(
                                         backgroundColor: Colors.transparent,
-                                        foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+                                        foregroundColor: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .color,
                                         child: const Text('Add icon'),
                                       )
                                     : SvgPicture.asset(
@@ -200,7 +203,9 @@ class _TaskPageState extends State<TaskPage> {
                                     dueDate = (await showDatePicker(
                                           context: context,
                                           initialDate: dueDate,
-                                          firstDate: DateTime.now(),
+                                          firstDate: state is Editing
+                                              ? state.task.createdAt
+                                              : DateTime.now(),
                                           lastDate: DateTime(2099),
                                         )) ??
                                         dueDate;
